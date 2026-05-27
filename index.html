@@ -502,25 +502,28 @@ async function fillSlider(id, query, vars = {}) {
   if (list.length) { initSliderDrag(el); setupSliderArrows(id); }
 }
 
+// FIX: sort values must be arrays for AniList's [MediaSort] type
 const SECTIONS = [
-  {title: 'Trending Now', id: 'trending', link: 'search.html?sort=TRENDING_DESC', vars: {sort:'TRENDING_DESC', status: 'RELEASING'}},
-  {title: 'Top Airing', id: 'airing', link: 'search.html?status=RELEASING&sort=POPULARITY_DESC', vars: {sort:'POPULARITY_DESC', status:'RELEASING'}},
-  {title: 'Recently Updated', id: 'recent', link: 'search.html?sort=START_DATE_DESC&status=RELEASING', vars: {sort:'START_DATE_DESC', status:'RELEASING'}},
-  {title: 'Top Rated', id: 'top', link: 'search.html?sort=SCORE_DESC', vars: {sort:'SCORE_DESC'}},
-  {title: 'Latest Movies', id: 'movies', link: 'search.html?format=MOVIE&sort=START_DATE_DESC', vars: {sort:'START_DATE_DESC', format:'MOVIE'}},
-  {title: 'Completed', id: 'completed', link: 'search.html?status=FINISHED&sort=POPULARITY_DESC', vars: {sort:'POPULARITY_DESC', status:'FINISHED'}},
-  {title: 'Upcoming', id: 'upcoming', link: 'search.html?status=NOT_YET_RELEASED&sort=POPULARITY_DESC', vars: {sort:'POPULARITY_DESC', status:'NOT_YET_RELEASED'}},
+  {title: 'Trending Now', id: 'trending', link: 'search.html?sort=TRENDING_DESC', vars: {sort:['TRENDING_DESC'], status: 'RELEASING'}},
+  {title: 'Top Airing', id: 'airing', link: 'search.html?status=RELEASING&sort=POPULARITY_DESC', vars: {sort:['POPULARITY_DESC'], status:'RELEASING'}},
+  {title: 'Recently Updated', id: 'recent', link: 'search.html?sort=START_DATE_DESC&status=RELEASING', vars: {sort:['START_DATE_DESC'], status:'RELEASING'}},
+  {title: 'Top Rated', id: 'top', link: 'search.html?sort=SCORE_DESC', vars: {sort:['SCORE_DESC']}},
+  {title: 'Latest Movies', id: 'movies', link: 'search.html?format=MOVIE&sort=START_DATE_DESC', vars: {sort:['START_DATE_DESC'], format:'MOVIE'}},
+  {title: 'Completed', id: 'completed', link: 'search.html?status=FINISHED&sort=POPULARITY_DESC', vars: {sort:['POPULARITY_DESC'], status:'FINISHED'}},
+  {title: 'Upcoming', id: 'upcoming', link: 'search.html?status=NOT_YET_RELEASED&sort=POPULARITY_DESC', vars: {sort:['POPULARITY_DESC'], status:'NOT_YET_RELEASED'}},
 ];
 
 const MEDIA_LIST_QUERY = `query($sort:[MediaSort],$status:MediaStatus,$format:MediaFormat,$perPage:Int){Page(perPage:$perPage){media(type:ANIME,sort:$sort,status:$status,format:$format,isAdult:false){id title{romaji english}coverImage{large}averageScore episodes format nextAiringEpisode{episode}}}}`;
 
-function initSections() {
+// Load sections sequentially with a small stagger to avoid rate-limiting
+async function initSections() {
   const container = document.getElementById('sections-container');
   container.innerHTML = SECTIONS.map(s => createSection(s.title, s.link, s.id)).join('');
-  SECTIONS.forEach(s => {
+  for (const s of SECTIONS) {
     const vars = {...s.vars, perPage: 20};
     fillSlider(s.id, MEDIA_LIST_QUERY, vars);
-  });
+    await sleep(150); // 150ms stagger between API calls
+  }
 }
 
 // ── SEARCH ──
@@ -563,6 +566,7 @@ async function doSearch() {
   }
   hint.style.display = 'none';
   results.innerHTML = skeletonCards(12);
+  // FIX: sort as array
   const vars = {sort: [sort], perPage: 24, isAdult: false};
   if (q) vars.search = q;
   if (genre) vars.genre = genre;
