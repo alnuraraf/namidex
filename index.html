@@ -16,37 +16,49 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800;900&display=swap" rel="stylesheet" />
 <style>
-/* ============ RESET & ROOT ============ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{overflow-x:hidden;max-width:100%}
+html{scroll-behavior:auto}
+body{overscroll-behavior-y:none}
 :root{
-  --bg:#070512;--bg-2:#0b0820;--panel:rgba(20,12,40,.55);--panel-2:rgba(30,20,60,.45);
+  --bg:#070512;--panel:rgba(20,12,40,.55);--panel-2:rgba(30,20,60,.45);
   --line:rgba(168,120,255,.15);--line-2:rgba(168,120,255,.35);
   --txt:#ece9ff;--mut:#a59cc7;--dim:#6f6790;
-  --pri:#a855f7;--pri-2:#7c3aed;--pri-3:#c084fc;--acc:#22d3ee;--gold:#fbbf24;--bad:#ef4444;
+  --pri:#a855f7;--pri-2:#7c3aed;--pri-3:#c084fc;--acc:#22d3ee;
   --glow:0 0 40px rgba(168,85,247,.35);--glow-soft:0 0 24px rgba(168,85,247,.22);
-  --radius:18px;--radius-sm:12px;--header-h:68px;
+  --radius:18px;--header-h:68px;
   --grad-1:linear-gradient(135deg,#a855f7 0%,#6366f1 50%,#22d3ee 100%);
   --grad-bg:radial-gradient(1200px 600px at 10% -10%,rgba(124,58,237,.25),transparent 60%),radial-gradient(900px 500px at 100% 0,rgba(34,211,238,.12),transparent 55%),linear-gradient(180deg,#070512 0%,#05030d 100%);
 }
-html,body{background:var(--bg);color:var(--txt);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;min-height:100dvh}
+html,body{background:var(--bg);color:var(--txt);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased;min-height:100dvh}
 body{background:var(--grad-bg);background-attachment:fixed}
-a{color:inherit;text-decoration:none}
-img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 :focus-visible{outline:2px solid var(--pri-3);outline-offset:2px;border-radius:8px}
 ::selection{background:rgba(168,85,247,.45);color:#fff}
-/* scrollbar */
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-thumb{background:linear-gradient(var(--pri),var(--pri-2));border-radius:8px}
 ::-webkit-scrollbar-track{background:transparent}
 
-/* ============ HEADER ============ */
-.hdr{position:sticky;top:0;z-index:80;height:var(--header-h);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(14px,3vw,28px);
-  background:linear-gradient(180deg,rgba(7,5,18,.85),rgba(7,5,18,.4) 70%,transparent);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
-  border-bottom:1px solid var(--line)}
+/* PERF LAYER */
+.hdr,.sb,.so,.hero,.banner,.player-wrap{contain:layout paint style}
+.slider-track{contain:layout paint style;will-change:scroll-position;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.hero-track{will-change:transform;backface-visibility:hidden;transform:translateZ(0)}
+.card,.so-card{contain:layout paint}
+.card .img img,.so-card .img img,.hero-bg img{transform:translateZ(0)}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}
+
+/* HEADER (no scroll-jank: opaque by default, blur only on desktop) */
+.hdr{position:sticky;top:0;z-index:80;height:var(--header-h);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(14px,3vw,28px);background:linear-gradient(180deg,rgba(7,5,18,.94),rgba(7,5,18,.82));border-bottom:1px solid var(--line);transform:translateZ(0)}
+@supports (backdrop-filter: blur(1px)){
+  @media (min-width:1100px) and (hover:hover){
+    .hdr{background:linear-gradient(180deg,rgba(7,5,18,.7),rgba(7,5,18,.4));backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%)}
+  }
+}
 .hdr-l,.hdr-r{display:flex;align-items:center;gap:10px;min-width:0}
-.icon-btn{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;border:1px solid var(--line);background:var(--panel);transition:transform .25s ease,border-color .25s ease,background .25s}
+.icon-btn{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;border:1px solid var(--line);background:var(--panel);transition:transform .25s,border-color .25s,background .25s}
 .icon-btn:hover{transform:translateY(-1px);border-color:var(--line-2);background:var(--panel-2)}
 .icon-btn svg{width:20px;height:20px;stroke:#e9e3ff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .logo{display:flex;align-items:center;gap:10px;font-family:Sora,Inter,sans-serif;font-weight:900;letter-spacing:.18em;font-size:clamp(16px,2.2vw,20px)}
@@ -59,23 +71,23 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .nav a::after{content:"";position:absolute;left:14px;right:14px;bottom:6px;height:2px;background:var(--grad-1);border-radius:2px;transform:scaleX(0);transform-origin:left;transition:transform .3s}
 .nav a:hover::after,.nav a.active::after{transform:scaleX(1)}
 
-/* sidebar */
-.sb-ovl{position:fixed;inset:0;background:rgba(3,2,10,.6);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s;z-index:90}
-.sb-ovl.open{opacity:1;pointer-events:auto}
-.sb{position:fixed;top:0;left:0;bottom:0;width:min(86vw,320px);background:linear-gradient(180deg,#0b0820,#070512);border-right:1px solid var(--line);z-index:95;transform:translateX(-105%);transition:transform .35s cubic-bezier(.7,0,.2,1);display:flex;flex-direction:column;padding:18px}
-.sb.open{transform:translateX(0)}
+/* SIDEBAR */
+.sb-ovl{position:fixed;inset:0;background:rgba(3,2,10,.6);opacity:0;pointer-events:none;transition:opacity .3s;z-index:90}
+.sb-ovl.open{opacity:1;pointer-events:auto;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.sb{position:fixed;top:0;left:0;bottom:0;width:min(86vw,320px);background:linear-gradient(180deg,#0b0820,#070512);border-right:1px solid var(--line);z-index:95;transform:translate3d(-105%,0,0);transition:transform .35s cubic-bezier(.7,0,.2,1);display:flex;flex-direction:column;padding:18px;will-change:transform}
+.sb.open{transform:translate3d(0,0,0)}
 .sb .logo{margin-bottom:18px}
 .sb a{padding:14px 12px;border-radius:12px;color:var(--mut);font-weight:600;display:flex;align-items:center;gap:12px;border:1px solid transparent}
 .sb a:hover,.sb a.active{color:#fff;background:var(--panel);border-color:var(--line)}
 
-/* ============ SEARCH OVERLAY ============ */
-.so{position:fixed;inset:0;z-index:120;background:rgba(5,3,15,.75);backdrop-filter:blur(22px) saturate(140%);-webkit-backdrop-filter:blur(22px) saturate(140%);opacity:0;pointer-events:none;transition:opacity .3s;display:flex;flex-direction:column}
-.so.open{opacity:1;pointer-events:auto}
+/* SEARCH OVERLAY */
+.so{position:fixed;inset:0;z-index:120;background:rgba(5,3,15,.85);opacity:0;pointer-events:none;transition:opacity .3s;display:flex;flex-direction:column}
+.so.open{opacity:1;pointer-events:auto;backdrop-filter:blur(22px) saturate(140%);-webkit-backdrop-filter:blur(22px) saturate(140%)}
 .so-top{display:flex;gap:10px;align-items:center;padding:14px clamp(14px,4vw,28px);border-bottom:1px solid var(--line)}
 .so-input{flex:1;display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
 .so-input input{flex:1;background:transparent;border:0;color:#fff;font-size:clamp(15px,2vw,18px);outline:none}
 .so-input svg{width:20px;height:20px;stroke:#c9c0e6;fill:none;stroke-width:2}
-.so-body{flex:1;overflow:auto;padding:18px clamp(14px,4vw,28px) 40px}
+.so-body{flex:1;overflow:auto;padding:18px clamp(14px,4vw,28px) 40px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .so-filters{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:18px}
 .so-filters select{appearance:none;background:var(--panel);border:1px solid var(--line);color:#fff;padding:10px 12px;border-radius:10px;font-weight:600}
 .so-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px}
@@ -88,31 +100,30 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .so-card .sub{font-size:11px;color:var(--mut);margin-top:4px}
 .so-empty{color:var(--mut);text-align:center;padding:60px 10px}
 
-/* ============ HERO ============ */
+/* HERO */
 .hero{position:relative;height:clamp(440px,75vh,820px);overflow:hidden;isolation:isolate}
-.hero-track{position:absolute;inset:0;display:flex;transition:transform .9s cubic-bezier(.7,0,.2,1);will-change:transform}
+.hero-track{position:absolute;inset:0;display:flex;transition:transform .9s cubic-bezier(.7,0,.2,1)}
 .hero-slide{position:relative;min-width:100%;height:100%;overflow:hidden}
 .hero-bg{position:absolute;inset:0}
-.hero-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);transition:transform 8s ease}
-.hero-slide.active .hero-bg img{transform:scale(1.14)}
+.hero-bg img{width:100%;height:100%;object-fit:cover}
 .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,5,18,.05) 0%,rgba(7,5,18,.35) 35%,rgba(7,5,18,.85) 75%,#070512 100%),linear-gradient(90deg,rgba(7,5,18,.85) 0%,rgba(7,5,18,.55) 35%,transparent 70%)}
 .hero-c{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:0 clamp(16px,5vw,64px) clamp(40px,8vh,80px);max-width:1100px}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(168,85,247,.15);border:1px solid var(--line-2);color:#e9d5ff;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;width:fit-content;backdrop-filter:blur(8px)}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(168,85,247,.18);border:1px solid var(--line-2);color:#e9d5ff;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;width:fit-content}
 .hero-tag .pulse{width:8px;height:8px;border-radius:50%;background:var(--pri-3);box-shadow:0 0 12px var(--pri-3)}
 .hero-title{font-family:Sora,Inter,sans-serif;font-weight:900;font-size:clamp(28px,5.5vw,72px);line-height:1.05;margin:14px 0 12px;letter-spacing:-.02em;text-shadow:0 6px 30px rgba(0,0,0,.55);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;font-size:13px;color:#dcd3ff}
-.hero-meta .chip{padding:4px 10px;border-radius:8px;background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(6px)}
+.hero-meta .chip{padding:4px 10px;border-radius:8px;background:var(--panel);border:1px solid var(--line)}
 .hero-meta .chip.gold{color:#fde68a;border-color:rgba(251,191,36,.35)}
 .hero-desc{max-width:680px;color:#cfc7ec;font-size:clamp(13px,1.4vw,16px);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:22px}
 .hero-btns{display:flex;flex-wrap:wrap;gap:12px}
-.btn{position:relative;display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:14px;font-weight:700;font-size:14px;letter-spacing:.02em;transition:transform .25s,box-shadow .25s,background .25s;border:1px solid transparent}
+.btn{position:relative;display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:14px;font-weight:700;font-size:14px;transition:transform .25s,box-shadow .25s,background .25s;border:1px solid transparent}
 .btn svg{width:18px;height:18px;stroke-width:2.2;stroke:currentColor;fill:none}
 .btn.primary{background:var(--grad-1);color:#fff;box-shadow:0 10px 30px rgba(124,58,237,.45),inset 0 0 0 1px rgba(255,255,255,.1)}
 .btn.primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(124,58,237,.6)}
-.btn.ghost{background:rgba(255,255,255,.06);color:#fff;border-color:var(--line-2);backdrop-filter:blur(10px)}
+.btn.ghost{background:rgba(255,255,255,.06);color:#fff;border-color:var(--line-2)}
 .btn.ghost:hover{background:rgba(255,255,255,.12)}
 .hero-nav{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(8px,2vw,20px);pointer-events:none;z-index:3}
-.hero-nav button{pointer-events:auto;width:48px;height:48px;border-radius:50%;background:rgba(7,5,18,.55);border:1px solid var(--line-2);backdrop-filter:blur(10px);display:grid;place-items:center;transition:transform .25s,background .25s}
+.hero-nav button{pointer-events:auto;width:48px;height:48px;border-radius:50%;background:rgba(7,5,18,.65);border:1px solid var(--line-2);display:grid;place-items:center;transition:transform .25s,background .25s}
 .hero-nav button:hover{transform:scale(1.08);background:rgba(168,85,247,.3)}
 .hero-nav svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2.2}
 .hero-dots{position:absolute;left:50%;transform:translateX(-50%);bottom:18px;display:flex;gap:8px;z-index:3}
@@ -120,9 +131,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .hero-dots button.active{width:28px;background:var(--pri-3);box-shadow:0 0 12px var(--pri-3)}
 @media (max-width:680px){.hero-nav{display:none}}
 
-/* ============ SECTIONS ============ */
+/* SECTIONS */
 .wrap{padding:clamp(28px,5vw,56px) clamp(14px,4vw,40px)}
-.sec{margin-top:clamp(20px,3vw,40px)}
+.sec{margin-top:clamp(20px,3vw,40px);content-visibility:auto;contain-intrinsic-size:auto 360px}
 .sec-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
 .sec-h h2{font-family:Sora,Inter,sans-serif;font-weight:800;font-size:clamp(18px,2.4vw,26px);letter-spacing:-.01em;display:flex;align-items:center;gap:12px}
 .sec-h h2::before{content:"";width:6px;height:24px;border-radius:4px;background:var(--grad-1);box-shadow:var(--glow-soft)}
@@ -131,21 +142,21 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .sec-h .arr button:hover{background:var(--panel-2);border-color:var(--line-2);transform:translateY(-1px)}
 .sec-h .arr svg{width:18px;height:18px;stroke:#e9e3ff;fill:none;stroke-width:2.2}
 
-/* slider */
+/* SLIDER */
 .slider{position:relative}
 .slider-track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:6px 2px 14px;scrollbar-width:none}
 .slider-track::-webkit-scrollbar{display:none}
 .slider-track.dragging{scroll-snap-type:none;scroll-behavior:auto;cursor:grabbing}
 
-/* card */
-.card{flex:0 0 auto;width:clamp(140px,18vw,200px);scroll-snap-align:start;position:relative;border-radius:var(--radius);overflow:hidden;background:var(--panel);border:1px solid var(--line);transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease}
+/* CARD */
+.card{flex:0 0 auto;width:clamp(140px,18vw,200px);scroll-snap-align:start;position:relative;border-radius:var(--radius);overflow:hidden;background:var(--panel);border:1px solid var(--line);transition:transform .3s ease,border-color .3s,box-shadow .3s}
 .card:hover{transform:translateY(-6px);border-color:var(--line-2);box-shadow:0 18px 40px rgba(124,58,237,.25)}
 .card .img{position:relative;aspect-ratio:2/3;background:#15102b;overflow:hidden}
-.card .img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
-.card:hover .img img{transform:scale(1.06)}
-.card .img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(7,5,18,.85) 100%);opacity:.85}
-.card .badges{position:absolute;top:8px;left:8px;right:8px;display:flex;justify-content:space-between;gap:6px;z-index:2;flex-wrap:wrap}
-.badge{font-size:10px;font-weight:800;letter-spacing:.06em;padding:4px 8px;border-radius:6px;background:rgba(7,5,18,.7);border:1px solid var(--line-2);color:#fff;backdrop-filter:blur(6px);text-transform:uppercase}
+.card .img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.card:hover .img img{transform:scale(1.06) translateZ(0)}
+.card .img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(7,5,18,.85) 100%);opacity:.85;pointer-events:none}
+.card .badges{position:absolute;top:8px;left:8px;right:8px;display:flex;justify-content:space-between;gap:6px;z-index:2;flex-wrap:wrap;pointer-events:none}
+.badge{font-size:10px;font-weight:800;letter-spacing:.06em;padding:4px 8px;border-radius:6px;background:rgba(7,5,18,.7);border:1px solid var(--line-2);color:#fff;text-transform:uppercase}
 .badge.gold{background:linear-gradient(90deg,#f59e0b,#fbbf24);border-color:transparent;color:#1a0f00}
 .badge.ep{background:rgba(168,85,247,.85);border-color:transparent}
 .badge.hd{background:rgba(34,211,238,.85);border-color:transparent;color:#012730}
@@ -153,8 +164,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .card .info .t{font-size:13px;font-weight:700;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .card .info .s{font-size:11px;color:var(--mut);margin-top:4px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .card .info .s .d{width:3px;height:3px;border-radius:50%;background:var(--dim)}
+@media (hover:none){
+  .card:hover{transform:none;box-shadow:none}
+  .card:hover .img img{transform:none}
+  .so-card:hover{transform:none}
+}
 
-/* skeleton */
+/* SKELETON */
 .sk{background:linear-gradient(90deg,#15102b 0%,#241a4a 50%,#15102b 100%);background-size:200% 100%;animation:sh 1.4s linear infinite;border-radius:10px}
 @keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .sk-card{flex:0 0 auto;width:clamp(140px,18vw,200px);border-radius:var(--radius);overflow:hidden;background:var(--panel);border:1px solid var(--line)}
@@ -162,7 +178,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .sk-card .sk-line{height:12px;margin:10px 12px;border-radius:6px}
 .sk-card .sk-line.sm{width:60%;height:9px}
 
-/* footer */
+/* FOOTER */
 .ftr{margin-top:60px;padding:36px clamp(14px,4vw,40px);border-top:1px solid var(--line);background:linear-gradient(180deg,transparent,rgba(124,58,237,.06))}
 .ftr-row{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
 .ftr .logo{font-size:16px}
@@ -173,25 +189,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .ftr p{color:var(--mut);font-size:12px;line-height:1.6;max-width:780px;margin-top:14px}
 .ftr .cred{color:var(--dim);font-size:12px;margin-top:8px}
 
-/* utilities */
-.fade-in{animation:fi .6s ease both}
-@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.row-rev{transform:translateY(0)}
-
-@media (max-width:520px){
-  .card{width:42vw}
-  .sk-card{width:42vw}
-}
+@media (max-width:520px){.card{width:42vw}.sk-card{width:42vw}}
 </style>
 </head>
 <body>
 
-<!-- ============ HEADER ============ -->
 <header class="hdr">
   <div class="hdr-l">
-    <button class="icon-btn hamb" id="hamb" aria-label="Open menu">
-      <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-    </button>
+    <button class="icon-btn hamb" id="hamb" aria-label="Open menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <a class="logo" href="index.html"><span class="dot"></span><span>ALNUR</span></a>
   </div>
   <nav class="nav" aria-label="Main">
@@ -201,13 +206,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     <a href="donate.html">Donate</a>
   </nav>
   <div class="hdr-r">
-    <button class="icon-btn" id="openSearch" aria-label="Search">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-    </button>
+    <button class="icon-btn" id="openSearch" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
   </div>
 </header>
 
-<!-- sidebar -->
 <div class="sb-ovl" id="sbOvl"></div>
 <aside class="sb" id="sb" aria-label="Sidebar">
   <div class="logo"><span class="dot"></span><span>ALNUR</span></div>
@@ -217,31 +219,20 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   <a href="donate.html">Donate</a>
 </aside>
 
-<!-- search overlay -->
 <section class="so" id="so" aria-hidden="true">
   <div class="so-top">
-    <div class="so-input">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="soInput" type="search" placeholder="Search anime, characters, studios…" autocomplete="off" />
-    </div>
-    <button class="icon-btn" id="closeSearch" aria-label="Close">
-      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
-    </button>
+    <div class="so-input"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="soInput" type="search" placeholder="Search anime, characters, studios…" autocomplete="off"/></div>
+    <button class="icon-btn" id="closeSearch" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
   </div>
-  <div class="so-body">
-    <div class="so-filters" id="soFilters"></div>
-    <div class="so-grid" id="soGrid"><p class="so-empty">Start typing to discover anime…</p></div>
-  </div>
+  <div class="so-body"><div class="so-filters" id="soFilters"></div><div class="so-grid" id="soGrid"><p class="so-empty">Start typing to discover anime…</p></div></div>
 </section>
 
-<!-- ============ HERO ============ -->
 <section class="hero" id="hero" aria-label="Featured">
   <div class="hero-track" id="heroTrack"></div>
   <div class="hero-nav"><button id="heroPrev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button><button id="heroNext" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button></div>
   <div class="hero-dots" id="heroDots"></div>
 </section>
 
-<!-- ============ WIDGETS ============ -->
 <main class="wrap">
   <section class="sec" data-row="trending"><div class="sec-h"><h2>Trending Now</h2><div class="arr"><button data-dir="-1"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button><button data-dir="1"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button></div></div><div class="slider"><div class="slider-track" id="row-trending"></div></div></section>
   <section class="sec" data-row="recent"><div class="sec-h"><h2>Recently Updated</h2><div class="arr"><button data-dir="-1"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button><button data-dir="1"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button></div></div><div class="slider"><div class="slider-track" id="row-recent"></div></div></section>
@@ -252,7 +243,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   <section class="sec" data-row="upcoming"><div class="sec-h"><h2>Upcoming</h2><div class="arr"><button data-dir="-1"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button><button data-dir="1"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button></div></div><div class="slider"><div class="slider-track" id="row-upcoming"></div></div></section>
 </main>
 
-<!-- ============ FOOTER ============ -->
 <footer class="ftr">
   <div class="ftr-row">
     <a class="logo" href="index.html"><span class="dot"></span><span>ALNUR</span></a>
@@ -267,112 +257,62 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 </footer>
 
 <script>
-/* ============================================================
-   ALNUR — Shared core (AniList client, slider engine, UI)
-   ============================================================ */
+/* ============== SHARED CORE ============== */
 (() => {
   "use strict";
-  const $ = (s,r=document)=>r.querySelector(s);
-  const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
-  const ANI = "https://graphql.anilist.co";
-  const CACHE_TTL = 10*60*1000;
+  const $=(s,r=document)=>r.querySelector(s);
+  const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+  const ANI="https://graphql.anilist.co";const TTL=10*60*1000;
+  const cache={get(k){try{const v=JSON.parse(localStorage.getItem("alnur:"+k)||"null");if(!v||Date.now()-v.t>TTL)return null;return v.d}catch{return null}},set(k,d){try{localStorage.setItem("alnur:"+k,JSON.stringify({t:Date.now(),d}))}catch{}}};
+  async function gql(q,v={},o={}){const{cacheKey,timeout=12000,retries=3}=o;if(cacheKey){const c=cache.get(cacheKey);if(c)return c}let err;for(let i=0;i<retries;i++){const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),timeout);try{const r=await fetch(ANI,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({query:q,variables:v}),signal:ctrl.signal});clearTimeout(to);if(r.status===429){await new Promise(s=>setTimeout(s,800*(i+1)));continue}if(!r.ok)throw new Error("HTTP "+r.status);const j=await r.json();if(j.errors)throw new Error(j.errors[0]?.message||"GQL");if(cacheKey)cache.set(cacheKey,j.data);return j.data}catch(e){clearTimeout(to);err=e;await new Promise(s=>setTimeout(s,400*(i+1)))}}throw err||new Error("Network")}
 
-  /* ---------- AniList client with retry, timeout, cache ---------- */
-  const cache = {
-    get(k){try{const v=JSON.parse(localStorage.getItem("alnur:"+k)||"null");if(!v)return null;if(Date.now()-v.t>CACHE_TTL)return null;return v.d}catch{return null}},
-    set(k,d){try{localStorage.setItem("alnur:"+k,JSON.stringify({t:Date.now(),d}))}catch{}}
-  };
-  async function gql(query, variables={}, {cacheKey,timeout=12000,retries=3}={}){
-    if(cacheKey){const c=cache.get(cacheKey);if(c)return c}
-    let lastErr;
-    for(let i=0;i<retries;i++){
-      const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),timeout);
-      try{
-        const r = await fetch(ANI,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({query,variables}),signal:ctrl.signal});
-        clearTimeout(to);
-        if(r.status===429){await new Promise(s=>setTimeout(s,800*(i+1)));continue}
-        if(!r.ok)throw new Error("HTTP "+r.status);
-        const j = await r.json();
-        if(j.errors)throw new Error(j.errors[0]?.message||"GraphQL error");
-        if(cacheKey)cache.set(cacheKey,j.data);
-        return j.data;
-      }catch(e){clearTimeout(to);lastErr=e;await new Promise(s=>setTimeout(s,400*(i+1)));}
-    }
-    throw lastErr||new Error("Network error");
-  }
-  window.ALNUR = window.ALNUR || {};
-  window.ALNUR.gql = gql;
-  window.ALNUR.cache = cache;
+  const stripHtml=(s)=>(s||"").replace(/<br\s*\/?>/gi,"\n").replace(/<[^>]+>/g,"").trim();
+  const score10=(a)=>a?.averageScore?(a.averageScore/10).toFixed(1):"—";
+  const animeUrl=(id)=>`anime.html?id=${id}`;
+  const watchUrl=(id,ep=1)=>`watch.html?id=${id}&ep=${ep}`;
 
-  /* ---------- Helpers ---------- */
-  const stripHtml = (s) => (s||"").replace(/<br\s*\/?>/gi,"\n").replace(/<[^>]+>/g,"").trim();
-  const fmt = (n) => (n==null?"—":Number(n).toLocaleString());
-  const score10 = (a) => a?.averageScore?(a.averageScore/10).toFixed(1):"—";
-  const animeUrl = (id) => `anime.html?id=${id}`;
-  const watchUrl = (id, ep=1) => `watch.html?id=${id}&ep=${ep}`;
-
-  window.ALNUR.h = { stripHtml, fmt, score10, animeUrl, watchUrl };
-
-  /* ---------- Card renderer ---------- */
   function card(a){
-    if(!a)return "";
-    const img = a.coverImage?.extraLarge || a.coverImage?.large || a.coverImage?.medium || "";
-    const title = a.title?.english || a.title?.romaji || a.title?.native || "Untitled";
-    const ep = a.episodes || a.nextAiringEpisode?.episode || null;
-    const fmtBadge = a.format ? a.format.replace(/_/g," ") : "";
-    const sc = a.averageScore ? (a.averageScore/10).toFixed(1) : null;
-    return `<a class="card" href="${animeUrl(a.id)}" aria-label="${title.replace(/"/g,'&quot;')}">
-      <div class="img">
-        <div class="badges">
-          <span class="badge hd">HD</span>
-          ${sc?`<span class="badge gold">★ ${sc}</span>`:""}
-        </div>
-        <img loading="lazy" decoding="async" src="${img}" alt="" onerror="this.style.opacity=.2"/>
-        <div class="badges" style="top:auto;bottom:8px">
-          ${ep?`<span class="badge ep">EP ${ep}</span>`:""}
-          ${fmtBadge?`<span class="badge">${fmtBadge}</span>`:""}
-        </div>
-      </div>
-      <div class="info">
-        <div class="t">${title}</div>
-        <div class="s">${a.seasonYear||a.startDate?.year||""}${a.genres?.[0]?`<span class="d"></span>${a.genres[0]}`:""}</div>
-      </div>
-    </a>`;
+    if(!a)return"";
+    const img=a.coverImage?.extraLarge||a.coverImage?.large||a.coverImage?.medium||"";
+    const t=a.title?.english||a.title?.romaji||a.title?.native||"Untitled";
+    const ep=a.episodes||a.nextAiringEpisode?.episode||null;
+    const fmt=a.format?a.format.replace(/_/g," "):"";
+    const sc=a.averageScore?(a.averageScore/10).toFixed(1):null;
+    return `<a class="card" href="${animeUrl(a.id)}" aria-label="${t.replace(/"/g,'&quot;')}"><div class="img"><div class="badges"><span class="badge hd">HD</span>${sc?`<span class="badge gold">★ ${sc}</span>`:""}</div><img loading="lazy" decoding="async" src="${img}" alt=""/><div class="badges" style="top:auto;bottom:8px">${ep?`<span class="badge ep">EP ${ep}</span>`:""}${fmt?`<span class="badge">${fmt}</span>`:""}</div></div><div class="info"><div class="t">${t}</div><div class="s">${a.seasonYear||a.startDate?.year||""}${a.genres?.[0]?`<span class="d"></span>${a.genres[0]}`:""}</div></div></a>`;
   }
-  window.ALNUR.card = card;
 
-  /* ---------- Slider engine (rows) ---------- */
+  /* SLIDER ENGINE — rAF-batched, passive, GPU-friendly */
   function bindRowArrows(section){
-    const track = $(".slider-track", section);
+    const track=$(".slider-track",section);
     if(!track)return;
-    $$(".arr button", section).forEach(b=>{
-      b.addEventListener("click",()=>{
-        const dir = Number(b.dataset.dir||1);
-        const step = Math.max(track.clientWidth*0.85, 240);
-        track.scrollBy({left:dir*step,behavior:"smooth"});
-      });
-    });
-    // drag-to-scroll
-    let down=false,sx=0,sl=0,moved=false;
+    $$(".arr button",section).forEach(b=>b.addEventListener("click",()=>{
+      const step=Math.max(track.clientWidth*0.85,240);
+      track.scrollBy({left:Number(b.dataset.dir||1)*step,behavior:"smooth"});
+    }));
+    let down=false,sx=0,sl=0,moved=false,mvX=0,mvRAF=0;
+    const apply=()=>{mvRAF=0;track.scrollLeft=sl-mvX};
     const start=(e)=>{down=true;moved=false;sx=(e.touches?e.touches[0].pageX:e.pageX);sl=track.scrollLeft;track.classList.add("dragging")};
-    const move=(e)=>{if(!down)return;const x=(e.touches?e.touches[0].pageX:e.pageX);const d=x-sx;if(Math.abs(d)>4)moved=true;track.scrollLeft=sl-d};
-    const end=()=>{down=false;track.classList.remove("dragging")};
-    track.addEventListener("mousedown",start);track.addEventListener("mousemove",move);
-    window.addEventListener("mouseup",end);track.addEventListener("mouseleave",end);
-    track.addEventListener("touchstart",start,{passive:true});track.addEventListener("touchmove",move,{passive:true});track.addEventListener("touchend",end);
+    const move=(e)=>{if(!down)return;const x=(e.touches?e.touches[0].pageX:e.pageX);mvX=x-sx;if(Math.abs(mvX)>4)moved=true;if(!mvRAF)mvRAF=requestAnimationFrame(apply)};
+    const end=()=>{down=false;track.classList.remove("dragging");if(mvRAF){cancelAnimationFrame(mvRAF);mvRAF=0}};
+    track.addEventListener("mousedown",start);
+    track.addEventListener("mousemove",move,{passive:true});
+    window.addEventListener("mouseup",end);
+    track.addEventListener("mouseleave",end);
+    track.addEventListener("touchstart",start,{passive:true});
+    track.addEventListener("touchmove",move,{passive:true});
+    track.addEventListener("touchend",end);
     track.addEventListener("click",(e)=>{if(moved){e.preventDefault();e.stopPropagation()}},true);
-    // horizontal mouse wheel
-    track.addEventListener("wheel",(e)=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){track.scrollLeft+=e.deltaY;e.preventDefault()}},{passive:false});
+    let wRAF=0,wAcc=0;
+    track.addEventListener("wheel",(e)=>{
+      if(Math.abs(e.deltaY)<=Math.abs(e.deltaX))return;
+      e.preventDefault();wAcc+=e.deltaY;
+      if(wRAF)return;
+      wRAF=requestAnimationFrame(()=>{track.scrollLeft+=wAcc;wAcc=0;wRAF=0});
+    },{passive:false});
   }
-  window.ALNUR.bindRowArrows = bindRowArrows;
 
-  function skeletons(n=8){
-    let s="";for(let i=0;i<n;i++)s+=`<div class="sk-card"><div class="sk sk-img"></div><div class="sk sk-line"></div><div class="sk sk-line sm"></div></div>`;
-    return s;
-  }
-  window.ALNUR.skeletons = skeletons;
+  function skeletons(n=8){let s="";for(let i=0;i<n;i++)s+=`<div class="sk-card"><div class="sk sk-img"></div><div class="sk sk-line"></div><div class="sk sk-line sm"></div></div>`;return s}
 
-  /* ---------- Header / Sidebar / Search overlay ---------- */
   function initShell(){
     const hamb=$("#hamb"),sb=$("#sb"),sbOvl=$("#sbOvl");
     const openSb=()=>{sb.classList.add("open");sbOvl.classList.add("open")};
@@ -387,7 +327,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     $("#closeSearch")?.addEventListener("click",closeSO);
     document.addEventListener("keydown",(e)=>{if(e.key==="Escape")closeSO();if(e.key==="/"&&!so.classList.contains("open")&&document.activeElement.tagName!=="INPUT"){e.preventDefault();openSO()}});
 
-    // filters (genre/year/season/format/status/sort)
     const GENRES=["","Action","Adventure","Comedy","Drama","Ecchi","Fantasy","Horror","Mahou Shoujo","Mecha","Music","Mystery","Psychological","Romance","Sci-Fi","Slice of Life","Sports","Supernatural","Thriller"];
     const SEASONS=["","WINTER","SPRING","SUMMER","FALL"];
     const FORMATS=["","TV","TV_SHORT","MOVIE","SPECIAL","OVA","ONA","MUSIC"];
@@ -395,89 +334,58 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     const SORTS=[["TRENDING_DESC","Trending"],["POPULARITY_DESC","Popularity"],["SCORE_DESC","Top Rated"],["FAVOURITES_DESC","Favorites"],["START_DATE_DESC","Newest"]];
     const yr=new Date().getFullYear();const YEARS=[""];for(let y=yr+1;y>=1970;y--)YEARS.push(String(y));
     const opt=(v,l)=>`<option value="${v}">${l||v||"Any"}</option>`;
-    soFilters.innerHTML = `
-      <select id="fGenre">${GENRES.map(g=>opt(g,g||"Genre")).join("")}</select>
-      <select id="fYear">${YEARS.map(y=>opt(y,y||"Year")).join("")}</select>
-      <select id="fSeason">${SEASONS.map(s=>opt(s,s||"Season")).join("")}</select>
-      <select id="fFormat">${FORMATS.map(f=>opt(f,f?f.replace(/_/g," "):"Format")).join("")}</select>
-      <select id="fStatus">${STATUS.map(s=>opt(s,s||"Status")).join("")}</select>
-      <select id="fSort">${SORTS.map(([v,l])=>opt(v,l)).join("")}</select>
-    `;
+    soFilters.innerHTML=`<select id="fGenre">${GENRES.map(g=>opt(g,g||"Genre")).join("")}</select><select id="fYear">${YEARS.map(y=>opt(y,y||"Year")).join("")}</select><select id="fSeason">${SEASONS.map(s=>opt(s,s||"Season")).join("")}</select><select id="fFormat">${FORMATS.map(f=>opt(f,f?f.replace(/_/g," "):"Format")).join("")}</select><select id="fStatus">${STATUS.map(s=>opt(s,s||"Status")).join("")}</select><select id="fSort">${SORTS.map(([v,l])=>opt(v,l)).join("")}</select>`;
 
     let timer,abort;
     async function run(){
       const q=soInput.value.trim();
-      const variables={
-        page:1,perPage:24,
-        search:q||undefined,
-        genre:$("#fGenre").value||undefined,
-        seasonYear:$("#fYear").value?Number($("#fYear").value):undefined,
-        season:$("#fSeason").value||undefined,
-        format:$("#fFormat").value||undefined,
-        status:$("#fStatus").value||undefined,
-        sort:[$("#fSort").value||"TRENDING_DESC"]
-      };
+      const variables={page:1,perPage:24,search:q||undefined,genre:$("#fGenre").value||undefined,seasonYear:$("#fYear").value?Number($("#fYear").value):undefined,season:$("#fSeason").value||undefined,format:$("#fFormat").value||undefined,status:$("#fStatus").value||undefined,sort:[$("#fSort").value||"TRENDING_DESC"]};
       Object.keys(variables).forEach(k=>variables[k]===undefined&&delete variables[k]);
       soGrid.innerHTML=`<div class="so-empty">Searching…</div>`;
       if(abort)abort.abort();abort=new AbortController();
       try{
-        const data = await gql(`
-          query($page:Int,$perPage:Int,$search:String,$genre:String,$seasonYear:Int,$season:MediaSeason,$format:MediaFormat,$status:MediaStatus,$sort:[MediaSort]){
-            Page(page:$page,perPage:$perPage){
-              media(type:ANIME,isAdult:false,search:$search,genre:$genre,seasonYear:$seasonYear,season:$season,format:$format,status:$status,sort:$sort){
-                id title{romaji english native} coverImage{large extraLarge} averageScore episodes seasonYear genres format
-              }
-            }
-          }`,variables);
-        const list = data?.Page?.media||[];
+        const data=await gql(`query($page:Int,$perPage:Int,$search:String,$genre:String,$seasonYear:Int,$season:MediaSeason,$format:MediaFormat,$status:MediaStatus,$sort:[MediaSort]){Page(page:$page,perPage:$perPage){media(type:ANIME,isAdult:false,search:$search,genre:$genre,seasonYear:$seasonYear,season:$season,format:$format,status:$status,sort:$sort){id title{romaji english native} coverImage{large extraLarge} averageScore episodes seasonYear genres format}}}`,variables);
+        const list=data?.Page?.media||[];
         if(!list.length){soGrid.innerHTML=`<div class="so-empty">No results.</div>`;return}
-        soGrid.innerHTML = list.map(a=>{
-          const img=a.coverImage?.extraLarge||a.coverImage?.large||"";
-          const t=a.title?.english||a.title?.romaji||"Untitled";
-          return `<a class="so-card" href="${animeUrl(a.id)}"><div class="img"><img loading="lazy" src="${img}" alt=""/></div><div class="meta"><div class="ttl">${t}</div><div class="sub">${a.seasonYear||""}${a.format?" • "+a.format.replace(/_/g," "):""}</div></div></a>`;
-        }).join("");
-      }catch(e){soGrid.innerHTML=`<div class="so-empty">Search failed. Try again.</div>`}
+        soGrid.innerHTML=list.map(a=>{const img=a.coverImage?.extraLarge||a.coverImage?.large||"";const t=a.title?.english||a.title?.romaji||"Untitled";return `<a class="so-card" href="${animeUrl(a.id)}"><div class="img"><img loading="lazy" decoding="async" src="${img}" alt=""/></div><div class="meta"><div class="ttl">${t}</div><div class="sub">${a.seasonYear||""}${a.format?" • "+a.format.replace(/_/g," "):""}</div></div></a>`}).join("");
+      }catch{soGrid.innerHTML=`<div class="so-empty">Search failed. Try again.</div>`}
     }
     const trig=()=>{clearTimeout(timer);timer=setTimeout(run,320)};
     soInput?.addEventListener("input",trig);
     $$("#soFilters select").forEach(s=>s.addEventListener("change",trig));
   }
-  window.ALNUR.initShell = initShell;
 
-  // year
+  window.ALNUR={gql,h:{stripHtml,score10,animeUrl,watchUrl},card,bindRowArrows,skeletons,initShell};
   const yr=$("#yr");if(yr)yr.textContent=new Date().getFullYear();
 })();
 </script>
 
 <script>
-/* ============================================================
-   HOMEPAGE — Hero slider + 7 widgets
-   ============================================================ */
+/* ============== HOMEPAGE ============== */
 (() => {
   "use strict";
   const { gql, h, card, bindRowArrows, skeletons, initShell } = window.ALNUR;
   initShell();
+  const $=(s,r=document)=>r.querySelector(s);
+  const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
 
-  const $ = (s,r=document)=>r.querySelector(s);
-  const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
-
-  /* ---------- HERO ---------- */
-  const heroTrack = $("#heroTrack"), heroDots = $("#heroDots");
-  let heroIdx=0, heroN=0, heroTimer=null, heroLocked=false;
+  /* HERO — GPU-batched drag with rAF */
+  const heroTrack=$("#heroTrack"),heroDots=$("#heroDots");
+  let heroIdx=0,heroN=0,heroTimer=null,heroLocked=false;
 
   function renderHero(items){
-    heroN = items.length;
-    heroTrack.innerHTML = items.map((a,i)=>{
-      const banner = a.bannerImage || a.coverImage?.extraLarge || "";
-      const title = a.title?.english || a.title?.romaji || "Untitled";
-      const desc = h.stripHtml(a.description).slice(0,260);
-      const genres = (a.genres||[]).slice(0,3);
-      const sc = h.score10(a);
+    heroN=items.length;
+    heroTrack.innerHTML=items.map((a,i)=>{
+      const banner=a.bannerImage||a.coverImage?.extraLarge||"";
+      const t=a.title?.english||a.title?.romaji||"Untitled";
+      const desc=h.stripHtml(a.description).slice(0,260);
+      const genres=(a.genres||[]).slice(0,3);
+      const sc=h.score10(a);
       return `<article class="hero-slide ${i===0?"active":""}" data-idx="${i}">
         <div class="hero-bg"><img src="${banner}" alt="" loading="${i===0?"eager":"lazy"}" decoding="async"/></div>
         <div class="hero-c">
           <span class="hero-tag"><span class="pulse"></span>${a.format||"Featured"} • #${i+1} Trending</span>
-          <h1 class="hero-title">${title}</h1>
+          <h1 class="hero-title">${t}</h1>
           <div class="hero-meta">
             ${sc!=="—"?`<span class="chip gold">★ ${sc}</span>`:""}
             ${a.seasonYear?`<span class="chip">${a.seasonYear}</span>`:""}
@@ -492,13 +400,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         </div>
       </article>`;
     }).join("");
-    heroDots.innerHTML = items.map((_,i)=>`<button data-i="${i}" class="${i===0?"active":""}" aria-label="Slide ${i+1}"></button>`).join("");
+    heroDots.innerHTML=items.map((_,i)=>`<button data-i="${i}" class="${i===0?"active":""}" aria-label="Slide ${i+1}"></button>`).join("");
     $$("#heroDots button").forEach(b=>b.addEventListener("click",()=>go(Number(b.dataset.i))));
   }
   function go(i){
     if(heroLocked||!heroN)return;heroLocked=true;
     heroIdx=(i+heroN)%heroN;
-    heroTrack.style.transform=`translateX(${-100*heroIdx}%)`;
+    heroTrack.style.transform=`translate3d(${-100*heroIdx}%,0,0)`;
     $$("#heroTrack .hero-slide").forEach((s,k)=>s.classList.toggle("active",k===heroIdx));
     $$("#heroDots button").forEach((b,k)=>b.classList.toggle("active",k===heroIdx));
     setTimeout(()=>{heroLocked=false},900);
@@ -506,77 +414,56 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   function autoplay(){clearInterval(heroTimer);heroTimer=setInterval(()=>go(heroIdx+1),6500)}
   $("#heroPrev")?.addEventListener("click",()=>{go(heroIdx-1);autoplay()});
   $("#heroNext")?.addEventListener("click",()=>{go(heroIdx+1);autoplay()});
-  // touch + drag
-  let dx=0,sx=0,drag=false;
-  heroTrack.addEventListener("pointerdown",e=>{drag=true;sx=e.clientX;dx=0;heroTrack.style.transition="none"});
-  heroTrack.addEventListener("pointermove",e=>{if(!drag)return;dx=e.clientX-sx;heroTrack.style.transform=`translateX(calc(${-100*heroIdx}% + ${dx}px))`});
-  const endDrag=()=>{if(!drag)return;drag=false;heroTrack.style.transition="";if(Math.abs(dx)>60){go(heroIdx+(dx<0?1:-1))}else{go(heroIdx)}autoplay()};
-  heroTrack.addEventListener("pointerup",endDrag);heroTrack.addEventListener("pointercancel",endDrag);heroTrack.addEventListener("pointerleave",endDrag);
-  // pause on hover
+
+  let dx=0,sx=0,drag=false,rafId=0,pendingX=0;
+  const applyDrag=()=>{rafId=0;heroTrack.style.transform=`translate3d(calc(${-100*heroIdx}% + ${pendingX}px),0,0)`};
+  heroTrack.addEventListener("pointerdown",(e)=>{drag=true;sx=e.clientX;dx=0;pendingX=0;heroTrack.style.transition="none";try{heroTrack.setPointerCapture(e.pointerId)}catch{}},{passive:true});
+  heroTrack.addEventListener("pointermove",(e)=>{if(!drag)return;dx=e.clientX-sx;pendingX=dx;if(!rafId)rafId=requestAnimationFrame(applyDrag)},{passive:true});
+  const endDrag=()=>{if(!drag)return;drag=false;if(rafId){cancelAnimationFrame(rafId);rafId=0}heroTrack.style.transition="";if(Math.abs(dx)>60)go(heroIdx+(dx<0?1:-1));else go(heroIdx);autoplay()};
+  heroTrack.addEventListener("pointerup",endDrag);
+  heroTrack.addEventListener("pointercancel",endDrag);
+
   $("#hero").addEventListener("mouseenter",()=>clearInterval(heroTimer));
   $("#hero").addEventListener("mouseleave",autoplay);
-  // resize safety
-  const ro = new ResizeObserver(()=>{heroTrack.style.transition="none";heroTrack.style.transform=`translateX(${-100*heroIdx}%)`;requestAnimationFrame(()=>heroTrack.style.transition="")});
-  ro.observe(document.body);
 
-  /* ---------- ROWS ---------- */
-  const ROW_FIELDS = `
-    id title{romaji english native}
-    coverImage{large extraLarge medium} bannerImage
-    averageScore episodes format genres seasonYear status
-    startDate{year} nextAiringEpisode{episode}
-  `;
-  function rowQuery(){return `
-    query($perPage:Int!){
-      trending: Page(perPage:$perPage){media(type:ANIME,sort:TRENDING_DESC,isAdult:false){${ROW_FIELDS}}}
-      recent: Page(perPage:$perPage){media(type:ANIME,status:RELEASING,sort:UPDATED_AT_DESC,isAdult:false){${ROW_FIELDS}}}
-      airing: Page(perPage:$perPage){media(type:ANIME,status:RELEASING,sort:POPULARITY_DESC,isAdult:false){${ROW_FIELDS}}}
-      top: Page(perPage:$perPage){media(type:ANIME,sort:SCORE_DESC,isAdult:false){${ROW_FIELDS}}}
-      movies: Page(perPage:$perPage){media(type:ANIME,format:MOVIE,sort:START_DATE_DESC,isAdult:false){${ROW_FIELDS}}}
-      completed: Page(perPage:$perPage){media(type:ANIME,status:FINISHED,sort:POPULARITY_DESC,isAdult:false){${ROW_FIELDS}}}
-      upcoming: Page(perPage:$perPage){media(type:ANIME,status:NOT_YET_RELEASED,sort:POPULARITY_DESC,isAdult:false){${ROW_FIELDS}}}
-    }`;}
+  let rzT;
+  window.addEventListener("resize",()=>{clearTimeout(rzT);rzT=setTimeout(()=>{heroTrack.style.transition="none";heroTrack.style.transform=`translate3d(${-100*heroIdx}%,0,0)`;requestAnimationFrame(()=>heroTrack.style.transition="")},150)});
 
-  function fillRow(id, items){
-    const track = document.getElementById("row-"+id);
-    if(!track)return;
+  /* ROWS */
+  const ROW_FIELDS=`id title{romaji english native} coverImage{large extraLarge medium} bannerImage averageScore episodes format genres seasonYear status startDate{year} nextAiringEpisode{episode}`;
+  function rowQuery(){return `query($perPage:Int!){
+    trending: Page(perPage:$perPage){media(type:ANIME,sort:TRENDING_DESC,isAdult:false){${ROW_FIELDS}}}
+    recent: Page(perPage:$perPage){media(type:ANIME,status:RELEASING,sort:UPDATED_AT_DESC,isAdult:false){${ROW_FIELDS}}}
+    airing: Page(perPage:$perPage){media(type:ANIME,status:RELEASING,sort:POPULARITY_DESC,isAdult:false){${ROW_FIELDS}}}
+    top: Page(perPage:$perPage){media(type:ANIME,sort:SCORE_DESC,isAdult:false){${ROW_FIELDS}}}
+    movies: Page(perPage:$perPage){media(type:ANIME,format:MOVIE,sort:START_DATE_DESC,isAdult:false){${ROW_FIELDS}}}
+    completed: Page(perPage:$perPage){media(type:ANIME,status:FINISHED,sort:POPULARITY_DESC,isAdult:false){${ROW_FIELDS}}}
+    upcoming: Page(perPage:$perPage){media(type:ANIME,status:NOT_YET_RELEASED,sort:POPULARITY_DESC,isAdult:false){${ROW_FIELDS}}}
+  }`}
+  function fillRow(id,items){
+    const track=document.getElementById("row-"+id);if(!track)return;
     if(!items||!items.length){track.innerHTML=`<div class="so-empty" style="padding:30px 0">Couldn't load this row.</div>`;return}
-    track.innerHTML = items.map(card).join("");
-    const sec = track.closest(".sec");
-    if(sec && !sec.dataset.bound){bindRowArrows(sec);sec.dataset.bound="1"}
+    track.innerHTML=items.map(card).join("");
+    const sec=track.closest(".sec");if(sec&&!sec.dataset.bound){bindRowArrows(sec);sec.dataset.bound="1"}
   }
-
   function showSkeletons(){
-    ["trending","recent","airing","top","movies","completed","upcoming"].forEach(k=>{
-      const el=document.getElementById("row-"+k);if(el)el.innerHTML=skeletons(8);
-    });
-    heroTrack.innerHTML = `<div style="display:flex;width:100%;align-items:flex-end;padding:0 5vw 60px"><div style="width:60%"><div class="sk" style="height:18px;width:30%;margin-bottom:14px"></div><div class="sk" style="height:46px;width:80%;margin-bottom:14px"></div><div class="sk" style="height:14px;width:90%;margin-bottom:8px"></div><div class="sk" style="height:14px;width:70%"></div></div></div>`;
+    ["trending","recent","airing","top","movies","completed","upcoming"].forEach(k=>{const el=document.getElementById("row-"+k);if(el)el.innerHTML=skeletons(8)});
+    heroTrack.innerHTML=`<div style="display:flex;width:100%;align-items:flex-end;padding:0 5vw 60px"><div style="width:60%"><div class="sk" style="height:18px;width:30%;margin-bottom:14px"></div><div class="sk" style="height:46px;width:80%;margin-bottom:14px"></div><div class="sk" style="height:14px;width:90%;margin-bottom:8px"></div><div class="sk" style="height:14px;width:70%"></div></div></div>`;
   }
-
   async function init(){
     showSkeletons();
-    // HERO
     try{
-      const heroData = await gql(`query{Page(perPage:10){media(type:ANIME,sort:TRENDING_DESC,isAdult:false){id title{romaji english native} description(asHtml:false) bannerImage coverImage{extraLarge large} genres averageScore episodes seasonYear format}}}`,{},{cacheKey:"home:hero"});
-      const heroItems = (heroData?.Page?.media||[]).filter(a=>a.bannerImage||a.coverImage?.extraLarge);
-      if(heroItems.length){renderHero(heroItems);autoplay()}
-    }catch(e){heroTrack.innerHTML=`<div style="padding:80px 5vw;color:#a59cc7">Couldn't load featured anime.</div>`}
-
-    // ROWS
+      const heroData=await gql(`query{Page(perPage:10){media(type:ANIME,sort:TRENDING_DESC,isAdult:false){id title{romaji english native} description(asHtml:false) bannerImage coverImage{extraLarge large} genres averageScore episodes seasonYear format}}}`,{},{cacheKey:"home:hero"});
+      const items=(heroData?.Page?.media||[]).filter(a=>a.bannerImage||a.coverImage?.extraLarge);
+      if(items.length){renderHero(items);autoplay()}
+    }catch{heroTrack.innerHTML=`<div style="padding:80px 5vw;color:#a59cc7">Couldn't load featured anime.</div>`}
     try{
-      const data = await gql(rowQuery(),{perPage:18},{cacheKey:"home:rows:v2"});
-      fillRow("trending", data?.trending?.media);
-      fillRow("recent", data?.recent?.media);
-      fillRow("airing", data?.airing?.media);
-      fillRow("top", data?.top?.media);
-      fillRow("movies", data?.movies?.media);
-      fillRow("completed", data?.completed?.media);
-      fillRow("upcoming", data?.upcoming?.media);
-    }catch(e){
-      ["trending","recent","airing","top","movies","completed","upcoming"].forEach(k=>{
-        const el=document.getElementById("row-"+k);if(el)el.innerHTML=`<div class="so-empty" style="padding:30px 0">Couldn't load. Refresh to retry.</div>`;
-      });
-    }
+      const data=await gql(rowQuery(),{perPage:18},{cacheKey:"home:rows:v2"});
+      fillRow("trending",data?.trending?.media);fillRow("recent",data?.recent?.media);
+      fillRow("airing",data?.airing?.media);fillRow("top",data?.top?.media);
+      fillRow("movies",data?.movies?.media);fillRow("completed",data?.completed?.media);
+      fillRow("upcoming",data?.upcoming?.media);
+    }catch{["trending","recent","airing","top","movies","completed","upcoming"].forEach(k=>{const el=document.getElementById("row-"+k);if(el)el.innerHTML=`<div class="so-empty" style="padding:30px 0">Couldn't load. Refresh to retry.</div>`})}
   }
   init();
 })();
