@@ -558,6 +558,7 @@ a{color:inherit;text-decoration:none}
 <script>
 /* ============================================================
    AlnurFlix — Universal core (used across pages)
+   FIXED: Sliding problem (up-to-down) — compatible for all devices
    ============================================================ */
 (() => {
   'use strict';
@@ -668,56 +669,156 @@ a{color:inherit;text-decoration:none}
     clearTimeout(t._timer); t._timer = setTimeout(()=>t.classList.remove('show'), 2800);
   }
 
-  /* ---------- Universal slider engine ---------- */
+  /* ---------- Universal slider engine (FIXED) ---------- */
   function attachSlider(slider, navButtons){
     if(!slider || slider._inited) return;
     slider._inited = true;
 
-    // Drag scroll
-    let isDown=false, startX=0, scrollStart=0, moved=false;
+    // Track whether the mouse cursor is physically inside this slider
+    let mouseInside = false;
+    slider.addEventListener('mouseenter', ()=> { mouseInside = true; });
+    slider.addEventListener('mouseleave', ()=> {
+      mouseInside = false;
+      // Also clean up drag state if cursor leaves during a drag
+      if(isDown){
+        isDown = false;
+        slider.classList.remove('dragging');
+        slider.style.cursor = '';
+      }
+    });
+
+    /* ----- Mouse drag scroll ----- */
+    let isDown = false, startX = 0, scrollStart = 0, moved = false;
     slider.addEventListener('mousedown', e=>{
-      isDown=true; moved=false;
+      // Let clicks on links/buttons pass through naturally
+      if(e.target.closest('a,button')) return;
+      isDown = true;
+      moved = false;
       startX = e.pageX - slider.offsetLeft;
       scrollStart = slider.scrollLeft;
       slider.classList.add('dragging');
+      slider.style.cursor = 'grabbing';
     });
-    slider.addEventListener('mouseleave', ()=>{ isDown=false; slider.classList.remove('dragging'); });
-    slider.addEventListener('mouseup', ()=>{ isDown=false; slider.classList.remove('dragging'); });
+
+    // Use document-level mouseup so drags ending outside the slider still release
+    document.addEventListener('mouseup', ()=>{
+      if(isDown){
+        isDown = false;
+        slider.classList.remove('dragging');
+        slider.style.cursor = '';
+      }
+    });
+
     slider.addEventListener('mousemove', e=>{
       if(!isDown) return;
-      e.preventDefault();
       const x = e.pageX - slider.offsetLeft;
-      const walk = (x - startX)*1.2;
-      if(Math.abs(walk)>4) moved=true;
+      const walk = (x - startX) * 1.2;
+      if(Math.abs(walk) > 4) moved = true;
       slider.scrollLeft = scrollStart - walk;
     });
+
+    // Prevent click events on cards after a deliberate drag
     slider.addEventListener('click', e=>{
-      if(moved){ e.preventDefault(); e.stopPropagation(); moved=false; }
+      if(moved){
+        e.preventDefault();
+        e.stopPropagation();
+        moved = false;
+      }
     }, true);
 
-    // Wheel
+    /* ----- Touch drag with horizontal/vertical detection ----- */
+    let touchStartX = 0, touchStartY = 0, touchScrollStart = 0;
+    let touchMoved = false, touchDirection = null; // 'horizontal' | 'vertical' | null
+
+    slider.addEventListener('touchstart', e=>{
+      if(e.touches.length !== 1) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchScrollStart = slider.scrollLeft;
+      touchMoved = false;
+      touchDirection = null;
+    }, {passive: true});
+
+    slider.addEventListener('touchmove', e=>{
+      if(e.touches.length !== 1) return;
+      const dx = e.touches[0].clientX - touchStartX;
+      const dy = e.touches[0].clientY - touchStartY;
+
+      // Determine the primary axis after a small threshold (8px)
+      if(touchDirection === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)){
+        touchDirection = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
+      }
+
+      if(touchDirection === 'horizontal'){
+        // Block vertical page scroll while swiping horizontally inside the slider
+        e.preventDefault();
+        touchMoved = true;
+        slider.scrollLeft = touchScrollStart - dx;
+      }
+      // If vertical, let the event bubble so the page scrolls naturally
+    }, {passive: false});
+
+    slider.addEventListener('touchend', ()=>{
+      if(touchMoved){
+        // Suppress the click that may fire after a horizontal swipe
+        const preventClick = (ev) => {
+          ev.preventDefault();
+          ev.stopPropagation();
+          slider.removeEventListener('click', preventClick, true);
+        };
+        slider.addEventListener('click', preventClick, true);
+        setTimeout(()=> slider.removeEventListener('click', preventClick, true), 50);
+      }
+      touchMoved = false;
+      touchDirection = null;
+    });
+
+    /* ----- Wheel: only convert vertical → horizontal when mouse is inside the slider ----- */
     slider.addEventListener('wheel', e=>{
-      if(Math.abs(e.deltaY) > Math.abs(e.deltaX)){
+      // Ignore wheel events that originate outside this slider
+      if(!mouseInside) return;
+
+      const canScrollLeft = slider.scrollLeft > 0.5;
+      const canScrollRight = slider.scrollLeft < (slider.scrollWidth - slider.clientWidth - 0.5);
+
+      // If the wheel event is predominantly horizontal, handle it directly
+      if(Math.abs(e.deltaX) > Math.abs(e.deltaY)){
+        if((e.deltaX > 0 && canScrollRight) || (e.deltaX < 0 && canScrollLeft)){
+          e.preventDefault();
+          slider.scrollLeft += e.deltaX;
+        }
+        return;
+      }
+
+      // Predominantly vertical wheel: convert to horizontal IF the slider can scroll further
+      const direction = e.deltaY > 0 ? 1 : -1; // positive deltaY = scrolling down → scroll right
+      const canScroll = direction > 0 ? canScrollRight : canScrollLeft;
+
+      if(canScroll && Math.abs(e.deltaY) > 0){
         slider.scrollLeft += e.deltaY;
         e.preventDefault();
       }
+      // If the slider has reached its edge, do NOT preventDefault —
+      // the vertical scroll event will bubble up and scroll the page naturally.
     }, {passive:false});
 
-    // Nav buttons
+    /* ----- Navigation arrow buttons ----- */
     if(navButtons){
       navButtons.forEach(btn=>{
         btn.addEventListener('click', ()=>{
-          const dir = parseInt(btn.dataset.dir,10);
+          const dir = parseInt(btn.dataset.dir, 10);
           const card = slider.querySelector('.card,.skel-card');
-          const step = card ? (card.offsetWidth + 14)*Math.max(1, Math.floor(slider.clientWidth/(card.offsetWidth+14))-1) : slider.clientWidth*.8;
-          slider.scrollBy({left: step*dir, behavior:'smooth'});
+          const step = card
+            ? (card.offsetWidth + 14) * Math.max(1, Math.floor(slider.clientWidth / (card.offsetWidth + 14)) - 1)
+            : slider.clientWidth * 0.8;
+          slider.scrollBy({left: step * dir, behavior: 'smooth'});
         });
       });
     }
 
-    // ResizeObserver to recalc snap points
+    // Optional: use ResizeObserver to help the browser recalculate snap points
     if('ResizeObserver' in window){
-      const ro = new ResizeObserver(()=>{ /* no-op, browser handles snap */ });
+      const ro = new ResizeObserver(()=>{ /* no-op, but keeps snap measurements current */ });
       ro.observe(slider);
     }
   }
@@ -782,7 +883,7 @@ a{color:inherit;text-decoration:none}
     prev?.addEventListener('click', ()=>{ go(idx-1); start(); });
     next?.addEventListener('click', ()=>{ go(idx+1); start(); });
 
-    // Touch swipe
+    // Touch swipe on hero (doesn't block vertical page scroll because we use passive touchstart)
     let tx=0;
     track.addEventListener('touchstart', e=>{ tx = e.touches[0].clientX; stop(); }, {passive:true});
     track.addEventListener('touchend', e=>{
@@ -932,7 +1033,7 @@ a{color:inherit;text-decoration:none}
     loadHomepage();
   });
 
-  // Expose minimal API for other pages reusing this file (none needed here)
+  // Expose minimal API for other pages reusing this file
   window.AlnurFlix = { anilist, cache, cardHTML, titleOf, fmtFmt, fmtScore, safe, attachSlider, skeletonCards, toast };
 })();
 </script>
