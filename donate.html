@@ -1,325 +1,719 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<meta name="description" content="Support AnimeStream. Your donations help keep the platform running.">
-<title>Donate - AnimeStream</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0a0010" />
+<title>Support Us — AlnurFunds</title>
+<meta name="description" content="Help keep AlnurFunds free and ad-light. Support the project through donations and community channels." />
+<meta property="og:title" content="Support AlnurFunds" />
+<meta property="og:type" content="website" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%23b14bff'/%3E%3Cstop offset='1' stop-color='%236a1bcf'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Cpath d='M18 44 L32 18 L46 44 Z' fill='%23fff'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://graphql.anilist.co" />
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{overflow-x:hidden;max-width:100%;scroll-behavior:smooth}
-body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0a0a0f;color:#e0e0e0;line-height:1.6;min-height:100vh}
-a{text-decoration:none;color:inherit}
-img{max-width:100%;display:block}
-button{border:none;background:none;cursor:pointer;font-family:inherit;color:inherit}
-ul{list-style:none}
+  /* ===== shared base / theme ===== */
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{overflow-x:hidden;max-width:100%}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{margin:0;font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;background:#06000c;color:#ece6f5;line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:#0b0214}
+  ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#5a17a8,#2b0a5a);border-radius:10px}
+  ::selection{background:#7a2bd6;color:#fff}
+  :root{--border:rgba(160,90,255,.18);--purple:#9a3bff;--purple-2:#6a1bcf;--purple-glow:0 0 24px rgba(154,59,255,.45);--muted:#a89bc4;--header-h:68px;--radius:16px;--panel:rgba(20,8,38,.55)}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 10% -10%,rgba(122,43,214,.30),transparent 60%),radial-gradient(800px 600px at 100% 10%,rgba(56,18,120,.28),transparent 65%),radial-gradient(700px 500px at 50% 110%,rgba(154,59,255,.18),transparent 60%),linear-gradient(180deg,#05000a 0%,#06000c 60%,#04000a 100%)}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.035) 1px,transparent 1px);background-size:3px 3px;mix-blend-mode:overlay;opacity:.5}
 
-/* Header */
-.header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(139,92,246,0.15);transition:all .3s ease;height:64px;display:flex;align-items:center;padding:0 24px}
-.header.scrolled{background:rgba(10,10,15,0.95);border-bottom-color:rgba(139,92,246,0.3)}
-.header-inner{max-width:1440px;width:100%;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.header-left{display:flex;align-items:center;gap:16px}
-.hamburger{width:40px;height:40px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;border-radius:10px;transition:all .2s}
-.hamburger span{display:block;width:22px;height:2px;background:#a78bfa;border-radius:2px;transition:all .3s ease}
-.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
-.hamburger.active span:nth-child(2){opacity:0}
-.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
-.logo{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,#a78bfa,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.5px}
-.logo span{color:#8b5cf6;-webkit-text-fill-color:#8b5cf6}
-.desktop-nav{display:flex;gap:28px;align-items:center}
-.desktop-nav a{font-size:0.9rem;font-weight:500;color:#b0b0c0;transition:all .2s;padding:6px 0;position:relative}
-.desktop-nav a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(90deg,#8b5cf6,#a78bfa);border-radius:2px;transition:width .3s ease}
-.desktop-nav a:hover{color:#fff}
-.desktop-nav a:hover::after{width:100%}
-.desktop-nav a.active{color:#fff}
-.desktop-nav a.active::after{width:100%}
-.search-btn{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);transition:all .2s}
-.search-btn:hover{background:rgba(139,92,246,0.2);transform:scale(1.05)}
-.search-btn svg{width:18px;height:18px;stroke:#a78bfa;fill:none;stroke-width:2}
+  /* ===== Header / sidebar / search overlay (shared) ===== */
+  .header{position:sticky;top:0;z-index:60;height:var(--header-h);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(14px,3vw,28px);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);background:linear-gradient(180deg,rgba(8,2,18,.85),rgba(8,2,18,.55));border-bottom:1px solid var(--border)}
+  .header-left,.header-right{display:flex;align-items:center;gap:10px;flex:1}
+  .header-right{justify-content:flex-end}.header-center{display:flex;align-items:center;justify-content:center}
+  .icon-btn{width:42px;height:42px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;background:rgba(154,59,255,.08);border:1px solid var(--border);transition:transform .2s ease,background .2s ease,box-shadow .2s ease}
+  .icon-btn:hover{background:rgba(154,59,255,.18);transform:translateY(-1px);box-shadow:var(--purple-glow)}
+  .icon-btn svg{width:20px;height:20px;stroke:#e8defa;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .logo{display:inline-flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.4px;font-size:clamp(16px,2vw,20px)}
+  .logo-badge{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#b14bff,#6a1bcf);box-shadow:0 6px 22px rgba(154,59,255,.5);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:900}
+  .logo-text span{background:linear-gradient(90deg,#fff,#d7bfff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .nav-desktop{display:none;gap:6px;margin-left:14px}
+  .nav-desktop a{padding:8px 14px;border-radius:10px;font-weight:600;color:#cfc3e6;transition:color .2s ease,background .2s ease}
+  .nav-desktop a:hover{color:#fff;background:rgba(154,59,255,.12)}
+  .nav-desktop a.active{color:#fff;background:rgba(154,59,255,.18);box-shadow:inset 0 0 0 1px var(--border)}
+  @media (min-width:900px){.nav-desktop{display:flex}}
+  .scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:70}
+  .scrim.open{opacity:1;pointer-events:auto}
+  .sidebar{position:fixed;top:0;left:0;height:100dvh;width:min(82vw,320px);background:linear-gradient(180deg,#0d0420,#08011a);border-right:1px solid var(--border);transform:translateX(-105%);transition:transform .3s cubic-bezier(.2,.7,.2,1);z-index:80;display:flex;flex-direction:column}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border)}
+  .sidebar nav{display:flex;flex-direction:column;padding:14px;gap:6px}
+  .sidebar nav a{padding:12px 14px;border-radius:12px;font-weight:600;color:#d6cbee;display:flex;align-items:center;gap:12px}
+  .sidebar nav a:hover{background:rgba(154,59,255,.14);color:#fff}
+  .sidebar nav a.active{background:rgba(154,59,255,.2);color:#fff;box-shadow:inset 0 0 0 1px var(--border)}
+  .sidebar footer{margin-top:auto;padding:14px 18px;color:var(--muted);font-size:12px;border-top:1px solid var(--border)}
+  .search-overlay{position:fixed;inset:0;z-index:90;background:rgba(4,0,12,.75);backdrop-filter:blur(22px) saturate(140%);-webkit-backdrop-filter:blur(22px) saturate(140%);opacity:0;pointer-events:none;transition:opacity .25s ease;display:flex;flex-direction:column}
+  .search-overlay.open{opacity:1;pointer-events:auto}
+  .search-bar{display:flex;align-items:center;gap:10px;padding:14px clamp(14px,3vw,28px);border-bottom:1px solid var(--border)}
+  .search-input-wrap{flex:1;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:10px 14px}
+  .search-input-wrap svg{width:18px;height:18px;stroke:#bfb0e6;fill:none;stroke-width:2}
+  .search-input-wrap input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:clamp(15px,2vw,17px)}
+  .search-close{padding:10px 14px;border-radius:12px;background:rgba(154,59,255,.12);border:1px solid var(--border);font-weight:600}
+  .search-body{flex:1;overflow:auto;padding:clamp(14px,3vw,28px)}
+  .search-suggestions{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+  .search-empty{color:var(--muted);text-align:center;padding:40px 10px;font-size:14px}
 
-/* Mobile Sidebar */
-.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);z-index:999;opacity:0;visibility:hidden;transition:all .3s ease}
-.sidebar-overlay.active{opacity:1;visibility:visible}
-.sidebar{position:fixed;top:0;left:0;width:280px;max-width:85vw;height:100vh;background:#0f0f1a;border-right:1px solid rgba(139,92,246,0.15);z-index:1001;transform:translateX(-100%);transition:transform .4s cubic-bezier(0.4,0,0.2,1);padding:24px;display:flex;flex-direction:column;gap:8px;overflow-y:auto}
-.sidebar.active{transform:translateX(0)}
-.sidebar-logo{font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,#a78bfa,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px}
-.sidebar a{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:#b0b0c0;font-weight:500;transition:all .2s}
-.sidebar a:hover,.sidebar a.active{background:rgba(139,92,246,0.1);color:#fff}
-.sidebar a svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
-.sidebar-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.05);color:#b0b0c0}
+  /* ===== HERO ===== */
+  .hero-donate{
+    position:relative;overflow:hidden;
+    padding:clamp(40px,7vw,80px) clamp(14px,3vw,28px) clamp(28px,5vw,52px);
+    text-align:center;
+  }
+  .hero-donate::before{
+    content:"";position:absolute;inset:-20% -10%;z-index:-1;
+    background:
+      radial-gradient(500px 300px at 20% 30%,rgba(154,59,255,.30),transparent 60%),
+      radial-gradient(500px 300px at 80% 40%,rgba(255,76,179,.18),transparent 65%),
+      radial-gradient(500px 300px at 50% 110%,rgba(78,30,160,.35),transparent 60%);
+    filter:blur(10px);
+  }
+  .float-orb{
+    position:absolute;border-radius:50%;filter:blur(40px);opacity:.55;z-index:-1;
+    animation:float 10s ease-in-out infinite;
+  }
+  .float-orb.a{width:260px;height:260px;background:#9a3bff;top:-40px;left:-60px;animation-delay:-2s}
+  .float-orb.b{width:220px;height:220px;background:#ff4cb3;bottom:-40px;right:-40px;animation-delay:-5s}
+  .float-orb.c{width:180px;height:180px;background:#3aa8ff;top:30%;right:25%;opacity:.35}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)}}
 
-/* Search Overlay */
-.search-overlay{position:fixed;inset:0;z-index:2000;background:rgba(10,10,15,0.97);backdrop-filter:blur(30px);opacity:0;visibility:hidden;transition:all .4s ease;display:flex;flex-direction:column;align-items:center;padding:80px 24px 24px;overflow-y:auto}
-.search-overlay.active{opacity:1;visibility:visible}
-.search-container{width:100%;max-width:700px}
-.search-input-wrapper{position:relative;width:100%}
-.search-input{width:100%;padding:18px 56px 18px 24px;background:rgba(139,92,246,0.08);border:2px solid rgba(139,92,246,0.2);border-radius:16px;color:#fff;font-size:1.1rem;outline:none;transition:all .3s}
-.search-input:focus{border-color:rgba(139,92,246,0.5);background:rgba(139,92,246,0.12);box-shadow:0 0 30px rgba(139,92,246,0.1)}
-.search-input::placeholder{color:#6b6b8a}
-.search-close{position:absolute;right:16px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.05);color:#b0b0c0;transition:all .2s}
-.search-close:hover{background:rgba(139,92,246,0.2);color:#fff}
-.search-filters{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;justify-content:center}
-.search-filters select{padding:10px 16px;background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2);border-radius:10px;color:#e0e0e0;font-size:0.85rem;outline:none;cursor:pointer}
-.search-filters select:focus{border-color:#8b5cf6}
-.search-results{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;margin-top:32px;width:100%;max-width:1200px}
-.search-suggestions{position:absolute;top:calc(100% + 8px);left:0;right:0;background:#151520;border:1px solid rgba(139,92,246,0.2);border-radius:12px;overflow:hidden;z-index:10;opacity:0;visibility:hidden;transition:all .2s;max-height:300px;overflow-y:auto}
-.search-suggestions.active{opacity:1;visibility:visible}
-.search-suggestion-item{padding:12px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;border-bottom:1px solid rgba(255,255,255,0.03)}
-.search-suggestion-item:hover{background:rgba(139,92,246,0.1)}
-.search-suggestion-item img{width:40px;height:56px;object-fit:cover;border-radius:6px}
-.search-suggestion-item .sugg-title{font-size:0.85rem;font-weight:600;color:#fff}
-.search-suggestion-item .sugg-meta{font-size:0.75rem;color:#8b8b9a}
+  .hero-eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.6px;
+    background:rgba(154,59,255,.14);border:1px solid var(--border);color:#e7d8ff;
+    text-transform:uppercase;
+  }
+  .hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:#37e6a1;box-shadow:0 0 12px rgba(55,230,161,.7);animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{50%{transform:scale(1.35);opacity:.65}}
+  .hero-donate h1{
+    margin:14px 0 8px;font-size:clamp(28px,5.5vw,52px);font-weight:900;line-height:1.05;
+    background:linear-gradient(180deg,#fff 0%,#d7bfff 60%,#a974ff 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero-donate p{max-width:680px;margin:0 auto;color:#cfc3e6;font-size:clamp(14px,1.8vw,16px)}
+  .hero-actions{display:inline-flex;flex-wrap:wrap;gap:10px;margin-top:18px;justify-content:center}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:12px;font-weight:700;font-size:14px;border:1px solid var(--border);transition:transform .15s ease,background .2s ease,box-shadow .2s ease}
+  .btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .btn-primary{background:linear-gradient(135deg,#b14bff,#6a1bcf);color:#fff;border-color:transparent;box-shadow:var(--purple-glow)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(154,59,255,.55)}
+  .btn-ghost{background:rgba(255,255,255,.06);color:#fff}
+  .btn-ghost:hover{background:rgba(255,255,255,.12)}
 
-/* Donate Page */
-.donate-page{margin-top:64px;padding:48px 24px;max-width:1200px;margin-left:auto;margin-right:auto;min-height:60vh}
-.donate-hero{text-align:center;margin-bottom:48px;position:relative}
-.donate-hero::before{content:'';position:absolute;top:-48px;left:50%;transform:translateX(-50%);width:300px;height:300px;background:radial-gradient(circle,rgba(139,92,246,0.15) 0%,transparent 70%);border-radius:50%;pointer-events:none;z-index:-1}
-.donate-icon{width:64px;height:64px;margin:0 auto 24px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);border-radius:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(139,92,246,0.3)}
-.donate-icon svg{width:32px;height:32px;stroke:#fff;fill:none;stroke-width:2}
-.donate-title{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800;color:#fff;margin-bottom:12px;background:linear-gradient(135deg,#fff,#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.donate-subtitle{font-size:1rem;color:#a0a0b0;max-width:600px;margin:0 auto;line-height:1.7}
+  /* ===== Stats strip ===== */
+  .stats{
+    max-width:1100px;margin:24px auto 0;padding:0 clamp(14px,3vw,28px);
+    display:grid;gap:12px;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  }
+  .stat{
+    background:var(--panel);border:1px solid var(--border);border-radius:14px;
+    padding:14px;text-align:center;backdrop-filter:blur(8px);
+    transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+  }
+  .stat:hover{transform:translateY(-3px);border-color:rgba(154,59,255,.45);box-shadow:0 14px 32px rgba(120,40,210,.3)}
+  .stat .v{font-size:clamp(20px,2.6vw,26px);font-weight:900;background:linear-gradient(180deg,#fff,#d3bdff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .l{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-top:2px}
 
-/* Donation Cards */
-.donate-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-bottom:48px}
-.donate-card{background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.15);border-radius:20px;padding:32px;transition:all .3s;position:relative;overflow:hidden;backdrop-filter:blur(10px)}
-.donate-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#7c3aed,#8b5cf6);opacity:0;transition:opacity .3s}
-.donate-card:hover{transform:translateY(-8px);border-color:rgba(139,92,246,0.3);box-shadow:0 20px 60px rgba(139,92,246,0.1)}
-.donate-card:hover::before{opacity:1}
-.donate-card.featured{background:rgba(139,92,246,0.08);border-color:rgba(139,92,246,0.25);box-shadow:0 8px 30px rgba(139,92,246,0.1)}
-.donate-card.featured::before{opacity:1}
-.card-badge{position:absolute;top:16px;right:16px;padding:4px 12px;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.25);border-radius:20px;color:#a78bfa;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px}
-.card-icon{width:48px;height:48px;border-radius:14px;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
-.card-icon svg{width:24px;height:24px;stroke:#a78bfa;fill:none;stroke-width:2}
-.card-amount{font-size:2rem;font-weight:800;color:#fff;margin-bottom:8px}
-.card-amount span{font-size:1rem;color:#6b6b8a;font-weight:500}
-.card-desc{font-size:0.9rem;color:#a0a0b0;line-height:1.6;margin-bottom:24px}
-.card-btn{width:100%;padding:14px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);border-radius:12px;color:#fff;font-weight:700;font-size:0.95rem;transition:all .3s;box-shadow:0 4px 20px rgba(139,92,246,0.2)}
-.card-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(139,92,246,0.3)}
-.card-btn.outline{background:transparent;border:1px solid rgba(139,92,246,0.3);color:#a78bfa;box-shadow:none}
-.card-btn.outline:hover{background:rgba(139,92,246,0.1);box-shadow:0 4px 20px rgba(139,92,246,0.1)}
+  /* ===== Section heading ===== */
+  .section{max-width:1280px;margin:0 auto;padding:clamp(30px,4vw,46px) clamp(14px,3vw,28px) 0}
+  .section-head{text-align:center;margin-bottom:18px}
+  .section-head h2{
+    margin:0;font-size:clamp(22px,3vw,30px);font-weight:900;
+    background:linear-gradient(180deg,#fff,#d3bdff);-webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .section-head p{margin:6px auto 0;color:var(--muted);max-width:600px;font-size:14px}
 
-/* Support Section */
-.support-section{background:rgba(139,92,246,0.03);border:1px solid rgba(139,92,246,0.1);border-radius:20px;padding:40px;margin-bottom:48px;backdrop-filter:blur(10px)}
-.support-title{font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:16px;text-align:center}
-.support-text{font-size:0.95rem;color:#a0a0b0;line-height:1.8;text-align:center;max-width:700px;margin:0 auto 32px}
-.support-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
-.support-item{text-align:center;padding:24px;background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.1);border-radius:14px;transition:all .3s}
-.support-item:hover{background:rgba(139,92,246,0.08);transform:translateY(-4px)}
-.support-item svg{width:32px;height:32px;stroke:#a78bfa;fill:none;stroke-width:1.5;margin-bottom:12px}
-.support-item h4{font-size:0.95rem;color:#fff;margin-bottom:6px}
-.support-item p{font-size:0.8rem;color:#6b6b8a}
+  /* ===== Tier cards ===== */
+  .tiers{
+    display:grid;gap:14px;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  }
+  .tier{
+    position:relative;display:flex;flex-direction:column;gap:8px;
+    background:var(--panel);border:1px solid var(--border);border-radius:18px;
+    padding:20px;backdrop-filter:blur(8px);
+    transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+    overflow:hidden;
+  }
+  .tier::before{
+    content:"";position:absolute;inset:-1px;border-radius:18px;padding:1px;
+    background:linear-gradient(135deg,rgba(154,59,255,.55),rgba(255,76,179,.35) 60%,transparent);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;
+    opacity:0;transition:opacity .25s ease;pointer-events:none;
+  }
+  .tier:hover{transform:translateY(-4px);box-shadow:0 22px 50px rgba(120,40,210,.4)}
+  .tier:hover::before{opacity:1}
+  .tier.popular{
+    background:linear-gradient(180deg,rgba(154,59,255,.18),rgba(20,8,38,.55));
+    border-color:rgba(154,59,255,.5);box-shadow:0 18px 40px rgba(154,59,255,.25);
+  }
+  .tier.popular::before{opacity:1}
+  .ribbon{
+    position:absolute;top:14px;right:14px;
+    font-size:10.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
+    padding:4px 10px;border-radius:999px;color:#fff;
+    background:linear-gradient(135deg,#b14bff,#6a1bcf);box-shadow:var(--purple-glow);
+  }
+  .tier .icon-bx{
+    width:46px;height:46px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;
+    background:rgba(154,59,255,.18);border:1px solid var(--border);
+  }
+  .tier .icon-bx svg{width:22px;height:22px;stroke:#e8defa;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .tier h3{margin:6px 0 0;font-size:18px;font-weight:800;color:#fff}
+  .tier .price{font-size:28px;font-weight:900;background:linear-gradient(90deg,#fff,#d7bfff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .tier .price small{font-size:13px;color:var(--muted);font-weight:600;margin-left:4px}
+  .tier ul{margin:6px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+  .tier li{font-size:13.5px;color:#dccff7;display:flex;align-items:flex-start;gap:8px}
+  .tier li::before{content:"✓";color:#b5ff8a;font-weight:900;margin-top:1px}
+  .tier .cta{margin-top:14px}
 
-/* QR Section */
-.qr-section{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;margin-bottom:48px}
-.qr-card{background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.15);border-radius:20px;padding:32px;text-align:center;transition:all .3s;backdrop-filter:blur(10px)}
-.qr-card:hover{border-color:rgba(139,92,246,0.3);box-shadow:0 12px 40px rgba(139,92,246,0.1)}
-.qr-placeholder{width:160px;height:160px;margin:0 auto 20px;background:rgba(139,92,246,0.08);border:2px dashed rgba(139,92,246,0.2);border-radius:16px;display:flex;align-items:center;justify-content:center}
-.qr-placeholder svg{width:48px;height:48px;stroke:#8b5cf6;fill:none;stroke-width:1.5;opacity:0.5}
-.qr-label{font-size:1rem;font-weight:700;color:#fff;margin-bottom:8px}
-.qr-desc{font-size:0.85rem;color:#6b6b8a}
+  /* ===== Payment methods ===== */
+  .pay-grid{
+    display:grid;gap:14px;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  }
+  .pay-card{
+    background:var(--panel);border:1px solid var(--border);border-radius:18px;
+    padding:18px;backdrop-filter:blur(8px);
+    display:flex;flex-direction:column;gap:12px;
+  }
+  .pay-head{display:flex;align-items:center;gap:10px}
+  .pay-logo{
+    width:42px;height:42px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;
+    background:rgba(154,59,255,.18);border:1px solid var(--border);font-weight:900;color:#fff;
+  }
+  .pay-logo.crypto{background:linear-gradient(135deg,#f7931a,#b66800)}
+  .pay-logo.usdt{background:linear-gradient(135deg,#26a17b,#16785b)}
+  .pay-logo.eth{background:linear-gradient(135deg,#627eea,#3c4fa6)}
+  .pay-logo.kofi{background:linear-gradient(135deg,#ff5e5b,#c33d3a)}
+  .pay-logo.patreon{background:linear-gradient(135deg,#ff424d,#a3252c)}
+  .pay-logo.paypal{background:linear-gradient(135deg,#0079c1,#003087)}
+  .pay-head h4{margin:0;font-size:15.5px;font-weight:800;color:#fff}
+  .pay-head .net{font-size:11.5px;color:var(--muted)}
+  .qr{
+    align-self:center;width:140px;height:140px;border-radius:14px;
+    background:
+      linear-gradient(135deg,rgba(255,255,255,.04),rgba(255,255,255,.02)),
+      repeating-conic-gradient(#1a0a30 0% 25%,#2b1057 0% 50%) 50% / 14px 14px;
+    border:1px solid var(--border);position:relative;display:grid;place-items:center;color:#cfc3e6;font-size:11px;
+  }
+  .qr::after{content:"QR placeholder";position:absolute;bottom:6px;left:0;right:0;text-align:center;font-size:10px;color:#9c8ec5;letter-spacing:.4px}
+  .copy-row{
+    display:flex;align-items:center;gap:8px;
+    background:rgba(255,255,255,.04);border:1px solid var(--border);
+    border-radius:10px;padding:8px 10px;
+  }
+  .copy-row code{
+    flex:1;min-width:0;font-family:'JetBrains Mono','Fira Code',Menlo,monospace;
+    font-size:12.5px;color:#efe5ff;word-break:break-all;
+  }
+  .copy-btn{
+    padding:7px 10px;border-radius:8px;background:linear-gradient(135deg,#b14bff,#6a1bcf);
+    color:#fff;font-weight:700;font-size:12px;box-shadow:var(--purple-glow);
+  }
+  .copy-btn.ok{background:linear-gradient(135deg,#37e6a1,#00a37b);box-shadow:0 0 18px rgba(55,230,161,.45)}
+  .pay-link{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:10px 14px;border-radius:10px;font-weight:700;font-size:13px;
+    background:rgba(154,59,255,.14);border:1px solid var(--border);color:#fff;
+    transition:background .2s ease,transform .15s ease;
+  }
+  .pay-link:hover{background:rgba(154,59,255,.28);transform:translateY(-2px)}
 
-/* Social Support */
-.social-section{text-align:center;margin-bottom:48px}
-.social-title{font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:24px}
-.social-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
-.social-link{padding:14px 28px;background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.15);border-radius:12px;color:#e0e0e0;font-weight:600;font-size:0.9rem;display:flex;align-items:center;gap:10px;transition:all .3s}
-.social-link:hover{background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);transform:translateY(-2px)}
-.social-link svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+  /* ===== FAQ ===== */
+  .faq{display:grid;gap:10px;max-width:780px;margin:0 auto}
+  .faq details{
+    background:var(--panel);border:1px solid var(--border);border-radius:12px;
+    padding:12px 14px;backdrop-filter:blur(8px);
+    transition:border-color .2s ease;
+  }
+  .faq details[open]{border-color:rgba(154,59,255,.45)}
+  .faq summary{
+    list-style:none;cursor:pointer;font-weight:800;font-size:14.5px;color:#fff;
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+  }
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{
+    content:"+";font-size:20px;color:#cfa8ff;font-weight:700;line-height:1;
+    transition:transform .25s ease;
+  }
+  .faq details[open] summary::after{transform:rotate(45deg)}
+  .faq p{margin:8px 0 0;font-size:13.5px;color:#cfc3e6}
 
-/* Footer */
-.footer{padding:40px 24px;text-align:center;border-top:1px solid rgba(139,92,246,0.1);margin-top:48px}
-.footer-text{font-size:0.85rem;color:#6b6b8a;line-height:1.8}
-.footer-text a{color:#a78bfa;transition:color .2s}
-.footer-text a:hover{color:#c4b5fd}
-.footer-social{display:flex;gap:16px;justify-content:center;margin-top:16px}
-.footer-social a{width:36px;height:36px;border-radius:50%;background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.15);display:flex;align-items:center;justify-content:center;transition:all .2s}
-.footer-social a:hover{background:rgba(139,92,246,0.2);transform:translateY(-2px)}
-.footer-social a svg{width:16px;height:16px;stroke:#a78bfa;fill:none;stroke-width:2}
+  /* ===== Social row ===== */
+  .social{
+    max-width:780px;margin:0 auto;
+    display:grid;gap:10px;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  }
+  .social a{
+    display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;
+    background:var(--panel);border:1px solid var(--border);backdrop-filter:blur(8px);
+    transition:background .2s ease,transform .15s ease,box-shadow .2s ease;font-weight:700;font-size:13.5px;color:#fff;
+  }
+  .social a:hover{background:rgba(154,59,255,.18);transform:translateY(-2px);box-shadow:0 12px 28px rgba(154,59,255,.25)}
+  .social a svg{width:18px;height:18px;fill:#dccff7}
 
-/* Responsive */
-@media(max-width:768px){
-.header{padding:0 16px;height:56px}
-.desktop-nav{display:none}
-.donate-page{margin-top:56px;padding:32px 16px}
-.donate-cards{grid-template-columns:1fr}
-.support-grid{grid-template-columns:1fr}
-.qr-section{grid-template-columns:1fr}
-.social-links{flex-direction:column;align-items:center}
-.social-link{width:100%;max-width:300px;justify-content:center}
-}
-@media(min-width:769px){.hamburger{display:none}.sidebar,.sidebar-overlay{display:none!important}}
-::-webkit-scrollbar{width:8px}
-::-webkit-scrollbar-track{background:#0a0a0f}
-::-webkit-scrollbar-thumb{background:rgba(139,92,246,0.3);border-radius:4px}
-::-webkit-scrollbar-thumb:hover{background:rgba(139,92,246,0.5)}
+  /* ===== Toast ===== */
+  .toast{
+    position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);
+    background:linear-gradient(135deg,#37e6a1,#00a37b);color:#04140e;
+    padding:10px 16px;border-radius:12px;font-weight:800;font-size:13px;
+    box-shadow:0 18px 40px rgba(0,0,0,.5);opacity:0;pointer-events:none;
+    transition:opacity .25s ease,transform .25s ease;z-index:100;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* ===== Skeleton card (overlay search) ===== */
+  .card{position:relative;border-radius:14px;overflow:hidden;background:#120524;border:1px solid var(--border)}
+  .card-poster{position:relative;aspect-ratio:2/3;background:#1a0a30}
+  .card-poster img{width:100%;height:100%;object-fit:cover}
+  .card-grad{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(6,0,12,.85) 100%)}
+  .card-badges{position:absolute;top:8px;left:8px;right:8px;display:flex;flex-wrap:wrap;gap:6px}
+  .badge{font-size:10.5px;font-weight:800;padding:4px 8px;border-radius:8px;background:rgba(0,0,0,.55);border:1px solid var(--border);color:#fff}
+  .badge.hd{background:linear-gradient(135deg,#b14bff,#6a1bcf);border-color:transparent}
+  .badge.score{background:rgba(255,200,40,.18);color:#ffd66b;border-color:rgba(255,200,40,.35)}
+  .card-title{position:absolute;bottom:8px;left:10px;right:10px;font-size:12.5px;font-weight:700;color:#fff;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-shadow:0 2px 12px rgba(0,0,0,.7)}
+  .sk{background:linear-gradient(90deg,#160728 0%,#22103f 50%,#160728 100%);background-size:200% 100%;animation:shimmer 1.4s linear infinite;border-radius:12px}
+  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  .sk-card{aspect-ratio:2/3;border-radius:14px}
+
+  /* ===== footer ===== */
+  footer.site{margin-top:60px;padding:30px clamp(14px,3vw,28px);border-top:1px solid var(--border);background:linear-gradient(180deg,transparent,rgba(10,2,22,.6));color:#b9adda;text-align:center;font-size:13px}
+  .footer-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;margin-bottom:12px}
+  .footer-row a{width:36px;height:36px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:rgba(154,59,255,.1);border:1px solid var(--border)}
+  .footer-row a:hover{background:rgba(154,59,255,.22)}
+  .footer-row svg{width:16px;height:16px;fill:#dccff7}
+  .disclaimer{max-width:760px;margin:6px auto 0;color:#9c8ec5}
+
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
-<base target="_blank">
 </head>
 <body>
 
-<header class="header" id="header">
-<div class="header-inner">
-<div class="header-left">
-<button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-<a href="index.html" class="logo">Anime<span>Stream</span></a>
-</div>
-<nav class="desktop-nav">
-<a href="index.html">Home</a>
-<a href="search.html">Trending</a>
-<a href="schedule.html">Schedule</a>
-<a href="donate.html" class="active">Donate</a>
-</nav>
-<button class="search-btn" id="searchBtn" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
-</div>
-</header>
-
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<!-- Sidebar -->
+<div class="scrim" id="scrim"></div>
 <aside class="sidebar" id="sidebar">
-<button class="sidebar-close" id="sidebarClose" aria-label="Close menu"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-<div class="sidebar-logo">AnimeStream</div>
-<a href="index.html"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
-<a href="search.html"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Trending</a>
-<a href="schedule.html"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Schedule</a>
-<a href="donate.html" class="active"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Donate</a>
+  <header>
+    <a href="index.html" class="logo"><span class="logo-badge">A</span><span class="logo-text"><span>AlnurFunds</span></span></a>
+    <button class="icon-btn" id="sidebarClose" aria-label="Close menu"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="search.html?sort=TRENDING_DESC">Trending</a>
+    <a href="schedule.html">Schedule</a>
+    <a href="donate.html" class="active">Donate</a>
+  </nav>
+  <footer>© AlnurFunds · Powered by AniList</footer>
 </aside>
 
-<div class="search-overlay" id="searchOverlay">
-<div class="search-container">
-<div class="search-input-wrapper">
-<input type="text" class="search-input" id="searchInput" placeholder="Search anime..." autocomplete="off">
-<button class="search-close" id="searchClose"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-<div class="search-suggestions" id="searchSuggestions"></div>
-</div>
-<div class="search-filters">
-<select id="filterGenre"><option value="">All Genres</option></select>
-<select id="filterYear"><option value="">All Years</option></select>
-<select id="filterSeason"><option value="">All Seasons</option><option value="spring">Spring</option><option value="summer">Summer</option><option value="fall">Fall</option><option value="winter">Winter</option></select>
-<select id="filterType"><option value="">All Types</option><option value="tv">TV</option><option value="movie">Movie</option><option value="ova">OVA</option><option value="ona">ONA</option><option value="special">Special</option></select>
-<select id="filterSort"><option value="popularity">Popularity</option><option value="score">Top Rated</option><option value="members">Most Popular</option><option value="start_date">Newest</option></select>
-</div>
-<div class="search-results" id="searchResults"></div>
-</div>
+<!-- Header -->
+<header class="header">
+  <div class="header-left">
+    <button class="icon-btn" id="sidebarOpen" aria-label="Open menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="nav-desktop">
+      <a href="index.html">Home</a>
+      <a href="search.html?sort=TRENDING_DESC">Trending</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="donate.html" class="active">Donate</a>
+    </nav>
+  </div>
+  <div class="header-center"><a href="index.html" class="logo"><span class="logo-badge">A</span><span class="logo-text"><span>AlnurFunds</span></span></a></div>
+  <div class="header-right">
+    <button class="icon-btn" id="searchOpen" aria-label="Open search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
+  </div>
+</header>
+
+<!-- Search overlay -->
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true">
+  <div class="search-bar">
+    <div class="search-input-wrap">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="searchInput" type="search" placeholder="Search anime…  (press ESC to close)" autocomplete="off" />
+    </div>
+    <button class="search-close" id="searchClose">Close</button>
+  </div>
+  <div class="search-body">
+    <div id="searchResults" class="search-suggestions" aria-live="polite"></div>
+    <div id="searchEmpty" class="search-empty">Start typing to search anime…</div>
+  </div>
 </div>
 
-<div class="donate-page">
-<div class="donate-hero">
-<div class="donate-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
-<h1 class="donate-title">Support AnimeStream</h1>
-<p class="donate-subtitle">Your contributions help us maintain servers, improve streaming quality, and keep the platform ad-free for everyone. Every donation makes a difference.</p>
-</div>
+<main>
+  <!-- ===== HERO ===== -->
+  <section class="hero-donate">
+    <div class="float-orb a"></div>
+    <div class="float-orb b"></div>
+    <div class="float-orb c"></div>
 
-<div class="donate-cards">
-<div class="donate-card">
-<div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-<div class="card-amount">$5 <span>/ month</span></div>
-<div class="card-desc">Help cover basic server costs and keep the site running smoothly for all users.</div>
-<button class="card-btn outline">Choose Plan</button>
-</div>
+    <span class="hero-eyebrow"><span class="dot"></span> Community-supported</span>
+    <h1>Help keep AlnurFunds<br/>free, fast and ad-light.</h1>
+    <p>Every donation directly funds server bandwidth, infrastructure, and the team that ships features. No accounts, no paywalls — just better anime streaming for everyone.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#tiers">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Pick a tier
+      </a>
+      <a class="btn btn-ghost" href="#methods">
+        <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg>
+        See payment methods
+      </a>
+    </div>
 
-<div class="donate-card featured">
-<span class="card-badge">Popular</span>
-<div class="card-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-<div class="card-amount">$10 <span>/ month</span></div>
-<div class="card-desc">Support HD streaming infrastructure and faster load times across all regions.</div>
-<button class="card-btn">Choose Plan</button>
-</div>
+    <div class="stats" id="stats">
+      <div class="stat"><div class="v">100%</div><div class="l">Ad-light</div></div>
+      <div class="stat"><div class="v">0</div><div class="l">Accounts required</div></div>
+      <div class="stat"><div class="v">24/7</div><div class="l">Streaming uptime</div></div>
+      <div class="stat"><div class="v">∞</div><div class="l">Episodes via AniList</div></div>
+    </div>
+  </section>
 
-<div class="donate-card">
-<div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-<div class="card-amount">$25 <span>/ month</span></div>
-<div class="card-desc">Enable us to expand our library, add new features, and maintain premium quality.</div>
-<button class="card-btn outline">Choose Plan</button>
-</div>
-</div>
+  <!-- ===== TIERS ===== -->
+  <section class="section" id="tiers">
+    <div class="section-head">
+      <h2>Choose your support tier</h2>
+      <p>Recurring or one-time — every contribution keeps the platform alive.</p>
+    </div>
+    <div class="tiers">
+      <article class="tier">
+        <div class="icon-bx"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-7-10a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.65-7 10-7 10"/></svg></div>
+        <h3>Supporter</h3>
+        <div class="price">$3<small>/month</small></div>
+        <ul>
+          <li>Help cover bandwidth</li>
+          <li>Name in Discord supporters channel</li>
+          <li>Early changelog access</li>
+        </ul>
+        <a class="btn btn-ghost cta" href="#methods">Pick payment method</a>
+      </article>
 
-<div class="support-section">
-<h2 class="support-title">Why Your Support Matters</h2>
-<p class="support-text">AnimeStream is a community-driven project. We don't run ads or sell user data. Your donations directly fund server hosting, CDN bandwidth, API costs, and development time.</p>
-<div class="support-grid">
-<div class="support-item">
-<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-<h4>Server Costs</h4>
-<p>Hosting & bandwidth</p>
-</div>
-<div class="support-item">
-<svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-<h4>Fast Streaming</h4>
-<p>CDN & optimization</p>
-</div>
-<div class="support-item">
-<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-<h4>Security</h4>
-<p>SSL & protection</p>
-</div>
-<div class="support-item">
-<svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-<h4>Development</h4>
-<p>New features & fixes</p>
-</div>
-</div>
-</div>
+      <article class="tier popular">
+        <span class="ribbon">Most popular</span>
+        <div class="icon-bx"><svg viewBox="0 0 24 24"><polygon points="12 2 15 8.5 22 9.3 17 14.1 18.5 21 12 17.8 5.5 21 7 14.1 2 9.3 9 8.5 12 2"/></svg></div>
+        <h3>Fan</h3>
+        <div class="price">$7<small>/month</small></div>
+        <ul>
+          <li>Everything in Supporter</li>
+          <li>Custom Discord role &amp; badge</li>
+          <li>Priority feature voting</li>
+          <li>Behind-the-scenes posts</li>
+        </ul>
+        <a class="btn btn-primary cta" href="#methods">Become a Fan</a>
+      </article>
 
-<div class="qr-section">
-<div class="qr-card">
-<div class="qr-placeholder"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
-<div class="qr-label">Crypto (BTC)</div>
-<div class="qr-desc">Scan to donate with Bitcoin</div>
-</div>
-<div class="qr-card">
-<div class="qr-placeholder"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
-<div class="qr-label">PayPal</div>
-<div class="qr-desc">Scan for quick PayPal transfer</div>
-</div>
-<div class="qr-card">
-<div class="qr-placeholder"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
-<div class="qr-label">Ko-fi</div>
-<div class="qr-desc">Support us on Ko-fi platform</div>
-</div>
-</div>
+      <article class="tier">
+        <div class="icon-bx"><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.3L18 21l-6-4-6 4 1.5-7.7L2 9h7z"/></svg></div>
+        <h3>Patron</h3>
+        <div class="price">$15<small>/month</small></div>
+        <ul>
+          <li>Everything in Fan</li>
+          <li>Patron-only Discord channels</li>
+          <li>Monthly Q&amp;A with the team</li>
+          <li>Vote on next features first</li>
+        </ul>
+        <a class="btn btn-ghost cta" href="#methods">Become a Patron</a>
+      </article>
 
-<div class="social-section">
-<h2 class="social-title">Other Ways to Support</h2>
-<div class="social-links">
-<a href="#" class="social-link"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>Follow on Twitter</a>
-<a href="#" class="social-link"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>Join Discord</a>
-<a href="#" class="social-link"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>Star on GitHub</a>
-</div>
-</div>
-</div>
+      <article class="tier">
+        <div class="icon-bx"><svg viewBox="0 0 24 24"><path d="M3 3h18v4H3zM3 11h18v10H3z"/></svg></div>
+        <h3>One-time</h3>
+        <div class="price">Custom</div>
+        <ul>
+          <li>Donate any amount</li>
+          <li>Pay with card, PayPal or crypto</li>
+          <li>Optional thank-you shout-out</li>
+        </ul>
+        <a class="btn btn-ghost cta" href="#methods">Donate once</a>
+      </article>
+    </div>
+  </section>
 
-<footer class="footer">
-<div class="footer-text">
-<p>&copy; 2025 AnimeStream. All rights reserved.</p>
-<p>This site does not store any files on its server. All contents are provided by non-affiliated third parties.</p>
-<p>Powered by <a href="https://jikan.moe" target="_blank">Jikan API</a></p>
-</div>
-<div class="footer-social">
-<a href="#" aria-label="Discord"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></a>
-<a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
-<a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
-</div>
+  <!-- ===== PAYMENT METHODS ===== -->
+  <section class="section" id="methods">
+    <div class="section-head">
+      <h2>Payment methods</h2>
+      <p>Pick whatever works for you. Crypto, fiat, recurring or one-time — all welcome.</p>
+    </div>
+
+    <div class="pay-grid">
+      <!-- Ko-fi -->
+      <div class="pay-card">
+        <div class="pay-head">
+          <div class="pay-logo kofi">K</div>
+          <div><h4>Ko-fi</h4><div class="net">One-time &amp; monthly</div></div>
+        </div>
+        <p style="margin:0;color:#cfc3e6;font-size:13.5px">The simplest way to send a tip. No account needed for donors.</p>
+        <a class="pay-link" href="https://ko-fi.com/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M17 4v16M3 12h18"/></svg>
+          Open Ko-fi
+        </a>
+      </div>
+
+      <!-- Patreon -->
+      <div class="pay-card">
+        <div class="pay-head">
+          <div class="pay-logo patreon">P</div>
+          <div><h4>Patreon</h4><div class="net">Recurring memberships</div></div>
+        </div>
+        <p style="margin:0;color:#cfc3e6;font-size:13.5px">Best for monthly support and tier perks (badge, channels, polls).</p>
+        <a class="pay-link" href="https://www.patreon.com/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V3M5 12h10a5 5 0 0 0 0-10H5"/></svg>
+          Open Patreon
+        </a>
+      </div>
+
+      <!-- PayPal -->
+      <div class="pay-card">
+        <div class="pay-head">
+          <div class="pay-logo paypal">PP</div>
+          <div><h4>PayPal</h4><div class="net">Card &amp; PayPal balance</div></div>
+        </div>
+        <p style="margin:0;color:#cfc3e6;font-size:13.5px">One-tap donation in any currency.</p>
+        <div class="copy-row">
+          <code id="paypal-handle">donate@alnurfunds.example</code>
+          <button class="copy-btn" data-copy="#paypal-handle">Copy</button>
+        </div>
+        <a class="pay-link" href="https://www.paypal.com/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21l4-18h7a4 4 0 0 1 0 8h-5l-2 10z"/></svg>
+          Open PayPal
+        </a>
+      </div>
+
+      <!-- BTC -->
+      <div class="pay-card">
+        <div class="pay-head">
+          <div class="pay-logo crypto">₿</div>
+          <div><h4>Bitcoin</h4><div class="net">BTC · On-chain</div></div>
+        </div>
+        <div class="qr" aria-label="Bitcoin address QR placeholder"></div>
+        <div class="copy-row">
+          <code id="btc-addr">bc1qexampleaddressreplacewithyours00000000000</code>
+          <button class="copy-btn" data-copy="#btc-addr">Copy</button>
+        </div>
+      </div>
+
+      <!-- USDT -->
+      <div class="pay-card">
+        <div class="pay-head">
+          <div class="pay-logo usdt">₮</div>
+          <div><h4>USDT</h4><div class="net">TRC-20 (Tron)</div></div>
+        </div>
+        <div class="qr" aria-label="USDT address QR placeholder"></div>
+        <div class="copy-row">
+          <code id="usdt-addr">TExampleUSDTaddressReplaceWithYours0000000</code>
+          <button class="copy-btn" data-copy="#usdt-addr">Copy</button>
+        </div>
+      </div>
+
+      <!-- ETH -->
+      <div class="pay-card">
+        <div class="pay-head">
+          <div class="pay-logo eth">Ξ</div>
+          <div><h4>Ethereum</h4><div class="net">ETH · ERC-20</div></div>
+        </div>
+        <div class="qr" aria-label="Ethereum address QR placeholder"></div>
+        <div class="copy-row">
+          <code id="eth-addr">0xExampleEthereumAddressReplaceWithYours000</code>
+          <button class="copy-btn" data-copy="#eth-addr">Copy</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section">
+    <div class="section-head">
+      <h2>Frequently asked</h2>
+      <p>Everything you might want to know before donating.</p>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>Where does the money go?</summary>
+        <p>Server hosting, CDN bandwidth, domain renewals, and a small reserve for emergency infrastructure. We publish a yearly transparency report on the Discord server.</p>
+      </details>
+      <details>
+        <summary>Do donors get extra anime / exclusive episodes?</summary>
+        <p>No. All catalog content stays free for everyone — anime data comes from AniList and streams come from third-party servers we don't control. Donor perks are limited to community recognition (badges, channels, early changelog access).</p>
+      </details>
+      <details>
+        <summary>Are crypto donations refundable?</summary>
+        <p>On-chain transactions are final and non-refundable. Please double-check the address and network before sending.</p>
+      </details>
+      <details>
+        <summary>Can I cancel a recurring donation?</summary>
+        <p>Yes, anytime — from your Ko-fi or Patreon dashboard. Cancellation takes effect at the end of the current billing period.</p>
+      </details>
+      <details>
+        <summary>Do you store any personal data when I donate?</summary>
+        <p>Donations are processed by the payment providers (Ko-fi, Patreon, PayPal) or directly on-chain. We don't run our own accounts system and never see your card or wallet credentials.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===== SOCIAL / SUPPORT LINKS ===== -->
+  <section class="section">
+    <div class="section-head">
+      <h2>Other ways to support</h2>
+      <p>Donating isn't the only way to help.</p>
+    </div>
+    <div class="social">
+      <a href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M20 4.5A18 18 0 0 0 15.6 3l-.2.4a16 16 0 0 0-6.8 0L8.4 3A18 18 0 0 0 4 4.5C1.6 8 1 11.4 1.3 14.8a18 18 0 0 0 5.5 2.8l1.1-1.7a11 11 0 0 1-1.7-.8l.4-.3a13 13 0 0 0 11 0l.4.3a11 11 0 0 1-1.7.8l1.1 1.7a18 18 0 0 0 5.5-2.8c.4-4 -.6-7.4-2.9-10.3zM9 13.5a1.8 1.8 0 1 1 0-3.7 1.8 1.8 0 0 1 0 3.7zm6 0a1.8 1.8 0 1 1 0-3.7 1.8 1.8 0 0 1 0 3.7z"/></svg>
+        Join our Discord
+      </a>
+      <a href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M22 5.92a8.2 8.2 0 0 1-2.36.65 4.13 4.13 0 0 0 1.81-2.27 8.24 8.24 0 0 1-2.61 1 4.11 4.11 0 0 0-7 3.74A11.66 11.66 0 0 1 3.39 4.86a4.11 4.11 0 0 0 1.27 5.48 4.07 4.07 0 0 1-1.86-.51v.05a4.11 4.11 0 0 0 3.3 4.03 4.12 4.12 0 0 1-1.85.07 4.11 4.11 0 0 0 3.84 2.85A8.25 8.25 0 0 1 2 18.57a11.62 11.62 0 0 0 6.29 1.84c7.55 0 11.68-6.25 11.68-11.67v-.53A8.3 8.3 0 0 0 22 5.92z"/></svg>
+        Share on Twitter
+      </a>
+      <a href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M21.9 4.2 2.5 11.6c-1 .4-1 1.9.1 2.2l4.7 1.5L9 21c.3.9 1.4 1.1 2 .4l2.8-3.2 4.7 3.5c.8.6 2 .1 2.1-.9l2.5-15.4c.2-1-.7-1.7-1.6-1.3zM9.4 14.4l8.9-5.6-7.4 6.7-.3 3.7-1.2-4.8z"/></svg>
+        Telegram channel
+      </a>
+      <a href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg>
+        Star us on GitHub
+      </a>
+    </div>
+  </section>
+</main>
+
+<!-- Toast for copy -->
+<div class="toast" id="toast" role="status" aria-live="polite">Copied to clipboard</div>
+
+<footer class="site">
+  <div class="footer-row">
+    <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M22 5.92a8.2 8.2 0 0 1-2.36.65 4.13 4.13 0 0 0 1.81-2.27 8.24 8.24 0 0 1-2.61 1 4.11 4.11 0 0 0-7 3.74A11.66 11.66 0 0 1 3.39 4.86a4.11 4.11 0 0 0 1.27 5.48 4.07 4.07 0 0 1-1.86-.51v.05a4.11 4.11 0 0 0 3.3 4.03 4.12 4.12 0 0 1-1.85.07 4.11 4.11 0 0 0 3.84 2.85A8.25 8.25 0 0 1 2 18.57a11.62 11.62 0 0 0 6.29 1.84c7.55 0 11.68-6.25 11.68-11.67v-.53A8.3 8.3 0 0 0 22 5.92z"/></svg></a>
+    <a href="#" aria-label="Discord"><svg viewBox="0 0 24 24"><path d="M20 4.5A18 18 0 0 0 15.6 3l-.2.4a16 16 0 0 0-6.8 0L8.4 3A18 18 0 0 0 4 4.5C1.6 8 1 11.4 1.3 14.8a18 18 0 0 0 5.5 2.8l1.1-1.7a11 11 0 0 1-1.7-.8l.4-.3a13 13 0 0 0 11 0l.4.3a11 11 0 0 1-1.7.8l1.1 1.7a18 18 0 0 0 5.5-2.8c.4-4 -.6-7.4-2.9-10.3zM9 13.5a1.8 1.8 0 1 1 0-3.7 1.8 1.8 0 0 1 0 3.7zm6 0a1.8 1.8 0 1 1 0-3.7 1.8 1.8 0 0 1 0 3.7z"/></svg></a>
+    <a href="#" aria-label="Telegram"><svg viewBox="0 0 24 24"><path d="M21.9 4.2 2.5 11.6c-1 .4-1 1.9.1 2.2l4.7 1.5L9 21c.3.9 1.4 1.1 2 .4l2.8-3.2 4.7 3.5c.8.6 2 .1 2.1-.9l2.5-15.4c.2-1-.7-1.7-1.6-1.3zM9.4 14.4l8.9-5.6-7.4 6.7-.3 3.7-1.2-4.8z"/></svg></a>
+    <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg></a>
+  </div>
+  <div>© <span id="year"></span> AlnurFunds · Built with AniList</div>
+  <p class="disclaimer">This site does not store any files on its server. All contents are provided by non-affiliated third parties.</p>
 </footer>
 
 <script>
-(function(){
-'use strict';
-const API_BASE='https://api.jikan.moe/v4';
-let searchDebounce;
+/* ===== AniList layer (shared, only used by search overlay) ===== */
+const ANILIST_URL='https://graphql.anilist.co';
+const CACHE_TTL=1000*60*10;
+const cacheKey=(q,v)=>'al:'+btoa(unescape(encodeURIComponent(q+JSON.stringify(v||{})))).slice(0,180);
+function readCache(k){try{const r=localStorage.getItem(k);if(!r)return null;const o=JSON.parse(r);if(!o||(Date.now()-o.t)>CACHE_TTL)return null;return o.d;}catch{return null;}}
+function writeCache(k,d){try{localStorage.setItem(k,JSON.stringify({t:Date.now(),d}));}catch{try{localStorage.clear();}catch{}}}
+const inflight=new Map();
+async function gql(query,variables={},{timeout=12000,retries=2,useCache=true}={}){
+  const key=cacheKey(query,variables);
+  if(useCache){const c=readCache(key);if(c)return c;}
+  if(inflight.has(key))return inflight.get(key);
+  const exec=async()=>{
+    let lastErr;
+    for(let a=0;a<=retries;a++){
+      const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),timeout);
+      try{
+        const r=await fetch(ANILIST_URL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({query,variables}),signal:ctrl.signal});
+        clearTimeout(to);
+        if(r.status===429){await new Promise(res=>setTimeout(res,800*(a+1)));continue;}
+        if(!r.ok)throw new Error('HTTP '+r.status);
+        const j=await r.json();
+        if(j.errors&&!j.data)throw new Error(j.errors[0]?.message||'GraphQL error');
+        if(useCache)writeCache(key,j.data);return j.data;
+      }catch(e){clearTimeout(to);lastErr=e;await new Promise(res=>setTimeout(res,400*(a+1)));}
+    }
+    throw lastErr||new Error('Request failed');
+  };
+  const p=exec().finally(()=>inflight.delete(key));inflight.set(key,p);return p;
+}
 
-function initSidebar(){const hamburger=document.getElementById('hamburger');const sidebar=document.getElementById('sidebar');const overlay=document.getElementById('sidebarOverlay');const closeBtn=document.getElementById('sidebarClose');function toggle(){hamburger.classList.toggle('active');sidebar.classList.toggle('active');overlay.classList.toggle('active')}hamburger?.addEventListener('click',toggle);closeBtn?.addEventListener('click',toggle);overlay?.addEventListener('click',toggle)}
+/* ===== utils ===== */
+const $=(s,r=document)=>r.querySelector(s);
+const escapeHtml=(s='')=>s.replace(/[&<>"']/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pickTitle=m=>m?.title?.english||m?.title?.userPreferred||m?.title?.romaji||m?.title?.native||'Untitled';
+const debounce=(fn,d=300)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),d);};};
 
-function initHeaderScroll(){const header=document.getElementById('header');window.addEventListener('scroll',()=>{header.classList.toggle('scrolled',window.scrollY>50)},{passive:true})}
+/* ===== sidebar / overlay search ===== */
+const $sb=$('#sidebar'),$sc=$('#scrim');
+$('#sidebarOpen').addEventListener('click',()=>{$sb.classList.add('open');$sc.classList.add('open');});
+$('#sidebarClose').addEventListener('click',()=>{$sb.classList.remove('open');$sc.classList.remove('open');});
+$sc.addEventListener('click',()=>{$sb.classList.remove('open');$sc.classList.remove('open');});
 
-function initSearch(){const overlay=document.getElementById('searchOverlay');const input=document.getElementById('searchInput');const closeBtn=document.getElementById('searchClose');const openBtn=document.getElementById('searchBtn');openBtn?.addEventListener('click',()=>{overlay.classList.add('active');setTimeout(()=>input?.focus(),100)});closeBtn?.addEventListener('click',()=>{overlay.classList.remove('active');input.value='';document.getElementById('searchSuggestions').classList.remove('active')});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&overlay.classList.contains('active')){overlay.classList.remove('active');input.value='';document.getElementById('searchSuggestions').classList.remove('active')}});input?.addEventListener('input',e=>{clearTimeout(searchDebounce);searchDebounce=setTimeout(()=>fetchSuggestions(e.target.value),400)})}
+const overlayEl=$('#searchOverlay'),overlayInput=$('#searchInput'),overlayResults=$('#searchResults'),overlayEmpty=$('#searchEmpty');
+function openOverlay(){overlayEl.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>overlayInput.focus(),50);}
+function closeOverlay(){overlayEl.classList.remove('open');document.body.style.overflow='';}
+$('#searchOpen').addEventListener('click',openOverlay);
+$('#searchClose').addEventListener('click',closeOverlay);
+document.addEventListener('keydown',e=>{
+  if(e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+  if(e.key==='Escape')closeOverlay();
+  if((e.key==='/'||(e.ctrlKey&&e.key==='k'))&&!overlayEl.classList.contains('open')){e.preventDefault();openOverlay();}
+});
+const OVERLAY_Q=`query($s:String,$p:Int,$pp:Int){Page(page:$p,perPage:$pp){media(type:ANIME,search:$s,sort:SEARCH_MATCH){id title{english romaji userPreferred}coverImage{large}averageScore episodes format}}}`;
+function smallCard(m){const t=escapeHtml(pickTitle(m));return `<a class="card" href="anime.html?id=${m.id}"><div class="card-poster"><img loading="lazy" src="${m.coverImage?.large||''}" alt="${t}"><div class="card-grad"></div><div class="card-badges">${m.averageScore?`<span class="badge score">★ ${(m.averageScore/10).toFixed(1)}</span>`:''}<span class="badge hd">HD</span></div><div class="card-title">${t}</div></div></a>`;}
+const runOverlaySearch=debounce(async q=>{
+  if(!q||q.trim().length<2){overlayResults.innerHTML='';overlayEmpty.style.display='block';overlayEmpty.textContent='Start typing to search anime…';return;}
+  overlayEmpty.style.display='block';overlayEmpty.textContent='Searching…';
+  overlayResults.innerHTML=Array.from({length:8},()=>'<div class="sk sk-card"></div>').join('');
+  try{
+    const data=await gql(OVERLAY_Q,{s:q.trim(),p:1,pp:18},{useCache:false});
+    const list=data?.Page?.media?.filter(Boolean)||[];
+    if(!list.length){overlayResults.innerHTML='';overlayEmpty.textContent='No results found.';return;}
+    overlayEmpty.style.display='none';overlayResults.innerHTML=list.map(smallCard).join('');
+  }catch{overlayResults.innerHTML='';overlayEmpty.textContent='Search failed. Try again.';}
+},280);
+overlayInput.addEventListener('input',e=>runOverlaySearch(e.target.value));
 
-async function fetchSuggestions(query){if(!query||query.length<2){document.getElementById('searchSuggestions').classList.remove('active');return}try{const res=await fetch(API_BASE+'/anime?q='+encodeURIComponent(query)+'&limit=5');const data=(await res.json()).data||[];const container=document.getElementById('searchSuggestions');if(!data.length){container.classList.remove('active');return}container.innerHTML=data.map(anime=>{const img=anime.images?.webp?.small_image_url||anime.images?.jpg?.small_image_url||'';return`<div class="search-suggestion-item" onclick="location.href='anime.html?id=${anime.mal_id}'"><img src="${img}" alt=""><div><div class="sugg-title">${anime.title}</div><div class="sugg-meta">${anime.type||'TV'} · ${anime.score||'N/A'}</div></div></div>`}).join('');container.classList.add('active')}catch(e){}}
+/* ===== copy-to-clipboard ===== */
+const toast = $('#toast');
+let toastTimer = null;
+function showToast(msg='Copied to clipboard'){
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> toast.classList.remove('show'), 1800);
+}
+async function copyText(text){
+  try{
+    if(navigator.clipboard?.writeText){
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  }catch{}
+  // fallback
+  try{
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly','');
+    ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  }catch{ return false; }
+}
+document.querySelectorAll('.copy-btn').forEach(btn=>{
+  btn.addEventListener('click', async ()=>{
+    const target = document.querySelector(btn.dataset.copy);
+    if(!target) return;
+    const ok = await copyText(target.textContent.trim());
+    if(ok){
+      btn.classList.add('ok');
+      const orig = btn.textContent;
+      btn.textContent = 'Copied';
+      showToast('Copied to clipboard');
+      setTimeout(()=>{ btn.classList.remove('ok'); btn.textContent = orig; }, 1600);
+    } else {
+      showToast('Copy failed — please copy manually');
+    }
+  });
+});
 
-async function loadGenres(){try{const res=await fetch(API_BASE+'/genres/anime');const genres=(await res.json()).data||[];const select=document.getElementById('filterGenre');if(select){genres.forEach(g=>{const opt=document.createElement('option');opt.value=g.mal_id;opt.textContent=g.name;select.appendChild(opt)})}}catch(e){}}
-
-function populateYears(){const select=document.getElementById('filterYear');if(!select)return;const current=new Date().getFullYear();for(let y=current;y>=1980;y--){const opt=document.createElement('option');opt.value=y;opt.textContent=y;select.appendChild(opt)}}
-
-document.addEventListener('DOMContentLoaded',()=>{initHeaderScroll();initSidebar();initSearch();loadGenres();populateYears()});
-})();
+$('#year').textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
