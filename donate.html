@@ -3,26 +3,36 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="description" content="NamiTube - Support Us" />
 
-<title>Donate • NamiTube</title>
+<title>Donate - NamiTube</title>
 
 <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHE6pMgjbJ6YDLaMAtDUZCs6Zhkvxl0_fQnb0c0ZCmJOYRB_4N8dQ0ZWosBq_sZPK2wFel2E43Z2meo25JL3i7IZYkJ35FZ7lZ_BZfwlWofAKGhF1gWpFsxofeGUr87Peu6s7xtgvJMnrbtNnd4vJPtB7uG3L_wJ9tT8PKRCh-PXSxlyY9Ufn8OAzDY_Y/s320/NamiTube%20Original%20Favicon.png">
 
 <style>
 
 :root{
-  --bg:#07070b;
-  --bg2:#111118;
-  --card:#171722;
+  --bg:#0a0a0f;
+  --bg2:#12121a;
+  --card:#16161f;
+  --glass:rgba(22,22,31,.85);
+
   --primary:#a855f7;
   --primary2:#7c3aed;
-  --text:#ffffff;
+  --accent:#d946ef;
+
+  --text:#f3f3f7;
   --muted:#a1a1aa;
-  --border:rgba(255,255,255,.08);
-  --shadow:0 10px 40px rgba(168,85,247,.18);
-  --radius:18px;
-  --transition:.3s ease;
+
+  --border:rgba(168,85,247,.16);
+
+  --radius:16px;
+  --shadow:0 10px 40px rgba(0,0,0,.45);
+
+  --header-h:72px;
+
+  --transition:.3s cubic-bezier(.4,0,.2,1);
 }
 
 *{
@@ -31,105 +41,324 @@
   box-sizing:border-box;
 }
 
+html,
 body{
+  overflow-x:hidden;
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Segoe UI,system-ui,sans-serif;
   background:var(--bg);
   color:var(--text);
-  font-family:Segoe UI,system-ui,sans-serif;
-  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
 }
 
 a{
   text-decoration:none;
-  color:inherit;
 }
 
-img{
-  max-width:100%;
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:var(--primary2);
+  border-radius:20px;
 }
 
 .header{
   position:fixed;
   top:0;
   left:0;
-  width:100%;
-  height:72px;
-  background:rgba(10,10,15,.9);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--border);
+  right:0;
+  height:var(--header-h);
+
   display:flex;
   align-items:center;
   justify-content:space-between;
+
   padding:0 20px;
-  z-index:999;
+
+  background:rgba(10,10,15,.92);
+  backdrop-filter:blur(20px);
+
+  border-bottom:1px solid var(--border);
+
+  z-index:1000;
 }
 
-.logo{
-  height:40px;
-}
-
-.lang-switcher{
+.header-left{
   display:flex;
-  gap:10px;
+  align-items:center;
+  gap:18px;
+}
+
+.logo-banner{
+  height:38px;
+}
+
+.desktop-nav{
+  display:flex;
+  gap:28px;
+}
+
+.desktop-nav a{
+  color:var(--muted);
+  font-size:.92rem;
+  font-weight:600;
+  transition:var(--transition);
+  position:relative;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.active{
+  color:#fff;
+}
+
+.desktop-nav a::after{
+  content:'';
+  position:absolute;
+  left:0;
+  bottom:-6px;
+  width:0;
+  height:2px;
+  background:linear-gradient(90deg,var(--primary),var(--accent));
+  transition:var(--transition);
+}
+
+.desktop-nav a:hover::after,
+.desktop-nav a.active::after{
+  width:100%;
+}
+
+.header-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.search-btn{
+  width:42px;
+  height:42px;
+
+  border-radius:50%;
+  border:1px solid var(--border);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(168,85,247,.12);
+
+  color:#fff;
+
+  transition:var(--transition);
+}
+
+.search-btn:hover{
+  background:rgba(168,85,247,.25);
+}
+
+.search-btn svg{
+  width:18px;
+}
+
+.language-switcher{
+  display:flex;
+  gap:8px;
 }
 
 .lang-btn{
-  padding:10px 16px;
+  padding:8px 14px;
+
   border:none;
-  border-radius:999px;
-  cursor:pointer;
-  background:#1d1d29;
+  border-radius:10px;
+
+  background:rgba(168,85,247,.12);
+
   color:#fff;
-  font-weight:600;
+
+  font-size:.84rem;
+  font-weight:700;
+
+  cursor:pointer;
+
   transition:var(--transition);
+
+  border:1px solid rgba(168,85,247,.2);
+}
+
+.lang-btn:hover{
+  background:rgba(168,85,247,.25);
 }
 
 .lang-btn.active{
   background:linear-gradient(135deg,var(--primary),var(--primary2));
 }
 
+.hamburger{
+  width:42px;
+  height:42px;
+
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+
+  border:none;
+  background:transparent;
+
+  cursor:pointer;
+}
+
+.hamburger span{
+  width:24px;
+  height:2px;
+  background:#fff;
+  transition:var(--transition);
+}
+
+.sidebar-overlay{
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.6);
+
+  opacity:0;
+  pointer-events:none;
+
+  transition:var(--transition);
+
+  z-index:999;
+}
+
+.sidebar-overlay.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.sidebar{
+  position:fixed;
+  top:0;
+  left:0;
+  bottom:0;
+
+  width:280px;
+
+  background:var(--glass);
+  backdrop-filter:blur(30px);
+
+  border-right:1px solid var(--border);
+
+  transform:translateX(-100%);
+
+  transition:var(--transition);
+
+  z-index:1001;
+
+  padding:90px 20px;
+}
+
+.sidebar.active{
+  transform:translateX(0);
+}
+
+.sidebar a{
+  display:flex;
+  align-items:center;
+  gap:14px;
+
+  color:var(--muted);
+
+  padding:14px 16px;
+
+  border-radius:12px;
+
+  font-weight:600;
+
+  transition:var(--transition);
+
+  margin-bottom:6px;
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+  background:rgba(168,85,247,.14);
+  color:#fff;
+}
+
+.sidebar svg{
+  width:20px;
+}
+
 .hero{
-  padding:140px 20px 70px;
+  margin-top:var(--header-h);
+
+  padding:100px 20px 70px;
+
   text-align:center;
   position:relative;
   overflow:hidden;
 }
 
 .hero::before{
-  content:"";
+  content:'';
   position:absolute;
-  width:700px;
-  height:700px;
-  background:radial-gradient(circle,rgba(168,85,247,.18),transparent 70%);
-  top:-250px;
-  left:50%;
-  transform:translateX(-50%);
+  inset:-50%;
+
+  background:
+  radial-gradient(circle at center,
+  rgba(168,85,247,.18),
+  transparent 50%);
+
+  animation:pulse 7s infinite;
 }
 
-.hero-content{
+@keyframes pulse{
+  0%,100%{
+    transform:scale(1);
+  }
+  50%{
+    transform:scale(1.1);
+  }
+}
+
+.hero-inner{
   position:relative;
   z-index:2;
-  max-width:900px;
+
+  max-width:760px;
   margin:auto;
 }
 
 .hero h1{
-  font-size:clamp(2.3rem,5vw,4rem);
-  font-weight:900;
-  margin-bottom:24px;
-  background:linear-gradient(135deg,#fff,#d8b4fe,#a855f7);
+  font-size:clamp(2rem,6vw,3.3rem);
+  font-weight:800;
+
+  margin-bottom:18px;
+
+  background:
+  linear-gradient(
+  135deg,
+  #fff,
+  #e9d5ff,
+  #c084fc);
+
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
 
 .hero p{
   color:var(--muted);
-  line-height:1.9;
+  line-height:1.8;
   font-size:1.05rem;
-  margin-bottom:18px;
 }
 
-.container{
-  width:min(1200px,92%);
+.section{
+  padding:20px;
+  max-width:1200px;
   margin:auto;
 }
 
@@ -137,386 +366,304 @@ img{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
   gap:24px;
-  margin-top:40px;
 }
 
 .card{
-  background:rgba(255,255,255,.03);
+  background:var(--glass);
+
   border:1px solid var(--border);
+
   border-radius:var(--radius);
-  padding:30px;
-  transition:var(--transition);
+
+  padding:32px;
+
+  text-align:center;
+
   position:relative;
+
   overflow:hidden;
+
+  transition:var(--transition);
 }
 
 .card::before{
-  content:"";
+  content:'';
   position:absolute;
   top:0;
   left:0;
-  width:100%;
+  right:0;
   height:3px;
-  background:linear-gradient(90deg,var(--primary),#ec4899);
+
+  background:
+  linear-gradient(90deg,var(--primary),var(--accent));
 }
 
 .card:hover{
   transform:translateY(-8px);
   box-shadow:var(--shadow);
-  border-color:rgba(168,85,247,.4);
+}
+
+.icon{
+  width:68px;
+  height:68px;
+
+  border-radius:50%;
+
+  margin:auto auto 20px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:
+  linear-gradient(135deg,var(--primary),var(--primary2));
+}
+
+.icon svg{
+  width:30px;
+  color:#fff;
 }
 
 .card h3{
+  margin-bottom:10px;
   font-size:1.3rem;
-  margin-bottom:14px;
 }
 
 .card p{
   color:var(--muted);
   line-height:1.7;
+  margin-bottom:20px;
 }
 
-.section-title{
+.amount{
   font-size:2rem;
-  text-align:center;
-  margin:70px 0 18px;
   font-weight:800;
+
+  color:#d8b4fe;
+
+  margin-bottom:20px;
 }
 
-.section-sub{
-  text-align:center;
-  color:var(--muted);
-  max-width:760px;
-  margin:auto auto 40px;
-  line-height:1.8;
-}
-
-.wallet-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:22px;
-}
-
-.wallet{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:28px;
-  transition:var(--transition);
-}
-
-.wallet:hover{
-  border-color:rgba(168,85,247,.4);
-  transform:translateY(-6px);
-}
-
-.wallet-name{
-  font-size:1.2rem;
-  font-weight:700;
-  margin-bottom:16px;
-}
-
-.wallet-address{
-  word-break:break-all;
-  color:#d4d4d8;
-  background:#0d0d14;
-  padding:14px;
-  border-radius:12px;
-  font-size:.92rem;
-  line-height:1.7;
-}
-
-.copy-btn{
-  margin-top:18px;
-  width:100%;
-  border:none;
-  border-radius:12px;
-  padding:14px;
-  cursor:pointer;
-  font-size:1rem;
-  font-weight:700;
-  color:#fff;
-  background:linear-gradient(135deg,var(--primary),var(--primary2));
-  transition:var(--transition);
-}
-
-.copy-btn:hover{
-  transform:translateY(-2px);
-}
-
-.support-grid{
-  display:flex;
+.btn{
+  display:inline-flex;
+  align-items:center;
   justify-content:center;
-  gap:18px;
-  flex-wrap:wrap;
-  margin-top:30px;
+
+  padding:13px 26px;
+
+  border-radius:12px;
+
+  background:
+  linear-gradient(135deg,var(--primary),var(--primary2));
+
+  color:#fff;
+
+  font-weight:700;
+
+  transition:var(--transition);
 }
 
-.support-item{
-  padding:14px 22px;
-  border-radius:999px;
-  background:#161621;
-  border:1px solid var(--border);
-  color:#e4e4e7;
+.btn:hover{
+  transform:translateY(-3px);
 }
 
 .footer{
-  margin-top:90px;
+  margin-top:70px;
+
   padding:40px 20px;
+
   border-top:1px solid var(--border);
+
+  background:var(--bg2);
+
   text-align:center;
-  background:#0c0c12;
 }
 
-.footer p{
+.footer-logo{
+  height:34px;
+  margin-bottom:18px;
+}
+
+.footer-text{
+  max-width:680px;
+  margin:auto auto 20px;
+
   color:var(--muted);
-  line-height:1.8;
+  line-height:1.7;
 }
 
-.hidden{
-  display:none;
+.footer-copy{
+  color:#777;
+  font-size:.9rem;
 }
 
 @media(max-width:768px){
 
-  .hero{
-    padding-top:120px;
+  .desktop-nav{
+    display:none;
   }
 
-  .lang-switcher{
-    gap:6px;
-  }
-
-  .lang-btn{
-    padding:8px 12px;
-    font-size:.85rem;
+  .hamburger{
+    display:flex;
   }
 
 }
 
 </style>
+
+<base target="_blank">
+
 </head>
 
 <body>
 
 <header class="header">
 
-  <a href="index.html">
-    <img
-      class="logo"
-      src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png"
-      alt="NamiTube"
-    />
-  </a>
+  <div class="header-left">
 
-  <div class="lang-switcher">
-    <button class="lang-btn active" onclick="setLanguage('en', this)">ENG</button>
-    <button class="lang-btn" onclick="setLanguage('bn', this)">বাংলা</button>
-    <button class="lang-btn" onclick="setLanguage('jp', this)">日本語</button>
+    <button class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <a href="index.html">
+      <img
+      src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png"
+      class="logo-banner"
+      alt="NamiTube">
+    </a>
+
+    <nav class="desktop-nav">
+      <a href="#" class="nav-home active">Home</a>
+      <a href="#" class="nav-trending">Trending</a>
+      <a href="#" class="nav-schedule">Schedule</a>
+      <a href="#" class="nav-donate">Donate</a>
+    </nav>
+
+  </div>
+
+  <div class="header-right">
+
+    <div class="language-switcher">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="bn">বাংলা</button>
+      <button class="lang-btn" data-lang="jp">日本語</button>
+    </div>
+
+    <a href="#" class="search-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.3-4.3"/>
+      </svg>
+    </a>
+
   </div>
 
 </header>
 
-<!-- ENGLISH -->
-<div id="en">
+<div class="sidebar-overlay" id="overlay"></div>
+
+<aside class="sidebar" id="sidebar">
+
+  <a href="#" class="nav-home active">Home</a>
+  <a href="#" class="nav-trending">Trending</a>
+  <a href="#" class="nav-schedule">Schedule</a>
+  <a href="#" class="nav-donate">Donate</a>
+
+</aside>
 
 <section class="hero">
 
-  <div class="hero-content">
+  <div class="hero-inner">
 
-    <h1>Help Keep NamiTube Alive</h1>
+    <h1 id="heroTitle">
+      Support NamiTube
+    </h1>
 
-    <p>
-      NamiTube is an independent anime streaming platform built for anime fans around the world.
-      We currently run the website completely ad-free to provide a clean and enjoyable viewing experience.
-    </p>
-
-    <p>
-      The platform is currently running on a free subdomain and maintained entirely out of pocket.
-      Donations help us maintain servers, improve streaming quality, purchase a premium domain,
-      and continue future development.
-    </p>
-
-    <p>
-      Every donation directly supports the future of NamiTube.
-      Thank you for supporting independent anime projects.
+    <p id="heroDesc">
+      NamiTube is a free anime streaming platform built for the community. Your support helps us maintain servers, improve quality, and keep the site running ad-free.
     </p>
 
   </div>
 
 </section>
 
-</div>
-
-<!-- BANGLA -->
-<div id="bn" class="hidden">
-
-<section class="hero">
-
-  <div class="hero-content">
-
-    <h1>NamiTube কে সচল রাখতে সাহায্য করুন</h1>
-
-    <p>
-      NamiTube একটি স্বাধীন Anime Streaming Platform যা বিশ্বের Anime প্রেমীদের জন্য তৈরি করা হয়েছে।
-      আমরা ব্যবহারকারীদের ভালো অভিজ্ঞতা দেওয়ার জন্য ওয়েবসাইটটি সম্পূর্ণ Ad-Free রেখেছি।
-    </p>
-
-    <p>
-      বর্তমানে ওয়েবসাইটটি একটি Free Subdomain এ চলছে এবং সমস্ত খরচ ব্যক্তিগতভাবে বহন করা হচ্ছে।
-      আপনার Donation সার্ভার খরচ, Streaming Quality উন্নত করা, Premium Domain কেনা,
-      এবং ভবিষ্যৎ উন্নয়নে সাহায্য করবে।
-    </p>
-
-    <p>
-      প্রতিটি Donation সরাসরি NamiTube এর ভবিষ্যৎ উন্নয়নে সহায়তা করবে।
-      আমাদের Support করার জন্য ধন্যবাদ।
-    </p>
-
-  </div>
-
-</section>
-
-</div>
-
-<!-- JAPANESE -->
-<div id="jp" class="hidden">
-
-<section class="hero">
-
-  <div class="hero-content">
-
-    <h1>NamiTube を応援してください</h1>
-
-    <p>
-      NamiTube は、世界中のアニメファンのために作られた独立系アニメ配信サイトです。
-      快適な視聴体験を提供するため、現在サイトは完全広告なしで運営されています。
-    </p>
-
-    <p>
-      現在、このサイトは無料サブドメインで運営されており、すべて個人負担で維持されています。
-      ご支援は、サーバー維持費、配信品質向上、プレミアムドメイン購入、
-      今後の開発費用に活用されます。
-    </p>
-
-    <p>
-      皆さまのご支援が NamiTube の未来を支えます。
-      応援ありがとうございます。
-    </p>
-
-  </div>
-
-</section>
-
-</div>
-
-<section class="container">
+<section class="section">
 
   <div class="grid">
 
     <div class="card">
-      <h3>🚀 Server Maintenance</h3>
-      <p>
-        Donations help us keep the streaming servers stable, fast, and online 24/7.
+
+      <div class="icon">
+        ❤️
+      </div>
+
+      <h3 id="smallTitle">
+        Small Support
+      </h3>
+
+      <p id="smallDesc">
+        Buy us a coffee and help keep the servers warm.
       </p>
+
+      <div class="amount">
+        $5
+      </div>
+
+      <a href="#" class="btn" id="donate5">
+        Donate $5
+      </a>
+
     </div>
 
     <div class="card">
-      <h3>🌐 Premium Domain</h3>
-      <p>
-        We want to move from a free subdomain to a professional premium domain.
+
+      <div class="icon">
+        ⭐
+      </div>
+
+      <h3 id="bigTitle">
+        Big Support
+      </h3>
+
+      <p id="bigDesc">
+        Help us upgrade infrastructure and add new features.
       </p>
+
+      <div class="amount">
+        $15
+      </div>
+
+      <a href="#" class="btn" id="donate15">
+        Donate $15
+      </a>
+
     </div>
 
     <div class="card">
-      <h3>✨ Better Experience</h3>
-      <p>
-        Your support helps improve streaming quality, speed, design, and future features.
+
+      <div class="icon">
+        👑
+      </div>
+
+      <h3 id="legendTitle">
+        Legendary Support
+      </h3>
+
+      <p id="legendDesc">
+        Become a legendary supporter and get eternal gratitude.
       </p>
-    </div>
 
-  </div>
-
-  <h2 class="section-title">Crypto Donation Wallets</h2>
-
-  <p class="section-sub">
-    You can support NamiTube using the cryptocurrency wallets below.
-    Please verify wallet addresses carefully before sending donations.
-  </p>
-
-  <div class="wallet-grid">
-
-    <div class="wallet">
-      <div class="wallet-name">Bitcoin (BTC)</div>
-
-      <div class="wallet-address" id="btc">
-        bc1p0a277qndfq5wsn96pk75uzwva9yvphyy9djmehlrjgvdx53cw02q7zjxts
+      <div class="amount">
+        $50
       </div>
 
-      <button class="copy-btn" onclick="copyWallet('btc', this)">
-        Copy Address
-      </button>
+      <a href="#" class="btn" id="donate50">
+        Donate $50
+      </a>
+
     </div>
-
-    <div class="wallet">
-      <div class="wallet-name">EVM / ETH / USDT</div>
-
-      <div class="wallet-address" id="evm">
-        0x65c12979Ee4053b5F3A03ab7C108AB442798eAdc
-      </div>
-
-      <button class="copy-btn" onclick="copyWallet('evm', this)">
-        Copy Address
-      </button>
-    </div>
-
-    <div class="wallet">
-      <div class="wallet-name">Solana (SOL)</div>
-
-      <div class="wallet-address" id="sol">
-        32cFiMySGc3TBJxeydHfcyL4WwL8nXh84SssPzdofriR
-      </div>
-
-      <button class="copy-btn" onclick="copyWallet('sol', this)">
-        Copy Address
-      </button>
-    </div>
-
-    <div class="wallet">
-      <div class="wallet-name">TRON (TRX)</div>
-
-      <div class="wallet-address" id="trx">
-        TKXa7gFssQ9Cze3ArYpNbrzP3J9jMV9TYh
-      </div>
-
-      <button class="copy-btn" onclick="copyWallet('trx', this)">
-        Copy Address
-      </button>
-    </div>
-
-    <div class="wallet">
-      <div class="wallet-name">TON</div>
-
-      <div class="wallet-address" id="ton">
-        UQDHhRctCX4qzcbbvKzpU_Q7Vn58H8OKPW2ow2BiSqChTZkA
-      </div>
-
-      <button class="copy-btn" onclick="copyWallet('ton', this)">
-        Copy Address
-      </button>
-    </div>
-
-  </div>
-
-  <div class="support-grid">
-
-    <div class="support-item">❤️ Share NamiTube</div>
-
-    <div class="support-item">⭐ Bookmark The Website</div>
-
-    <div class="support-item">📢 Help Grow The Community</div>
-
-    <div class="support-item">🚀 Support Future Updates</div>
 
   </div>
 
@@ -524,52 +671,169 @@ img{
 
 <footer class="footer">
 
-  <p>
-    NamiTube is maintained by anime fans for anime fans.
-    Thank you for supporting independent streaming projects.
+  <img
+  src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png"
+  class="footer-logo"
+  alt="NamiTube">
+
+  <p class="footer-text" id="footerText">
+    This site does not store any files on its server. All contents are provided by non-affiliated third parties.
   </p>
 
-  <br>
-
-  <p>
-    © 2026 NamiTube • All Rights Reserved
+  <p class="footer-copy" id="footerCopy">
+    © 2025 NamiTube. All rights reserved.
   </p>
 
 </footer>
 
 <script>
 
-function copyWallet(id, button){
+const hamburger=document.getElementById('hamburger');
+const sidebar=document.getElementById('sidebar');
+const overlay=document.getElementById('overlay');
 
-  const text = document.getElementById(id).innerText;
+hamburger.addEventListener('click',()=>{
+  sidebar.classList.toggle('active');
+  overlay.classList.toggle('active');
+});
 
-  navigator.clipboard.writeText(text);
+overlay.addEventListener('click',()=>{
+  sidebar.classList.remove('active');
+  overlay.classList.remove('active');
+});
 
-  const original = button.innerText;
+const translations={
 
-  button.innerText = "Copied!";
+  en:{
+    home:"Home",
+    trending:"Trending",
+    schedule:"Schedule",
+    donate:"Donate",
 
-  setTimeout(() => {
-    button.innerText = original;
-  }, 2000);
+    heroTitle:"Support NamiTube",
 
-}
+    heroDesc:"NamiTube is a free anime streaming platform built for the community. Your support helps us maintain servers, improve quality, and keep the site running ad-free.",
 
-function setLanguage(lang, btn){
+    smallTitle:"Small Support",
+    smallDesc:"Buy us a coffee and help keep the servers warm.",
+    donate5:"Donate $5",
 
-  document.getElementById('en').classList.add('hidden');
-  document.getElementById('bn').classList.add('hidden');
-  document.getElementById('jp').classList.add('hidden');
+    bigTitle:"Big Support",
+    bigDesc:"Help us upgrade infrastructure and add new features.",
+    donate15:"Donate $15",
 
-  document.getElementById(lang).classList.remove('hidden');
+    legendTitle:"Legendary Support",
+    legendDesc:"Become a legendary supporter and get eternal gratitude.",
+    donate50:"Donate $50",
 
-  document.querySelectorAll('.lang-btn').forEach(b=>{
-    b.classList.remove('active');
+    footerText:"This site does not store any files on its server. All contents are provided by non-affiliated third parties.",
+    footerCopy:"© 2025 NamiTube. All rights reserved."
+  },
+
+  bn:{
+    home:"হোম",
+    trending:"ট্রেন্ডিং",
+    schedule:"সিডিউল",
+    donate:"ডোনেট",
+
+    heroTitle:"NamiTube কে সাপোর্ট করুন",
+
+    heroDesc:"NamiTube একটি ফ্রি অ্যানিমে স্ট্রিমিং প্ল্যাটফর্ম। আপনার সাপোর্ট আমাদের সার্ভার পরিচালনা ও সাইট বিজ্ঞাপনমুক্ত রাখতে সাহায্য করে।",
+
+    smallTitle:"ছোট সহায়তা",
+    smallDesc:"এক কাপ কফির সমান সাহায্য করুন।",
+    donate5:"$5 ডোনেট করুন",
+
+    bigTitle:"বড় সহায়তা",
+    bigDesc:"নতুন ফিচার ও সার্ভার উন্নত করতে সাহায্য করুন।",
+    donate15:"$15 ডোনেট করুন",
+
+    legendTitle:"লিজেন্ডারি সহায়তা",
+    legendDesc:"বিশেষ সাপোর্টার হয়ে যান।",
+    donate50:"$50 ডোনেট করুন",
+
+    footerText:"এই সাইটে কোনো ফাইল সংরক্ষণ করা হয় না। সব কনটেন্ট তৃতীয় পক্ষ থেকে প্রদান করা হয়।",
+    footerCopy:"© ২০২৫ NamiTube. সর্বস্বত্ব সংরক্ষিত।"
+  },
+
+  jp:{
+    home:"ホーム",
+    trending:"トレンド",
+    schedule:"スケジュール",
+    donate:"寄付",
+
+    heroTitle:"NamiTube を応援してください",
+
+    heroDesc:"NamiTube は無料のアニメ配信プラットフォームです。皆様の支援によりサーバー維持と品質向上が可能になります。",
+
+    smallTitle:"小さな支援",
+    smallDesc:"コーヒー1杯分の支援をお願いします。",
+    donate5:"$5 を寄付",
+
+    bigTitle:"大きな支援",
+    bigDesc:"新機能やサーバー改善をサポートしてください。",
+    donate15:"$15 を寄付",
+
+    legendTitle:"レジェンド支援",
+    legendDesc:"特別サポーターになりましょう。",
+    donate50:"$50 を寄付",
+
+    footerText:"このサイトはファイルを保存していません。すべてのコンテンツは第三者によって提供されています。",
+    footerCopy:"© 2025 NamiTube. All rights reserved."
+  }
+
+};
+
+function setLanguage(lang){
+
+  const t=translations[lang];
+
+  document.querySelectorAll('.nav-home').forEach(el=>el.innerText=t.home);
+  document.querySelectorAll('.nav-trending').forEach(el=>el.innerText=t.trending);
+  document.querySelectorAll('.nav-schedule').forEach(el=>el.innerText=t.schedule);
+  document.querySelectorAll('.nav-donate').forEach(el=>el.innerText=t.donate);
+
+  document.getElementById('heroTitle').innerText=t.heroTitle;
+  document.getElementById('heroDesc').innerText=t.heroDesc;
+
+  document.getElementById('smallTitle').innerText=t.smallTitle;
+  document.getElementById('smallDesc').innerText=t.smallDesc;
+  document.getElementById('donate5').innerText=t.donate5;
+
+  document.getElementById('bigTitle').innerText=t.bigTitle;
+  document.getElementById('bigDesc').innerText=t.bigDesc;
+  document.getElementById('donate15').innerText=t.donate15;
+
+  document.getElementById('legendTitle').innerText=t.legendTitle;
+  document.getElementById('legendDesc').innerText=t.legendDesc;
+  document.getElementById('donate50').innerText=t.donate50;
+
+  document.getElementById('footerText').innerText=t.footerText;
+  document.getElementById('footerCopy').innerText=t.footerCopy;
+
+  document.querySelectorAll('.lang-btn').forEach(btn=>{
+    btn.classList.remove('active');
   });
 
-  btn.classList.add('active');
+  document.querySelector(`[data-lang="${lang}"]`).classList.add('active');
+
+  localStorage.setItem('namitube_lang',lang);
 
 }
+
+document.querySelectorAll('.lang-btn').forEach(btn=>{
+
+  btn.addEventListener('click',()=>{
+
+    setLanguage(btn.dataset.lang);
+
+  });
+
+});
+
+const savedLang=localStorage.getItem('namitube_lang') || 'en';
+
+setLanguage(savedLang);
 
 </script>
 
