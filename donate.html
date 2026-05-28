@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<meta name="description" content="NamiTube - Support Us" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<title>Donate - NamiTube</title>
+<title>NamiTube Donate</title>
 
 <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHE6pMgjbJ6YDLaMAtDUZCs6Zhkvxl0_fQnb0c0ZCmJOYRB_4N8dQ0ZWosBq_sZPK2wFel2E43Z2meo25JL3i7IZYkJ35FZ7lZ_BZfwlWofAKGhF1gWpFsxofeGUr87Peu6s7xtgvJMnrbtNnd4vJPtB7uG3L_wJ9tT8PKRCh-PXSxlyY9Ufn8OAzDY_Y/s320/NamiTube%20Original%20Favicon.png">
 
 <style>
-
 :root{
   --bg:#0a0a0f;
   --bg2:#12121a;
@@ -21,17 +19,13 @@
   --primary2:#7c3aed;
   --accent:#d946ef;
 
-  --text:#f3f3f7;
+  --text:#f5f5f5;
   --muted:#a1a1aa;
-
-  --border:rgba(168,85,247,.16);
+  --border:rgba(168,85,247,.18);
 
   --radius:16px;
-  --shadow:0 10px 40px rgba(0,0,0,.45);
-
-  --header-h:72px;
-
-  --transition:.3s cubic-bezier(.4,0,.2,1);
+  --transition:.3s ease;
+  --header-h:64px;
 }
 
 *{
@@ -40,71 +34,64 @@
   box-sizing:border-box;
 }
 
-html,
-body{
+html,body{
   overflow-x:hidden;
-  scroll-behavior:smooth;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Segoe UI,system-ui,sans-serif;
 }
 
 body{
-  font-family:Segoe UI,system-ui,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
 }
 
 a{
   text-decoration:none;
+  color:inherit;
 }
 
-::-webkit-scrollbar{
-  width:8px;
+img{
+  max-width:100%;
 }
 
-::-webkit-scrollbar-thumb{
-  background:var(--primary2);
-  border-radius:20px;
-}
+/* HEADER */
 
 .header{
   position:fixed;
   top:0;
   left:0;
-  right:0;
+  width:100%;
   height:var(--header-h);
-
+  background:rgba(10,10,15,.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  z-index:999;
   display:flex;
   align-items:center;
   justify-content:space-between;
-
-  padding:0 20px;
-
-  background:rgba(10,10,15,.92);
-  backdrop-filter:blur(20px);
-
-  border-bottom:1px solid var(--border);
-
-  z-index:1000;
+  padding:0 18px;
 }
 
 .header-left{
   display:flex;
   align-items:center;
-  gap:18px;
+  gap:16px;
 }
 
 .logo-banner{
-  height:38px;
+  height:36px;
+  object-fit:contain;
 }
 
 .desktop-nav{
-  display:flex;
+  display:none;
+  align-items:center;
   gap:28px;
 }
 
 .desktop-nav a{
   color:var(--muted);
-  font-size:.92rem;
+  font-size:.95rem;
   font-weight:600;
   transition:var(--transition);
   position:relative;
@@ -138,99 +125,71 @@ a{
 }
 
 .search-btn{
-  width:42px;
-  height:42px;
-
+  width:40px;
+  height:40px;
   border-radius:50%;
   border:1px solid var(--border);
-
   display:flex;
   align-items:center;
   justify-content:center;
-
-  background:rgba(168,85,247,.12);
-
-  color:#fff;
-
+  background:rgba(168,85,247,.08);
   transition:var(--transition);
 }
 
 .search-btn:hover{
-  background:rgba(168,85,247,.25);
+  background:rgba(168,85,247,.18);
 }
 
 .search-btn svg{
   width:18px;
+  height:18px;
 }
 
-.language-switcher{
-  display:flex;
-  gap:8px;
-}
-
-.lang-btn{
-  padding:8px 14px;
-
-  border:none;
-  border-radius:10px;
-
-  background:rgba(168,85,247,.12);
-
-  color:#fff;
-
-  font-size:.84rem;
-  font-weight:700;
-
-  cursor:pointer;
-
-  transition:var(--transition);
-
-  border:1px solid rgba(168,85,247,.2);
-}
-
-.lang-btn:hover{
-  background:rgba(168,85,247,.25);
-}
-
-.lang-btn.active{
-  background:linear-gradient(135deg,var(--primary),var(--primary2));
-}
+/* HAMBURGER */
 
 .hamburger{
-  width:42px;
-  height:42px;
-
-  display:none;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:5px;
-
+  width:40px;
+  height:40px;
   border:none;
   background:transparent;
-
   cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:5px;
 }
 
 .hamburger span{
-  width:24px;
+  width:22px;
   height:2px;
   background:#fff;
+  border-radius:20px;
   transition:var(--transition);
 }
+
+.hamburger.active span:nth-child(1){
+  transform:rotate(45deg) translate(5px,5px);
+}
+
+.hamburger.active span:nth-child(2){
+  opacity:0;
+}
+
+.hamburger.active span:nth-child(3){
+  transform:rotate(-45deg) translate(5px,-5px);
+}
+
+/* SIDEBAR */
 
 .sidebar-overlay{
   position:fixed;
   inset:0;
-
-  background:rgba(0,0,0,.6);
-
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(4px);
   opacity:0;
   pointer-events:none;
-
   transition:var(--transition);
-
-  z-index:999;
+  z-index:998;
 }
 
 .sidebar-overlay.active{
@@ -242,22 +201,16 @@ a{
   position:fixed;
   top:0;
   left:0;
-  bottom:0;
-
   width:280px;
-
+  max-width:80%;
+  height:100%;
   background:var(--glass);
-  backdrop-filter:blur(30px);
-
+  backdrop-filter:blur(25px);
   border-right:1px solid var(--border);
-
+  padding:85px 20px 20px;
   transform:translateX(-100%);
-
   transition:var(--transition);
-
-  z-index:1001;
-
-  padding:90px 20px;
+  z-index:999;
 }
 
 .sidebar.active{
@@ -267,84 +220,82 @@ a{
 .sidebar a{
   display:flex;
   align-items:center;
-  gap:14px;
-
-  color:var(--muted);
-
-  padding:14px 16px;
-
+  gap:12px;
+  padding:14px;
   border-radius:12px;
-
+  color:var(--muted);
   font-weight:600;
-
-  transition:var(--transition);
-
   margin-bottom:6px;
+  transition:var(--transition);
 }
 
 .sidebar a:hover,
 .sidebar a.active{
-  background:rgba(168,85,247,.14);
+  background:rgba(168,85,247,.12);
   color:#fff;
 }
 
 .sidebar svg{
   width:20px;
+  height:20px;
 }
+
+/* LANGUAGE */
+
+.language-switcher{
+  margin-top:90px;
+  text-align:center;
+  padding:0 20px;
+}
+
+.lang-buttons{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.lang-btn{
+  border:none;
+  padding:10px 18px;
+  border-radius:999px;
+  background:var(--card);
+  color:#fff;
+  cursor:pointer;
+  font-weight:700;
+  border:1px solid var(--border);
+  transition:var(--transition);
+}
+
+.lang-btn.active,
+.lang-btn:hover{
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+}
+
+/* HERO */
 
 .hero{
-  margin-top:var(--header-h);
-
-  padding:100px 20px 70px;
-
+  padding:50px 20px 20px;
   text-align:center;
-  position:relative;
-  overflow:hidden;
 }
 
-.hero::before{
-  content:'';
-  position:absolute;
-  inset:-50%;
-
-  background:
-  radial-gradient(circle at center,
-  rgba(168,85,247,.18),
-  transparent 50%);
-
-  animation:pulse 7s infinite;
-}
-
-@keyframes pulse{
-  0%,100%{
-    transform:scale(1);
-  }
-  50%{
-    transform:scale(1.1);
-  }
-}
-
-.hero-inner{
-  position:relative;
-  z-index:2;
-
-  max-width:760px;
+.hero-box{
+  max-width:850px;
   margin:auto;
+  padding:55px 25px;
+  border-radius:24px;
+  background:
+  radial-gradient(circle at top right, rgba(168,85,247,.25), transparent 35%),
+  var(--glass);
+  border:1px solid var(--border);
+  backdrop-filter:blur(20px);
 }
 
 .hero h1{
-  font-size:clamp(2rem,6vw,3.3rem);
-  font-weight:800;
-
-  margin-bottom:18px;
-
-  background:
-  linear-gradient(
-  135deg,
-  #fff,
-  #e9d5ff,
-  #c084fc);
-
+  font-size:clamp(2rem,5vw,3.5rem);
+  margin-bottom:16px;
+  line-height:1.2;
+  background:linear-gradient(90deg,#fff,#d8b4fe,#a855f7);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
@@ -353,15 +304,19 @@ a{
   color:var(--muted);
   line-height:1.8;
   font-size:1.05rem;
-}
-
-.section{
-  padding:20px;
-  max-width:1200px;
+  max-width:760px;
   margin:auto;
 }
 
+/* DONATION */
+
+.section{
+  padding:25px 20px;
+}
+
 .grid{
+  max-width:1200px;
+  margin:auto;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
   gap:24px;
@@ -369,20 +324,18 @@ a{
 
 .card{
   background:var(--glass);
-
   border:1px solid var(--border);
-
-  border-radius:var(--radius);
-
-  padding:32px;
-
+  border-radius:22px;
+  padding:32px 24px;
   text-align:center;
-
   position:relative;
-
   overflow:hidden;
-
   transition:var(--transition);
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(168,85,247,.5);
 }
 
 .card::before{
@@ -390,37 +343,25 @@ a{
   position:absolute;
   top:0;
   left:0;
-  right:0;
-  height:3px;
-
-  background:
-  linear-gradient(90deg,var(--primary),var(--accent));
-}
-
-.card:hover{
-  transform:translateY(-8px);
-  box-shadow:var(--shadow);
+  width:100%;
+  height:4px;
+  background:linear-gradient(90deg,var(--primary),var(--accent));
 }
 
 .icon{
-  width:68px;
-  height:68px;
-
-  border-radius:50%;
-
+  width:72px;
+  height:72px;
   margin:auto auto 20px;
-
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
   display:flex;
   align-items:center;
   justify-content:center;
-
-  background:
-  linear-gradient(135deg,var(--primary),var(--primary2));
 }
 
 .icon svg{
   width:30px;
-  color:#fff;
+  height:30px;
 }
 
 .card h3{
@@ -430,35 +371,26 @@ a{
 
 .card p{
   color:var(--muted);
-  line-height:1.7;
   margin-bottom:20px;
+  line-height:1.7;
 }
 
 .amount{
   font-size:2rem;
   font-weight:800;
-
-  color:#d8b4fe;
-
   margin-bottom:20px;
+  color:#d8b4fe;
 }
 
 .btn{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-
   padding:13px 26px;
-
-  border-radius:12px;
-
-  background:
-  linear-gradient(135deg,var(--primary),var(--primary2));
-
+  border-radius:999px;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
   color:#fff;
-
   font-weight:700;
-
   transition:var(--transition);
 }
 
@@ -466,24 +398,125 @@ a{
   transform:translateY(-3px);
 }
 
-.footer{ border-top:1px solid var(--border); padding:40px clamp(16px,4vw,48px); background:var(--bg2); margin-top:60px; } .footer-inner{ max-width:1200px; margin:0 auto; text-align:center; } .footer-logo{ height:32px; margin-bottom:16px; opacity:.85; } .footer-text{ color:var(--muted); font-size:.88rem; line-height:1.8; max-width:650px; margin:0 auto 24px; } .footer-social{ display:flex; justify-content:center; gap:16px; margin-bottom:20px; } .footer-social a{ width:38px; height:38px; border-radius:50%; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--muted); transition:var(--transition); } .footer-social a:hover{ border-color:var(--primary); color:#fff; background:rgba(168,85,247,.12); transform:translateY(-3px); } .footer-copy{ color:#7b7b88; font-size:.82rem; }
+/* PAYMENT */
 
-@media(max-width:768px){
+.payment-title{
+  text-align:center;
+  margin:60px 0 25px;
+  font-size:2rem;
+}
 
+.payment-grid{
+  max-width:1000px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+}
+
+.payment-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:25px;
+  text-align:center;
+}
+
+.payment-qr{
+  width:160px;
+  height:160px;
+  background:#fff;
+  margin:0 auto 18px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.payment-qr svg{
+  width:90px;
+  height:90px;
+  color:#000;
+}
+
+.payment-name{
+  font-size:1.1rem;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.payment-desc{
+  color:var(--muted);
+  font-size:.92rem;
+}
+
+/* FOOTER */
+
+.footer{
+  margin-top:60px;
+  border-top:1px solid var(--border);
+  background:var(--bg2);
+  padding:45px 20px;
+}
+
+.footer-inner{
+  max-width:1100px;
+  margin:auto;
+  text-align:center;
+}
+
+.footer-logo{
+  height:34px;
+  margin-bottom:18px;
+  opacity:.9;
+}
+
+.footer-text{
+  max-width:650px;
+  margin:auto auto 20px;
+  color:var(--muted);
+  line-height:1.8;
+  font-size:.92rem;
+}
+
+.footer-social{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  margin-bottom:20px;
+}
+
+.footer-social a{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:var(--transition);
+}
+
+.footer-social a:hover{
+  background:rgba(168,85,247,.12);
+  border-color:var(--primary);
+}
+
+.footer-copy{
+  color:var(--muted);
+  font-size:.85rem;
+}
+
+@media(min-width:768px){
   .desktop-nav{
-    display:none;
-  }
-
-  .hamburger{
     display:flex;
   }
 
+  .hamburger{
+    display:none;
+  }
 }
-
 </style>
-
-<base target="_blank">
-
 </head>
 
 <body>
@@ -499,36 +532,26 @@ a{
     </button>
 
     <a href="index.html">
-      <img
-      src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png"
-      class="logo-banner"
-      alt="NamiTube">
+      <img class="logo-banner"
+      src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png">
     </a>
 
     <nav class="desktop-nav">
-      <a href="#" class="nav-home active">Home</a>
-      <a href="#" class="nav-trending">Trending</a>
-      <a href="#" class="nav-schedule">Schedule</a>
-      <a href="#" class="nav-donate">Donate</a>
+      <a href="#">Home</a>
+      <a href="#">Trending</a>
+      <a href="#">Schedule</a>
+      <a href="#" class="active">Donate</a>
     </nav>
 
   </div>
 
   <div class="header-right">
-
-    <div class="language-switcher">
-      <button class="lang-btn active" data-lang="en">EN</button>
-      <button class="lang-btn" data-lang="bn">বাংলা</button>
-      <button class="lang-btn" data-lang="jp">日本語</button>
-    </div>
-
     <a href="#" class="search-btn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
         <circle cx="11" cy="11" r="8"/>
         <path d="m21 21-4.3-4.3"/>
       </svg>
     </a>
-
   </div>
 
 </header>
@@ -537,23 +560,44 @@ a{
 
 <aside class="sidebar" id="sidebar">
 
-  <a href="#" class="nav-home active">Home</a>
-  <a href="#" class="nav-trending">Trending</a>
-  <a href="#" class="nav-schedule">Schedule</a>
-  <a href="#" class="nav-donate">Donate</a>
+  <a href="#" class="active">
+    Home
+  </a>
+
+  <a href="#">
+    Trending
+  </a>
+
+  <a href="#">
+    Schedule
+  </a>
+
+  <a href="#">
+    Donate
+  </a>
 
 </aside>
 
+<div class="language-switcher">
+
+  <div class="lang-buttons">
+    <button class="lang-btn active" onclick="changeLang('en',this)">English</button>
+    <button class="lang-btn" onclick="changeLang('bn',this)">বাংলা</button>
+    <button class="lang-btn" onclick="changeLang('jp',this)">日本語</button>
+  </div>
+
+</div>
+
 <section class="hero">
 
-  <div class="hero-inner">
+  <div class="hero-box">
 
     <h1 id="heroTitle">
       Support NamiTube
     </h1>
 
-    <p id="heroDesc">
-      NamiTube is a free anime streaming platform built for the community. Your support helps us maintain servers, improve quality, and keep the site running ad-free.
+    <p id="heroText">
+      NamiTube is a free anime streaming platform built for the community. Your support helps us maintain servers, improve quality, and keep the site running smoothly.
     </p>
 
   </div>
@@ -570,20 +614,16 @@ a{
         ❤️
       </div>
 
-      <h3 id="smallTitle">
-        Small Support
-      </h3>
+      <h3 id="smallTitle">Small Support</h3>
 
-      <p id="smallDesc">
-        Buy us a coffee and help keep the servers warm.
+      <p id="smallText">
+        Buy us a coffee and support the servers.
       </p>
 
-      <div class="amount">
-        $5
-      </div>
+      <div class="amount">$5</div>
 
-      <a href="#" class="btn" id="donate5">
-        Donate $5
+      <a href="#" class="btn" id="smallBtn">
+        Donate
       </a>
 
     </div>
@@ -594,20 +634,16 @@ a{
         ⭐
       </div>
 
-      <h3 id="bigTitle">
-        Big Support
-      </h3>
+      <h3 id="bigTitle">Big Support</h3>
 
-      <p id="bigDesc">
-        Help us upgrade infrastructure and add new features.
+      <p id="bigText">
+        Help us improve infrastructure and features.
       </p>
 
-      <div class="amount">
-        $15
-      </div>
+      <div class="amount">$15</div>
 
-      <a href="#" class="btn" id="donate15">
-        Donate $15
+      <a href="#" class="btn" id="bigBtn">
+        Donate
       </a>
 
     </div>
@@ -618,21 +654,82 @@ a{
         👑
       </div>
 
-      <h3 id="legendTitle">
-        Legendary Support
-      </h3>
+      <h3 id="legendTitle">Legendary Support</h3>
 
-      <p id="legendDesc">
-        Become a legendary supporter and get eternal gratitude.
+      <p id="legendText">
+        Become a legendary supporter of NamiTube.
       </p>
 
-      <div class="amount">
-        $50
+      <div class="amount">$50</div>
+
+      <a href="#" class="btn" id="legendBtn">
+        Donate
+      </a>
+
+    </div>
+
+  </div>
+
+  <h2 class="payment-title" id="paymentTitle">
+    Payment Methods
+  </h2>
+
+  <div class="payment-grid">
+
+    <div class="payment-card">
+
+      <div class="payment-qr">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+        </svg>
       </div>
 
-      <a href="#" class="btn" id="donate50">
-        Donate $50
-      </a>
+      <div class="payment-name">PayPal</div>
+
+      <div class="payment-desc">
+        Pay securely with PayPal
+      </div>
+
+    </div>
+
+    <div class="payment-card">
+
+      <div class="payment-qr">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+        </svg>
+      </div>
+
+      <div class="payment-name">Crypto</div>
+
+      <div class="payment-desc">
+        BTC / ETH / USDT Accepted
+      </div>
+
+    </div>
+
+    <div class="payment-card">
+
+      <div class="payment-qr">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+        </svg>
+      </div>
+
+      <div class="payment-name">Ko-fi</div>
+
+      <div class="payment-desc">
+        Support through Ko-fi
+      </div>
 
     </div>
 
@@ -640,157 +737,140 @@ a{
 
 </section>
 
-<footer class="footer"> <div class="footer-inner"> <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" class="footer-logo" loading="lazy" > <p class="footer-text" id="footerText"> This site does not store any files on its server. All contents are provided by non-affiliated third parties. </p> <div class="footer-social"> <a href="#" aria-label="Discord"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"> <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/> </svg> </a> <a href="#" aria-label="Twitter"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"> <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/> </svg> </a> <a href="#" aria-label="GitHub"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"> <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/> </svg> </a> </div> <p class="footer-copy" id="footerCopy"> © 2025 NamiTube. All rights reserved. </p> </div> </footer>
+<footer class="footer">
+
+  <div class="footer-inner">
+
+    <img class="footer-logo"
+    src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png">
+
+    <p class="footer-text" id="footerText">
+      This site does not store any files on its server. All contents are provided by third-party services.
+    </p>
+
+    <div class="footer-social">
+
+      <a href="#">
+        ⚡
+      </a>
+
+      <a href="#">
+        ✨
+      </a>
+
+      <a href="#">
+        ⭐
+      </a>
+
+    </div>
+
+    <p class="footer-copy">
+      © 2025 NamiTube. All rights reserved.
+    </p>
+
+  </div>
+
+</footer>
 
 <script>
+const hamburger = document.getElementById("hamburger");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
 
-const hamburger=document.getElementById('hamburger');
-const sidebar=document.getElementById('sidebar');
-const overlay=document.getElementById('overlay');
+hamburger.onclick = () => {
+  hamburger.classList.toggle("active");
+  sidebar.classList.toggle("active");
+  overlay.classList.toggle("active");
+};
 
-hamburger.addEventListener('click',()=>{
-  sidebar.classList.toggle('active');
-  overlay.classList.toggle('active');
-});
+overlay.onclick = () => {
+  hamburger.classList.remove("active");
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+};
 
-overlay.addEventListener('click',()=>{
-  sidebar.classList.remove('active');
-  overlay.classList.remove('active');
-});
-
-const translations={
+const translations = {
 
   en:{
-    home:"Home",
-    trending:"Trending",
-    schedule:"Schedule",
-    donate:"Donate",
-
     heroTitle:"Support NamiTube",
-
-    heroDesc:"NamiTube is a free anime streaming platform built for the community. Your support helps us maintain servers, improve quality, and keep the site running ad-free.",
+    heroText:"NamiTube is a free anime streaming platform built for the community. Your support helps us maintain servers, improve quality, and keep the site running smoothly.",
 
     smallTitle:"Small Support",
-    smallDesc:"Buy us a coffee and help keep the servers warm.",
-    donate5:"Donate $5",
+    smallText:"Buy us a coffee and support the servers.",
 
     bigTitle:"Big Support",
-    bigDesc:"Help us upgrade infrastructure and add new features.",
-    donate15:"Donate $15",
+    bigText:"Help us improve infrastructure and features.",
 
     legendTitle:"Legendary Support",
-    legendDesc:"Become a legendary supporter and get eternal gratitude.",
-    donate50:"Donate $50",
+    legendText:"Become a legendary supporter of NamiTube.",
 
-    footerText:"This site does not store any files on its server. All contents are provided by non-affiliated third parties.",
-    footerCopy:"© 2025 NamiTube. All rights reserved."
+    paymentTitle:"Payment Methods",
+
+    footerText:"This site does not store any files on its server. All contents are provided by third-party services."
   },
 
   bn:{
-    home:"হোম",
-    trending:"ট্রেন্ডিং",
-    schedule:"সিডিউল",
-    donate:"ডোনেট",
-
     heroTitle:"NamiTube কে সাপোর্ট করুন",
+    heroText:"NamiTube একটি ফ্রি অ্যানিমে স্ট্রিমিং প্ল্যাটফর্ম। আপনার সাপোর্ট আমাদের সার্ভার চালু রাখতে এবং নতুন ফিচার যোগ করতে সাহায্য করে।",
 
-    heroDesc:"NamiTube একটি ফ্রি অ্যানিমে স্ট্রিমিং প্ল্যাটফর্ম। আপনার সাপোর্ট আমাদের সার্ভার পরিচালনা ও সাইট বিজ্ঞাপনমুক্ত রাখতে সাহায্য করে।",
+    smallTitle:"ছোট সাপোর্ট",
+    smallText:"এক কাপ কফির সমান সাপোর্ট করুন।",
 
-    smallTitle:"ছোট সহায়তা",
-    smallDesc:"এক কাপ কফির সমান সাহায্য করুন।",
-    donate5:"$5 ডোনেট করুন",
+    bigTitle:"বড় সাপোর্ট",
+    bigText:"সাইটের উন্নয়ন ও নতুন ফিচারে সাহায্য করুন।",
 
-    bigTitle:"বড় সহায়তা",
-    bigDesc:"নতুন ফিচার ও সার্ভার উন্নত করতে সাহায্য করুন।",
-    donate15:"$15 ডোনেট করুন",
+    legendTitle:"লিজেন্ডারি সাপোর্ট",
+    legendText:"NamiTube এর লিজেন্ডারি সাপোর্টার হয়ে যান।",
 
-    legendTitle:"লিজেন্ডারি সহায়তা",
-    legendDesc:"বিশেষ সাপোর্টার হয়ে যান।",
-    donate50:"$50 ডোনেট করুন",
+    paymentTitle:"পেমেন্ট মেথড",
 
-    footerText:"এই সাইটে কোনো ফাইল সংরক্ষণ করা হয় না। সব কনটেন্ট তৃতীয় পক্ষ থেকে প্রদান করা হয়।",
-    footerCopy:"© ২০২৫ NamiTube. সর্বস্বত্ব সংরক্ষিত।"
+    footerText:"এই সাইট কোনো ফাইল নিজস্ব সার্ভারে সংরক্ষণ করে না। সকল কনটেন্ট থার্ড-পার্টি সার্ভিস থেকে প্রদান করা হয়।"
   },
 
   jp:{
-    home:"ホーム",
-    trending:"トレンド",
-    schedule:"スケジュール",
-    donate:"寄付",
+    heroTitle:"NamiTube をサポート",
+    heroText:"NamiTube はコミュニティ向けの無料アニメ配信サイトです。皆様のサポートがサーバー維持と機能向上に役立ちます。",
 
-    heroTitle:"NamiTube を応援してください",
+    smallTitle:"小さなサポート",
+    smallText:"コーヒー1杯分の支援をお願いします。",
 
-    heroDesc:"NamiTube は無料のアニメ配信プラットフォームです。皆様の支援によりサーバー維持と品質向上が可能になります。",
+    bigTitle:"大きなサポート",
+    bigText:"機能改善とサーバー強化を支援してください。",
 
-    smallTitle:"小さな支援",
-    smallDesc:"コーヒー1杯分の支援をお願いします。",
-    donate5:"$5 を寄付",
+    legendTitle:"レジェンドサポート",
+    legendText:"NamiTube の伝説的サポーターになりましょう。",
 
-    bigTitle:"大きな支援",
-    bigDesc:"新機能やサーバー改善をサポートしてください。",
-    donate15:"$15 を寄付",
+    paymentTitle:"支払い方法",
 
-    legendTitle:"レジェンド支援",
-    legendDesc:"特別サポーターになりましょう。",
-    donate50:"$50 を寄付",
-
-    footerText:"このサイトはファイルを保存していません。すべてのコンテンツは第三者によって提供されています。",
-    footerCopy:"© 2025 NamiTube. All rights reserved."
+    footerText:"このサイトはサーバー上にファイルを保存していません。すべてのコンテンツは第三者サービスによって提供されています。"
   }
 
 };
 
-function setLanguage(lang){
+function changeLang(lang,btn){
 
-  const t=translations[lang];
-
-  document.querySelectorAll('.nav-home').forEach(el=>el.innerText=t.home);
-  document.querySelectorAll('.nav-trending').forEach(el=>el.innerText=t.trending);
-  document.querySelectorAll('.nav-schedule').forEach(el=>el.innerText=t.schedule);
-  document.querySelectorAll('.nav-donate').forEach(el=>el.innerText=t.donate);
-
-  document.getElementById('heroTitle').innerText=t.heroTitle;
-  document.getElementById('heroDesc').innerText=t.heroDesc;
-
-  document.getElementById('smallTitle').innerText=t.smallTitle;
-  document.getElementById('smallDesc').innerText=t.smallDesc;
-  document.getElementById('donate5').innerText=t.donate5;
-
-  document.getElementById('bigTitle').innerText=t.bigTitle;
-  document.getElementById('bigDesc').innerText=t.bigDesc;
-  document.getElementById('donate15').innerText=t.donate15;
-
-  document.getElementById('legendTitle').innerText=t.legendTitle;
-  document.getElementById('legendDesc').innerText=t.legendDesc;
-  document.getElementById('donate50').innerText=t.donate50;
-
-  document.getElementById('footerText').innerText=t.footerText;
-  document.getElementById('footerCopy').innerText=t.footerCopy;
-
-  document.querySelectorAll('.lang-btn').forEach(btn=>{
-    btn.classList.remove('active');
+  document.querySelectorAll(".lang-btn").forEach(b=>{
+    b.classList.remove("active");
   });
 
-  document.querySelector(`[data-lang="${lang}"]`).classList.add('active');
+  btn.classList.add("active");
 
-  localStorage.setItem('namitube_lang',lang);
+  document.getElementById("heroTitle").innerText = translations[lang].heroTitle;
+  document.getElementById("heroText").innerText = translations[lang].heroText;
 
+  document.getElementById("smallTitle").innerText = translations[lang].smallTitle;
+  document.getElementById("smallText").innerText = translations[lang].smallText;
+
+  document.getElementById("bigTitle").innerText = translations[lang].bigTitle;
+  document.getElementById("bigText").innerText = translations[lang].bigText;
+
+  document.getElementById("legendTitle").innerText = translations[lang].legendTitle;
+  document.getElementById("legendText").innerText = translations[lang].legendText;
+
+  document.getElementById("paymentTitle").innerText = translations[lang].paymentTitle;
+
+  document.getElementById("footerText").innerText = translations[lang].footerText;
 }
-
-document.querySelectorAll('.lang-btn').forEach(btn=>{
-
-  btn.addEventListener('click',()=>{
-
-    setLanguage(btn.dataset.lang);
-
-  });
-
-});
-
-const savedLang=localStorage.getItem('namitube_lang') || 'en';
-
-setLanguage(savedLang);
-
 </script>
 
 </body>
