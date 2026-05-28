@@ -1,593 +1,360 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#0a0010" />
-<title>Schedule — AlnurFunds</title>
-<meta name="description" content="This week's anime airing schedule with live countdowns. Powered by AniList." />
-<meta property="og:title" content="Anime Airing Schedule — AlnurFunds" />
-<meta property="og:type" content="website" />
-<link rel="preconnect" href="https://graphql.anilist.co" />
-<link rel="preconnect" href="https://s4.anilist.co" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%23b14bff'/%3E%3Cstop offset='1' stop-color='%236a1bcf'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Cpath d='M18 44 L32 18 L46 44 Z' fill='%23fff'/%3E%3C/svg%3E" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="NamiTube - Anime Airing Schedule">
+<link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHE6pMgjbJ6YDLaMAtDUZCs6Zhkvxl0_fQnb0c0ZCmJOYRB_4N8dQ0ZWosBq_sZPK2wFel2E43Z2meo25JL3i7IZYkJ35FZ7lZ_BZfwlWofAKGhF1gWpFsxofeGUr87Peu6s7xtgvJMnrbtNnd4vJPtB7uG3L_wJ9tT8PKRCh-PXSxlyY9Ufn8OAzDY_Y/s320/NamiTube%20Original%20Favicon.png">
+<title>Schedule - NamiTube</title>
 <style>
-  /* ===== shared base / theme ===== */
-  *,*::before,*::after{box-sizing:border-box}
-  html,body{overflow-x:hidden;max-width:100%}
-  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-  body{margin:0;font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;background:#06000c;color:#ece6f5;line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased}
-  img{max-width:100%;display:block}
-  a{color:inherit;text-decoration:none}
-  button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
-  ::-webkit-scrollbar{width:10px;height:10px}
-  ::-webkit-scrollbar-track{background:#0b0214}
-  ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#5a17a8,#2b0a5a);border-radius:10px}
-  ::selection{background:#7a2bd6;color:#fff}
-  :root{--border:rgba(160,90,255,.18);--purple:#9a3bff;--purple-2:#6a1bcf;--purple-glow:0 0 24px rgba(154,59,255,.45);--muted:#a89bc4;--header-h:68px;--radius:16px;--panel:rgba(20,8,38,.55)}
-  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 10% -10%,rgba(122,43,214,.30),transparent 60%),radial-gradient(800px 600px at 100% 10%,rgba(56,18,120,.28),transparent 65%),radial-gradient(700px 500px at 50% 110%,rgba(154,59,255,.18),transparent 60%),linear-gradient(180deg,#05000a 0%,#06000c 60%,#04000a 100%)}
-  body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.035) 1px,transparent 1px);background-size:3px 3px;mix-blend-mode:overlay;opacity:.5}
+:root {
+  --bg: #0a0a0f; --bg-elevated: #12121a; --bg-card: #16161f; --bg-glass: rgba(22,22,31,0.85);
+  --primary: #a855f7; --primary-light: #c084fc; --primary-dark: #7c3aed; --accent: #d946ef;
+  --text: #f1f1f4; --text-secondary: #a1a1aa; --text-muted: #71717a;
+  --border: rgba(168,85,247,0.15); --border-glow: rgba(168,85,247,0.3);
+  --success: #22c55e; --warning: #f59e0b; --radius: 14px; --radius-sm: 8px;
+  --shadow: 0 8px 32px rgba(0,0,0,0.4); --shadow-glow: 0 0 40px rgba(168,85,247,0.15);
+  --transition: all 0.3s cubic-bezier(0.4,0,0.2,1); --header-h: 64px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { overflow-x: hidden; max-width: 100%; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.5; -webkit-font-smoothing: antialiased;
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--primary-dark); border-radius: 4px; }
 
-  /* ===== Header / sidebar / search overlay (shared) ===== */
-  .header{position:sticky;top:0;z-index:60;height:var(--header-h);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(14px,3vw,28px);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);background:linear-gradient(180deg,rgba(8,2,18,.85),rgba(8,2,18,.55));border-bottom:1px solid var(--border)}
-  .header-left,.header-right{display:flex;align-items:center;gap:10px;flex:1}
-  .header-right{justify-content:flex-end}.header-center{display:flex;align-items:center;justify-content:center}
-  .icon-btn{width:42px;height:42px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;background:rgba(154,59,255,.08);border:1px solid var(--border);transition:transform .2s ease,background .2s ease,box-shadow .2s ease}
-  .icon-btn:hover{background:rgba(154,59,255,.18);transform:translateY(-1px);box-shadow:var(--purple-glow)}
-  .icon-btn svg{width:20px;height:20px;stroke:#e8defa;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .logo{display:inline-flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.4px;font-size:clamp(16px,2vw,20px)}
-  .logo-badge{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#b14bff,#6a1bcf);box-shadow:0 6px 22px rgba(154,59,255,.5);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:900}
-  .logo-text span{background:linear-gradient(90deg,#fff,#d7bfff);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .nav-desktop{display:none;gap:6px;margin-left:14px}
-  .nav-desktop a{padding:8px 14px;border-radius:10px;font-weight:600;color:#cfc3e6;transition:color .2s ease,background .2s ease}
-  .nav-desktop a:hover{color:#fff;background:rgba(154,59,255,.12)}
-  .nav-desktop a.active{color:#fff;background:rgba(154,59,255,.18);box-shadow:inset 0 0 0 1px var(--border)}
-  @media (min-width:900px){.nav-desktop{display:flex}}
-  .scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:70}
-  .scrim.open{opacity:1;pointer-events:auto}
-  .sidebar{position:fixed;top:0;left:0;height:100dvh;width:min(82vw,320px);background:linear-gradient(180deg,#0d0420,#08011a);border-right:1px solid var(--border);transform:translateX(-105%);transition:transform .3s cubic-bezier(.2,.7,.2,1);z-index:80;display:flex;flex-direction:column}
-  .sidebar.open{transform:translateX(0)}
-  .sidebar header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border)}
-  .sidebar nav{display:flex;flex-direction:column;padding:14px;gap:6px}
-  .sidebar nav a{padding:12px 14px;border-radius:12px;font-weight:600;color:#d6cbee;display:flex;align-items:center;gap:12px}
-  .sidebar nav a:hover{background:rgba(154,59,255,.14);color:#fff}
-  .sidebar nav a.active{background:rgba(154,59,255,.2);color:#fff;box-shadow:inset 0 0 0 1px var(--border)}
-  .sidebar footer{margin-top:auto;padding:14px 18px;color:var(--muted);font-size:12px;border-top:1px solid var(--border)}
-  .search-overlay{position:fixed;inset:0;z-index:90;background:rgba(4,0,12,.75);backdrop-filter:blur(22px) saturate(140%);-webkit-backdrop-filter:blur(22px) saturate(140%);opacity:0;pointer-events:none;transition:opacity .25s ease;display:flex;flex-direction:column}
-  .search-overlay.open{opacity:1;pointer-events:auto}
-  .search-bar{display:flex;align-items:center;gap:10px;padding:14px clamp(14px,3vw,28px);border-bottom:1px solid var(--border)}
-  .search-input-wrap{flex:1;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:10px 14px}
-  .search-input-wrap svg{width:18px;height:18px;stroke:#bfb0e6;fill:none;stroke-width:2}
-  .search-input-wrap input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:clamp(15px,2vw,17px)}
-  .search-close{padding:10px 14px;border-radius:12px;background:rgba(154,59,255,.12);border:1px solid var(--border);font-weight:600}
-  .search-body{flex:1;overflow:auto;padding:clamp(14px,3vw,28px)}
-  .search-suggestions{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
-  .search-empty{color:var(--muted);text-align:center;padding:40px 10px;font-size:14px}
+.header {
+  position: fixed; top: 0; left: 0; right: 0; height: var(--header-h);
+  background: rgba(10,10,15,0.92); backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border); z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(12px, 3vw, 32px); transition: var(--transition);
+}
+.header.scrolled { background: rgba(10,10,15,0.98); box-shadow: 0 4px 30px rgba(0,0,0,0.5); }
+.header-left { display: flex; align-items: center; gap: 16px; }
+.hamburger {
+  width: 40px; height: 40px; border: none; background: transparent; cursor: pointer;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+  border-radius: var(--radius-sm); transition: var(--transition);
+}
+.hamburger span { display: block; width: 22px; height: 2.5px; background: var(--text); border-radius: 2px; transition: var(--transition); }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+.logo-banner { height: 36px; width: auto; object-fit: contain; transition: var(--transition); }
+.logo-banner:hover { filter: drop-shadow(0 0 8px var(--primary-light)); }
+.desktop-nav { display: none; gap: 28px; }
+.desktop-nav a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; position: relative; transition: var(--transition); }
+.desktop-nav a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 1px; transition: var(--transition); }
+.desktop-nav a:hover, .desktop-nav a.active { color: var(--text); }
+.desktop-nav a:hover::after, .desktop-nav a.active::after { width: 100%; }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.search-btn {
+  width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border);
+  background: rgba(168,85,247,0.08); color: var(--text); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: var(--transition);
+}
+.search-btn:hover { background: rgba(168,85,247,0.2); border-color: var(--primary-light); box-shadow: 0 0 15px rgba(168,85,247,0.2); }
+.search-btn svg { width: 18px; height: 18px; }
 
-  /* ===== Page head ===== */
-  .page-head{max-width:1400px;margin:0 auto;padding:clamp(22px,4vw,40px) clamp(14px,3vw,28px) 8px;text-align:center}
-  .page-head h1{margin:0;font-size:clamp(24px,3.6vw,38px);font-weight:900;letter-spacing:.3px;background:linear-gradient(180deg,#fff,#d3bdff);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .page-head p{color:var(--muted);margin:6px 0 0;font-size:14px}
-  .tz-line{color:var(--muted);font-size:12.5px;margin-top:4px}
+.sidebar-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+  z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.sidebar-overlay.active { opacity: 1; pointer-events: all; }
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: min(280px, 80vw);
+  background: var(--bg-glass); backdrop-filter: blur(30px); border-right: 1px solid var(--border);
+  z-index: 1001; transform: translateX(-100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  display: flex; flex-direction: column; padding: 80px 24px 24px;
+}
+.sidebar.active { transform: translateX(0); }
+.sidebar a { display: flex; align-items: center; gap: 14px; padding: 14px 16px; color: var(--text-secondary); text-decoration: none; font-size: 1rem; font-weight: 500; border-radius: var(--radius-sm); transition: var(--transition); margin-bottom: 4px; }
+.sidebar a:hover, .sidebar a.active { background: rgba(168,85,247,0.12); color: var(--text); }
+.sidebar a svg { width: 20px; height: 20px; opacity: 0.7; }
+.sidebar a:hover svg, .sidebar a.active svg { opacity: 1; color: var(--primary-light); }
 
-  /* ===== Tabs ===== */
-  .tabs-wrap{
-    max-width:1400px;margin:14px auto 0;padding:0 clamp(14px,3vw,28px);
-  }
-  .tabs{
-    display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;
-    scrollbar-width:none;-ms-overflow-style:none;
-    padding:6px 2px;
-  }
-  .tabs::-webkit-scrollbar{display:none}
-  .tab{
-    flex:0 0 auto;display:inline-flex;flex-direction:column;align-items:center;gap:2px;
-    padding:10px 16px;border-radius:14px;
-    background:var(--panel);border:1px solid var(--border);
-    backdrop-filter:blur(8px);min-width:96px;line-height:1.1;
-    transition:transform .15s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease;
-  }
-  .tab .d{font-size:13px;font-weight:800;letter-spacing:.4px;color:#efe5ff}
-  .tab .n{font-size:11.5px;color:var(--muted)}
-  .tab:hover{background:rgba(154,59,255,.14);border-color:rgba(154,59,255,.35);transform:translateY(-2px)}
-  .tab.today{box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
-  .tab.today .d::after{content:" • TODAY";font-size:9.5px;color:#cfa8ff;font-weight:800;letter-spacing:.6px;margin-left:4px}
-  .tab.active{background:linear-gradient(135deg,#b14bff,#6a1bcf);color:#fff;border-color:transparent;box-shadow:var(--purple-glow)}
-  .tab.active .d,.tab.active .n{color:#fff}
+/* Schedule */
+.schedule-page { margin-top: var(--header-h); padding: clamp(20px, 3vw, 32px) clamp(16px, 4vw, 48px); max-width: 1200px; margin-left: auto; margin-right: auto; }
+.schedule-title {
+  font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 800; margin-bottom: 24px;
+  background: linear-gradient(135deg, #fff 0%, #e9d5ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.day-tabs {
+  display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 24px;
+  overflow-x: auto; scrollbar-width: none; padding-bottom: 2px;
+}
+.day-tabs::-webkit-scrollbar { display: none; }
+.day-btn {
+  padding: 12px 20px; background: transparent; border: none; color: var(--text-muted);
+  font-size: 0.9rem; font-weight: 600; cursor: pointer; white-space: nowrap;
+  position: relative; transition: var(--transition); font-family: inherit; border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+.day-btn:hover { color: var(--text); background: rgba(168,85,247,0.08); }
+.day-btn.active { color: var(--text); background: rgba(168,85,247,0.12); }
+.day-btn.active::after {
+  content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 1px;
+}
+.day-btn .day-date { font-size: 0.7rem; color: var(--text-muted); display: block; text-align: center; margin-top: 2px; }
+.day-btn.active .day-date { color: var(--primary-light); }
 
-  /* ===== Day section ===== */
-  .day-head{
-    max-width:1400px;margin:18px auto 8px;padding:0 clamp(14px,3vw,28px);
-    display:flex;align-items:baseline;justify-content:space-between;gap:10px;
-  }
-  .day-title{font-size:clamp(18px,2.4vw,22px);font-weight:800;display:flex;align-items:center;gap:10px}
-  .day-title::before{content:"";width:4px;height:20px;border-radius:3px;background:linear-gradient(180deg,#b14bff,#6a1bcf);box-shadow:var(--purple-glow)}
-  .day-meta{color:var(--muted);font-size:13px}
+.schedule-grid { display: grid; gap: 12px; }
+.schedule-card {
+  display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 14px 16px; transition: var(--transition); text-decoration: none; color: var(--text);
+}
+.schedule-card:hover { border-color: var(--border-glow); background: rgba(168,85,247,0.05); }
+.schedule-img { width: 56px; height: 80px; border-radius: var(--radius-sm); object-fit: cover; flex-shrink: 0; }
+.schedule-info { min-width: 0; }
+.schedule-title-small { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.schedule-meta { font-size: 0.8rem; color: var(--text-muted); }
+.schedule-time {
+  text-align: right; flex-shrink: 0;
+}
+.schedule-time-main { font-size: 1.1rem; font-weight: 700; color: var(--primary-light); }
+.schedule-time-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+.schedule-countdown { font-size: 0.75rem; color: var(--success); margin-top: 4px; font-weight: 600; }
 
-  /* ===== Schedule grid ===== */
-  .sched-grid{
-    max-width:1400px;margin:0 auto;padding:0 clamp(14px,3vw,28px);
-    display:grid;gap:12px;
-    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  }
-  .row{
-    display:grid;grid-template-columns:72px 1fr auto;gap:12px;align-items:center;
-    background:var(--panel);border:1px solid var(--border);border-radius:14px;
-    padding:10px;backdrop-filter:blur(8px);
-    transition:transform .15s ease,border-color .2s ease,box-shadow .2s ease;
-    position:relative;overflow:hidden;
-  }
-  .row:hover{transform:translateY(-2px);border-color:rgba(154,59,255,.45);box-shadow:0 16px 36px rgba(120,40,210,.32)}
-  .row::after{
-    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
-    background:linear-gradient(180deg,#b14bff,#6a1bcf);opacity:.7;
-  }
-  .row.airing::after{background:linear-gradient(180deg,#37e6a1,#00a37b);box-shadow:0 0 18px rgba(55,230,161,.45)}
-  .row.aired{opacity:.78}
-  .row .poster{
-    width:72px;height:96px;border-radius:10px;overflow:hidden;
-    background:#1a0a30;border:1px solid var(--border);flex-shrink:0;
-  }
-  .row .poster img{width:100%;height:100%;object-fit:cover}
-  .row .info{min-width:0}
-  .row .info .title{
-    font-size:13.5px;font-weight:800;line-height:1.2;color:#fff;
-    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
-    margin-bottom:4px;
-  }
-  .row .info .sub{font-size:11.5px;color:#cfc3e6;display:flex;flex-wrap:wrap;gap:8px}
-  .row .info .sub b{color:#fff;font-weight:700}
-  .row .right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right}
-  .time-pill{
-    font-size:12px;font-weight:800;padding:5px 9px;border-radius:8px;color:#fff;
-    background:rgba(154,59,255,.18);border:1px solid var(--border);letter-spacing:.3px;
-    white-space:nowrap;
-  }
-  .count-pill{
-    font-size:11px;font-weight:800;padding:4px 8px;border-radius:8px;
-    background:rgba(255,255,255,.06);border:1px solid var(--border);color:#cfc3e6;
-    white-space:nowrap;
-  }
-  .count-pill.live{background:linear-gradient(135deg,#37e6a1,#00a37b);color:#04140e;border-color:transparent;box-shadow:0 0 18px rgba(55,230,161,.45)}
-  .count-pill.soon{background:linear-gradient(135deg,#ffb648,#ff7a18);color:#1a0c00;border-color:transparent}
+/* Skeleton */
+.skeleton { background: linear-gradient(90deg, var(--bg-card) 25%, #1f1f2e 50%, var(--bg-card) 75%); background-size: 200% 100%; animation: skeleton 1.5s infinite; border-radius: var(--radius-sm); }
+@keyframes skeleton { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-  /* ===== States ===== */
-  .state-block{
-    max-width:900px;margin:30px auto;padding:30px clamp(14px,3vw,28px);
-    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
-    backdrop-filter:blur(8px);text-align:center;color:#cfc3e6;
-  }
-  .state-block .icon{font-size:38px;margin-bottom:8px}
-  .state-block h3{margin:0 0 4px;font-size:18px;color:#fff}
-  .state-block p{margin:0;color:var(--muted);font-size:13.5px}
+/* Footer */
+.footer { border-top: 1px solid var(--border); padding: 40px clamp(16px, 4vw, 48px); background: var(--bg-elevated); margin-top: 40px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; text-align: center; }
+.footer-logo { height: 32px; margin-bottom: 16px; opacity: 0.8; }
+.footer-text { color: var(--text-muted); font-size: 0.85rem; line-height: 1.7; max-width: 600px; margin: 0 auto 20px; }
+.footer-social { display: flex; justify-content: center; gap: 16px; margin-bottom: 20px; }
+.footer-social a { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); transition: var(--transition); text-decoration: none; }
+.footer-social a:hover { border-color: var(--primary); color: var(--primary-light); background: rgba(168,85,247,0.1); }
+.footer-copy { color: var(--text-muted); font-size: 0.8rem; }
 
-  /* ===== Skeleton ===== */
-  .sk{background:linear-gradient(90deg,#160728 0%,#22103f 50%,#160728 100%);background-size:200% 100%;animation:shimmer 1.4s linear infinite;border-radius:12px}
-  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-  .sk-row{height:116px;border-radius:14px}
-
-  /* ===== card (overlay search) ===== */
-  .card{position:relative;border-radius:14px;overflow:hidden;background:#120524;border:1px solid var(--border)}
-  .card-poster{position:relative;aspect-ratio:2/3;background:#1a0a30}
-  .card-poster img{width:100%;height:100%;object-fit:cover}
-  .card-grad{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(6,0,12,.85) 100%)}
-  .card-badges{position:absolute;top:8px;left:8px;right:8px;display:flex;flex-wrap:wrap;gap:6px}
-  .badge{font-size:10.5px;font-weight:800;padding:4px 8px;border-radius:8px;background:rgba(0,0,0,.55);border:1px solid var(--border);color:#fff}
-  .badge.hd{background:linear-gradient(135deg,#b14bff,#6a1bcf);border-color:transparent}
-  .badge.score{background:rgba(255,200,40,.18);color:#ffd66b;border-color:rgba(255,200,40,.35)}
-  .card-title{position:absolute;bottom:8px;left:10px;right:10px;font-size:12.5px;font-weight:700;color:#fff;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-shadow:0 2px 12px rgba(0,0,0,.7)}
-  .sk-card{aspect-ratio:2/3;border-radius:14px}
-
-  /* ===== footer ===== */
-  footer.site{margin-top:60px;padding:30px clamp(14px,3vw,28px);border-top:1px solid var(--border);background:linear-gradient(180deg,transparent,rgba(10,2,22,.6));color:#b9adda;text-align:center;font-size:13px}
-  .footer-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;margin-bottom:12px}
-  .footer-row a{width:36px;height:36px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:rgba(154,59,255,.1);border:1px solid var(--border)}
-  .footer-row a:hover{background:rgba(154,59,255,.22)}
-  .footer-row svg{width:16px;height:16px;fill:#dccff7}
-  .disclaimer{max-width:760px;margin:6px auto 0;color:#9c8ec5}
-
-  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media (min-width: 768px) { .desktop-nav { display: flex; } .hamburger { display: none; } }
+@media (max-width: 480px) {
+  .schedule-card { grid-template-columns: auto 1fr; }
+  .schedule-time { grid-column: 2; text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
 </style>
+<base target="_blank">
 </head>
 <body>
 
-<!-- Sidebar -->
-<div class="scrim" id="scrim"></div>
-<aside class="sidebar" id="sidebar">
-  <header>
-    <a href="index.html" class="logo"><span class="logo-badge">A</span><span class="logo-text"><span>AlnurFunds</span></span></a>
-    <button class="icon-btn" id="sidebarClose" aria-label="Close menu"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  </header>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="search.html?sort=TRENDING_DESC">Trending</a>
-    <a href="schedule.html" class="active">Schedule</a>
-    <a href="donate.html">Donate</a>
-  </nav>
-  <footer>© AlnurFunds · Powered by AniList</footer>
-</aside>
-
-<!-- Header -->
-<header class="header">
+<header class="header" id="header">
   <div class="header-left">
-    <button class="icon-btn" id="sidebarOpen" aria-label="Open menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-    <nav class="nav-desktop">
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <a href="index.html"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" class="logo-banner" loading="eager"></a>
+    <nav class="desktop-nav">
       <a href="index.html">Home</a>
-      <a href="search.html?sort=TRENDING_DESC">Trending</a>
+      <a href="search.html">Trending</a>
       <a href="schedule.html" class="active">Schedule</a>
       <a href="donate.html">Donate</a>
     </nav>
   </div>
-  <div class="header-center"><a href="index.html" class="logo"><span class="logo-badge">A</span><span class="logo-text"><span>AlnurFunds</span></span></a></div>
   <div class="header-right">
-    <button class="icon-btn" id="searchOpen" aria-label="Open search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
+    <a href="search.html" class="search-btn" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    </a>
   </div>
 </header>
 
-<!-- Search overlay -->
-<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true">
-  <div class="search-bar">
-    <div class="search-input-wrap">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input id="searchInput" type="search" placeholder="Search anime…  (press ESC to close)" autocomplete="off" />
-    </div>
-    <button class="search-close" id="searchClose">Close</button>
-  </div>
-  <div class="search-body">
-    <div id="searchResults" class="search-suggestions" aria-live="polite"></div>
-    <div id="searchEmpty" class="search-empty">Start typing to search anime…</div>
-  </div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
+  <a href="search.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Trending</a>
+  <a href="schedule.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Schedule</a>
+  <a href="donate.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Donate</a>
+</aside>
+
+<div class="schedule-page">
+  <h1 class="schedule-title">Airing Schedule</h1>
+  <div class="day-tabs" id="dayTabs"></div>
+  <div class="schedule-grid" id="scheduleGrid"></div>
 </div>
 
-<main>
-  <section class="page-head">
-    <h1>Airing Schedule</h1>
-    <p>This week's anime releases with live countdowns.</p>
-    <div class="tz-line" id="tzLine"></div>
-  </section>
-
-  <section class="tabs-wrap">
-    <div class="tabs" id="tabs" role="tablist" aria-label="Day of week"></div>
-  </section>
-
-  <div class="day-head">
-    <div class="day-title" id="dayTitle">Loading…</div>
-    <div class="day-meta" id="dayMeta"></div>
+<footer class="footer">
+  <div class="footer-inner">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" class="footer-logo" loading="lazy">
+    <p class="footer-text">This site does not store any files on its server. All contents are provided by non-affiliated third parties.</p>
+    <div class="footer-social">
+      <a href="#" aria-label="Discord"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg></a>
+      <a href="#" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="#" aria-label="GitHub"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    </div>
+    <p class="footer-copy">&copy; 2025 NamiTube. All rights reserved.</p>
   </div>
-
-  <section class="sched-grid" id="schedGrid" aria-live="polite">
-    <div class="sk sk-row"></div><div class="sk sk-row"></div>
-    <div class="sk sk-row"></div><div class="sk sk-row"></div>
-    <div class="sk sk-row"></div><div class="sk sk-row"></div>
-  </section>
-</main>
-
-<footer class="site">
-  <div class="footer-row">
-    <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M22 5.92a8.2 8.2 0 0 1-2.36.65 4.13 4.13 0 0 0 1.81-2.27 8.24 8.24 0 0 1-2.61 1 4.11 4.11 0 0 0-7 3.74A11.66 11.66 0 0 1 3.39 4.86a4.11 4.11 0 0 0 1.27 5.48 4.07 4.07 0 0 1-1.86-.51v.05a4.11 4.11 0 0 0 3.3 4.03 4.12 4.12 0 0 1-1.85.07 4.11 4.11 0 0 0 3.84 2.85A8.25 8.25 0 0 1 2 18.57a11.62 11.62 0 0 0 6.29 1.84c7.55 0 11.68-6.25 11.68-11.67v-.53A8.3 8.3 0 0 0 22 5.92z"/></svg></a>
-    <a href="#" aria-label="Discord"><svg viewBox="0 0 24 24"><path d="M20 4.5A18 18 0 0 0 15.6 3l-.2.4a16 16 0 0 0-6.8 0L8.4 3A18 18 0 0 0 4 4.5C1.6 8 1 11.4 1.3 14.8a18 18 0 0 0 5.5 2.8l1.1-1.7a11 11 0 0 1-1.7-.8l.4-.3a13 13 0 0 0 11 0l.4.3a11 11 0 0 1-1.7.8l1.1 1.7a18 18 0 0 0 5.5-2.8c.4-4 -.6-7.4-2.9-10.3zM9 13.5a1.8 1.8 0 1 1 0-3.7 1.8 1.8 0 0 1 0 3.7zm6 0a1.8 1.8 0 1 1 0-3.7 1.8 1.8 0 0 1 0 3.7z"/></svg></a>
-    <a href="#" aria-label="Telegram"><svg viewBox="0 0 24 24"><path d="M21.9 4.2 2.5 11.6c-1 .4-1 1.9.1 2.2l4.7 1.5L9 21c.3.9 1.4 1.1 2 .4l2.8-3.2 4.7 3.5c.8.6 2 .1 2.1-.9l2.5-15.4c.2-1-.7-1.7-1.6-1.3zM9.4 14.4l8.9-5.6-7.4 6.7-.3 3.7-1.2-4.8z"/></svg></a>
-    <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg></a>
-  </div>
-  <div>© <span id="year"></span> AlnurFunds · Built with AniList</div>
-  <p class="disclaimer">This site does not store any files on its server. All contents are provided by non-affiliated third parties.</p>
 </footer>
 
 <script>
-/* ===== AniList layer (shared) ===== */
-const ANILIST_URL='https://graphql.anilist.co';
-const CACHE_TTL=1000*60*10;
-const cacheKey=(q,v)=>'al:'+btoa(unescape(encodeURIComponent(q+JSON.stringify(v||{})))).slice(0,180);
-function readCache(k){try{const r=localStorage.getItem(k);if(!r)return null;const o=JSON.parse(r);if(!o||(Date.now()-o.t)>CACHE_TTL)return null;return o.d;}catch{return null;}}
-function writeCache(k,d){try{localStorage.setItem(k,JSON.stringify({t:Date.now(),d}));}catch{try{localStorage.clear();}catch{}}}
-const inflight=new Map();
-async function gql(query,variables={},{timeout=12000,retries=2,useCache=true}={}){
-  const key=cacheKey(query,variables);
-  if(useCache){const c=readCache(key);if(c)return c;}
-  if(inflight.has(key))return inflight.get(key);
-  const exec=async()=>{
-    let lastErr;
-    for(let a=0;a<=retries;a++){
-      const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),timeout);
-      try{
-        const r=await fetch(ANILIST_URL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({query,variables}),signal:ctrl.signal});
-        clearTimeout(to);
-        if(r.status===429){await new Promise(res=>setTimeout(res,800*(a+1)));continue;}
-        if(!r.ok)throw new Error('HTTP '+r.status);
-        const j=await r.json();
-        if(j.errors&&!j.data)throw new Error(j.errors[0]?.message||'GraphQL error');
-        if(useCache)writeCache(key,j.data);return j.data;
-      }catch(e){clearTimeout(to);lastErr=e;await new Promise(res=>setTimeout(res,400*(a+1)));}
-    }
-    throw lastErr||new Error('Request failed');
-  };
-  const p=exec().finally(()=>inflight.delete(key));inflight.set(key,p);return p;
-}
+(function() {
+  'use strict';
+  const API = 'https://graphql.anilist.co';
+  const CACHE_TTL = 1000 * 60 * 10;
+  const MAX_RETRIES = 3;
+  const TIMEOUT = 8000;
+  const $ = (s, c=document) => c.querySelector(s);
+  const $$ = (s, c=document) => Array.from(c.querySelectorAll(s));
+  const wait = ms => new Promise(r => setTimeout(r, ms));
 
-/* ===== utils ===== */
-const $=(s,r=document)=>r.querySelector(s);
-const escapeHtml=(s='')=>s.replace(/[&<>"']/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const pickTitle=m=>m?.title?.english||m?.title?.userPreferred||m?.title?.romaji||m?.title?.native||'Untitled';
-const debounce=(fn,d=300)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),d);};};
-
-/* ===== sidebar / overlay search ===== */
-const $sb=$('#sidebar'),$sc=$('#scrim');
-$('#sidebarOpen').addEventListener('click',()=>{$sb.classList.add('open');$sc.classList.add('open');});
-$('#sidebarClose').addEventListener('click',()=>{$sb.classList.remove('open');$sc.classList.remove('open');});
-$sc.addEventListener('click',()=>{$sb.classList.remove('open');$sc.classList.remove('open');});
-
-const overlayEl=$('#searchOverlay'),overlayInput=$('#searchInput'),overlayResults=$('#searchResults'),overlayEmpty=$('#searchEmpty');
-function openOverlay(){overlayEl.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>overlayInput.focus(),50);}
-function closeOverlay(){overlayEl.classList.remove('open');document.body.style.overflow='';}
-$('#searchOpen').addEventListener('click',openOverlay);
-$('#searchClose').addEventListener('click',closeOverlay);
-document.addEventListener('keydown',e=>{
-  if(e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
-  if(e.key==='Escape')closeOverlay();
-  if((e.key==='/'||(e.ctrlKey&&e.key==='k'))&&!overlayEl.classList.contains('open')){e.preventDefault();openOverlay();}
-});
-const OVERLAY_Q=`query($s:String,$p:Int,$pp:Int){Page(page:$p,perPage:$pp){media(type:ANIME,search:$s,sort:SEARCH_MATCH){id title{english romaji userPreferred}coverImage{large}averageScore episodes format}}}`;
-function smallCard(m){const t=escapeHtml(pickTitle(m));return `<a class="card" href="anime.html?id=${m.id}"><div class="card-poster"><img loading="lazy" src="${m.coverImage?.large||''}" alt="${t}"><div class="card-grad"></div><div class="card-badges">${m.averageScore?`<span class="badge score">★ ${(m.averageScore/10).toFixed(1)}</span>`:''}<span class="badge hd">HD</span></div><div class="card-title">${t}</div></div></a>`;}
-const runOverlaySearch=debounce(async q=>{
-  if(!q||q.trim().length<2){overlayResults.innerHTML='';overlayEmpty.style.display='block';overlayEmpty.textContent='Start typing to search anime…';return;}
-  overlayEmpty.style.display='block';overlayEmpty.textContent='Searching…';
-  overlayResults.innerHTML=Array.from({length:8},()=>'<div class="sk sk-card"></div>').join('');
-  try{
-    const data=await gql(OVERLAY_Q,{s:q.trim(),p:1,pp:18},{useCache:false});
-    const list=data?.Page?.media?.filter(Boolean)||[];
-    if(!list.length){overlayResults.innerHTML='';overlayEmpty.textContent='No results found.';return;}
-    overlayEmpty.style.display='none';overlayResults.innerHTML=list.map(smallCard).join('');
-  }catch{overlayResults.innerHTML='';overlayEmpty.textContent='Search failed. Try again.';}
-},280);
-overlayInput.addEventListener('input',e=>runOverlaySearch(e.target.value));
-
-/* =====================================================
-   SCHEDULE
-===================================================== */
-const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-const DAYS_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-const TZ = Intl.DateTimeFormat().resolvedOptions().timeZone || 'local time';
-
-const SCHED_Q = `
-query($start:Int,$end:Int,$page:Int,$perPage:Int){
-  Page(page:$page,perPage:$perPage){
-    pageInfo{ total currentPage lastPage hasNextPage }
-    airingSchedules(airingAt_greater:$start, airingAt_lesser:$end, sort:TIME){
-      id episode airingAt timeUntilAiring
-      media{
-        id idMal
-        title{english romaji userPreferred native}
-        coverImage{large extraLarge}
-        format episodes status averageScore genres
-        countryOfOrigin isAdult
-      }
-    }
+  function cacheGet(key) {
+    try { const item = JSON.parse(localStorage.getItem('nt_'+key)); if (item && Date.now()-item.t < CACHE_TTL) return item.d; } catch(e){}
+    return null;
   }
-}`;
-
-function startOfLocalWeek(){
-  const now = new Date();
-  const d = new Date(now);
-  d.setHours(0,0,0,0);
-  // make Monday the first day of the week
-  const dow = (d.getDay() + 6) % 7; // Mon=0..Sun=6
-  d.setDate(d.getDate() - dow);
-  return d;
-}
-function fmtTime(date){
-  return date.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-}
-function fmtDateLabel(date){
-  return date.toLocaleDateString([], {weekday:'long', month:'short', day:'numeric'});
-}
-function countdownText(secs){
-  if(secs<=0) return 'AIRED';
-  const d = Math.floor(secs/86400);
-  const h = Math.floor((secs%86400)/3600);
-  const m = Math.floor((secs%3600)/60);
-  if(d>0) return `${d}d ${h}h`;
-  if(h>0) return `${h}h ${m}m`;
-  return `${m}m`;
-}
-function countdownClass(secs){
-  if(secs<=0) return '';
-  if(secs<=60*60) return 'live';
-  if(secs<=12*60*60) return 'soon';
-  return '';
-}
-
-/* ===== Render tabs ===== */
-const weekStart = startOfLocalWeek(); // Monday 00:00 local
-const weekDates = Array.from({length:7}, (_,i)=>{
-  const d = new Date(weekStart); d.setDate(d.getDate()+i); return d;
-});
-const todayIdx = (()=>{
-  const now = new Date();
-  for(let i=0;i<7;i++){
-    const d = weekDates[i];
-    if(now.getFullYear()===d.getFullYear() && now.getMonth()===d.getMonth() && now.getDate()===d.getDate()) return i;
+  function cacheSet(key, data) {
+    try { localStorage.setItem('nt_'+key, JSON.stringify({t:Date.now(),d:data})); } catch(e){}
   }
-  return 0;
-})();
+  async function gql(query, variables={}, retries=MAX_RETRIES) {
+    const cacheKey = query.trim().slice(0,60)+JSON.stringify(variables);
+    const cached = cacheGet(cacheKey); if (cached) return cached;
+    for (let i=0; i<retries; i++) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), TIMEOUT);
+      try {
+        const res = await fetch(API, { method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body: JSON.stringify({query,variables}), signal: controller.signal });
+        clearTimeout(timer);
+        if (!res.ok) throw new Error('HTTP '+res.status);
+        const json = await res.json();
+        if (json.errors) throw new Error(json.errors[0].message);
+        cacheSet(cacheKey, json.data); return json.data;
+      } catch(e) { clearTimeout(timer); if (i===retries-1) { console.error('GraphQL failed:', e.message); return null; } await wait(1000*(i+1)); }
+    }
+    return null;
+  }
+  function esc(s) { const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
 
-let activeDay = todayIdx;
-function renderTabs(){
-  const tabs = $('#tabs');
-  tabs.innerHTML = weekDates.map((d,i)=>{
-    const isToday = i===todayIdx;
-    const dayName = DAYS[d.getDay()];
-    const sub = d.toLocaleDateString([], {month:'short',day:'numeric'});
-    return `<button class="tab ${isToday?'today':''} ${i===activeDay?'active':''}" data-i="${i}" role="tab" aria-selected="${i===activeDay}">
-      <span class="d">${escapeHtml(DAYS_SHORT[d.getDay()])}</span>
-      <span class="n">${escapeHtml(sub)}</span>
-    </button>`;
-  }).join('');
-  tabs.querySelectorAll('.tab').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      activeDay = parseInt(btn.dataset.i,10);
-      tabs.querySelectorAll('.tab').forEach(b=>{
-        const on = parseInt(b.dataset.i,10)===activeDay;
-        b.classList.toggle('active', on);
-        b.setAttribute('aria-selected', on);
-      });
-      renderDay();
-      // scroll active tab into view
-      btn.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'});
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  let activeDay = new Date().getDay();
+  let scheduleData = {};
+
+  function getWeekDates() {
+    const today = new Date();
+    const start = new Date(today);
+    start.setDate(today.getDate() - today.getDay());
+    return days.map((_,i) => {
+      const d = new Date(start);
+      d.setDate(start.getDate() + i);
+      return d;
     });
-  });
-  // make sure today is visible on mount
-  const activeBtn = tabs.querySelector('.tab.active');
-  if(activeBtn) requestAnimationFrame(()=> activeBtn.scrollIntoView({inline:'center', block:'nearest'}));
-}
+  }
 
-/* ===== Data ===== */
-const schedule = { byDay: [[], [], [], [], [], [], []], loaded: false, error: false };
+  function renderTabs() {
+    const weekDates = getWeekDates();
+    const tabs = $('#dayTabs');
+    tabs.innerHTML = days.map((day,i) => {
+      const date = weekDates[i];
+      const dateStr = `${date.getMonth()+1}/${date.getDate()}`;
+      return `<button class="day-btn ${i===activeDay?'active':''}" data-day="${i}">${day}<span class="day-date">${dateStr}</span></button>`;
+    }).join('');
+    $$('.day-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeDay = parseInt(btn.dataset.day);
+        $$('.day-btn').forEach(b => b.classList.toggle('active', parseInt(b.dataset.day)===activeDay));
+        renderSchedule();
+      });
+    });
+  }
 
-async function fetchWeek(){
-  const startSec = Math.floor(weekStart.getTime()/1000);
-  const endSec = Math.floor((weekStart.getTime() + 7*86400*1000)/1000);
-  const all = [];
-  let page = 1;
-  // AniList max perPage = 50; fetch a few pages to cover the week.
-  for(let i=0;i<6;i++){
-    let data;
-    try{
-      data = await gql(SCHED_Q, {start:startSec, end:endSec, page, perPage:50});
-    }catch(e){
-      console.warn('[schedule] page failed', page, e);
-      throw e;
+  function formatTime(seconds) {
+    const h = Math.floor(seconds / 3600) % 24;
+    const m = Math.floor((seconds % 3600) / 60);
+    return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+  }
+
+  function formatCountdown(seconds) {
+    if (seconds <= 0) return 'Aired';
+    const d = Math.floor(seconds / 86400);
+    const h = Math.floor((seconds % 86400) / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    if (d > 0) return `${d}d ${h}h left`;
+    if (h > 0) return `${h}h ${m}m left`;
+    return `${m}m left`;
+  }
+
+  function renderSchedule() {
+    const grid = $('#scheduleGrid');
+    const items = scheduleData[activeDay] || [];
+    if (!items.length) {
+      grid.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:40px;">No airing anime for this day.</p>';
+      return;
     }
-    const list = data?.Page?.airingSchedules || [];
-    all.push(...list);
-    if(!data?.Page?.pageInfo?.hasNextPage) break;
-    page += 1;
-  }
-  // de-dupe by id
-  const seen = new Set();
-  const unique = [];
-  for(const s of all){
-    if(!s || seen.has(s.id)) continue;
-    seen.add(s.id);
-    if(s.media?.isAdult) continue; // hide NSFW from schedule
-    unique.push(s);
-  }
-  // group by local day-of-week index (0..6 with Monday=0)
-  const buckets = [[], [], [], [], [], [], []];
-  for(const s of unique){
-    const d = new Date(s.airingAt * 1000);
-    if(d < weekDates[0] || d >= new Date(weekDates[6].getTime() + 86400*1000)) continue;
-    const idx = (d.getDay() + 6) % 7; // Mon=0..Sun=6
-    buckets[idx].push(s);
-  }
-  // sort each bucket by airing time
-  buckets.forEach(b => b.sort((a,b)=> a.airingAt - b.airingAt));
-  schedule.byDay = buckets;
-  schedule.loaded = true;
-}
-
-/* ===== Render day list ===== */
-function renderDay(){
-  const grid = $('#schedGrid');
-  const date = weekDates[activeDay];
-  $('#dayTitle').textContent = fmtDateLabel(date);
-  const list = schedule.byDay[activeDay] || [];
-  $('#dayMeta').textContent = list.length ? `${list.length} release${list.length===1?'':'s'}` : '';
-
-  if(!schedule.loaded){
-    grid.innerHTML = Array.from({length:6},()=>'<div class="sk sk-row"></div>').join('');
-    return;
-  }
-  if(schedule.error && !list.length){
-    grid.innerHTML = `<div class="state-block" style="grid-column:1/-1">
-      <div class="icon">⚠️</div><h3>Schedule unavailable</h3>
-      <p>We couldn't load AniList's airing schedule. Please retry later.</p>
-    </div>`;
-    return;
-  }
-  if(!list.length){
-    grid.innerHTML = `<div class="state-block" style="grid-column:1/-1">
-      <div class="icon">📭</div><h3>Nothing airing</h3>
-      <p>No anime episodes are scheduled for this day.</p>
-    </div>`;
-    return;
-  }
-
-  const now = Math.floor(Date.now()/1000);
-  grid.innerHTML = list.map(s=>{
-    const m = s.media || {};
-    const t = escapeHtml(pickTitle(m));
-    const when = new Date(s.airingAt * 1000);
-    const secsUntil = s.airingAt - now;
-    const aired = secsUntil <= 0;
-    const live = !aired && secsUntil <= 60*60;
-    const score = m.averageScore ? `★ ${(m.averageScore/10).toFixed(1)}` : '';
-    const fmt = m.format ? m.format.replace('_',' ') : '';
-    return `
-      <a class="row ${aired?'aired':''} ${live?'airing':''}" href="anime.html?id=${m.id}" data-ts="${s.airingAt}">
-        <div class="poster"><img loading="lazy" src="${m.coverImage?.large||''}" alt="${t}"></div>
-        <div class="info">
-          <div class="title">${t}</div>
-          <div class="sub">
-            <span><b>EP ${s.episode}</b></span>
-            ${fmt?`<span>${escapeHtml(fmt)}</span>`:''}
-            ${score?`<span>${escapeHtml(score)}</span>`:''}
-          </div>
+    grid.innerHTML = items.map(item => {
+      const media = item.media;
+      const title = media.title?.english || media.title?.romaji || 'Unknown';
+      const img = media.coverImage?.medium || '';
+      const ep = item.episode || '?';
+      const time = formatTime(item.airingAt);
+      const countdown = formatCountdown(item.timeUntilAiring);
+      return `<a href="anime.html?id=${media.id}" class="schedule-card">
+        <img src="${esc(img)}" alt="${esc(title)}" class="schedule-img" loading="lazy">
+        <div class="schedule-info">
+          <div class="schedule-title-small">${esc(title)}</div>
+          <div class="schedule-meta">Episode ${ep} · ${esc((media.format||'').replace(/_/g,' '))}</div>
         </div>
-        <div class="right">
-          <span class="time-pill">${fmtTime(when)}</span>
-          <span class="count-pill ${countdownClass(secsUntil)}" data-ts="${s.airingAt}">${aired?'AIRED':countdownText(secsUntil)}</span>
+        <div class="schedule-time">
+          <div class="schedule-time-main">${time}</div>
+          <div class="schedule-time-sub">UTC</div>
+          <div class="schedule-countdown">${esc(countdown)}</div>
         </div>
       </a>`;
-  }).join('');
-}
-
-/* ===== Live countdown tick (only updates visible pills) ===== */
-let tickHandle = null;
-function startTicker(){
-  stopTicker();
-  tickHandle = setInterval(()=>{
-    const now = Math.floor(Date.now()/1000);
-    document.querySelectorAll('#schedGrid .count-pill[data-ts]').forEach(el=>{
-      const ts = parseInt(el.dataset.ts,10);
-      const left = ts - now;
-      const row = el.closest('.row');
-      if(left<=0){
-        el.textContent='AIRED';
-        el.className='count-pill';
-        if(row){ row.classList.remove('airing'); row.classList.add('aired'); }
-      } else {
-        el.textContent = countdownText(left);
-        el.className = 'count-pill ' + countdownClass(left);
-        if(row){
-          row.classList.toggle('airing', left<=60*60);
-          row.classList.remove('aired');
-        }
-      }
-    });
-  }, 30*1000); // every 30s is enough granularity for the pill text
-}
-function stopTicker(){
-  if(tickHandle){ clearInterval(tickHandle); tickHandle=null; }
-}
-document.addEventListener('visibilitychange', ()=>{
-  if(document.hidden) stopTicker(); else startTicker();
-});
-
-/* ===== Boot ===== */
-$('#year').textContent = new Date().getFullYear();
-$('#tzLine').textContent = `Times shown in your local timezone (${TZ}). Week of ${fmtDateLabel(weekDates[0])} – ${fmtDateLabel(weekDates[6])}.`;
-
-(async ()=>{
-  renderTabs();
-  renderDay(); // shows skeleton
-  try{
-    await fetchWeek();
-  }catch(e){
-    schedule.error = true;
-    schedule.loaded = true;
+    }).join('');
   }
-  renderDay();
-  startTicker();
+
+  async function loadSchedule() {
+    const grid = $('#scheduleGrid');
+    grid.innerHTML = Array(6).fill(0).map(() => `<div class="schedule-card"><div class="skeleton" style="width:56px;height:80px;"></div><div style="flex:1;"><div class="skeleton" style="height:18px;width:60%;margin-bottom:8px;"></div><div class="skeleton" style="height:14px;width:40%;"></div></div><div class="skeleton" style="width:60px;height:24px;"></div></div>`).join('');
+
+    const weekDates = getWeekDates();
+    const start = Math.floor(weekDates[0].getTime() / 1000);
+    const end = Math.floor(weekDates[6].getTime() / 1000) + 86400;
+
+    const data = await gql(`
+      query($start:Int,$end:Int){
+        Page(page:1,perPage:50){
+          airingSchedule(airingAt_greater:$start,airingAt_lesser:$end,sort:TIME){
+            id airingAt episode timeUntilAiring
+            media{id title{english romaji} coverImage{medium} format}
+          }
+        }
+      }`, {start, end});
+
+    if (!data || !data.Page || !data.Page.airingSchedule) {
+      grid.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:40px;">Failed to load schedule.</p>';
+      return;
+    }
+
+    scheduleData = {};
+    for (let i=0; i<7; i++) scheduleData[i] = [];
+
+    data.Page.airingSchedule.forEach(item => {
+      const date = new Date(item.airingAt * 1000);
+      const day = date.getDay();
+      scheduleData[day].push(item);
+    });
+
+    renderSchedule();
+  }
+
+  // Header scroll
+  const header=$('#header');
+  window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY>20), {passive:true});
+
+  // Sidebar
+  const hamburger=$('#hamburger'), sidebar=$('#sidebar'), sidebarOverlay=$('#sidebarOverlay');
+  function toggleSidebar() { const active=sidebar.classList.toggle('active'); hamburger.classList.toggle('active',active); sidebarOverlay.classList.toggle('active',active); document.body.style.overflow=active?'hidden':''; }
+  hamburger.addEventListener('click', toggleSidebar); sidebarOverlay.addEventListener('click', toggleSidebar);
+
+  renderTabs();
+  loadSchedule();
+
+  // Update countdown every minute
+  setInterval(() => {
+    if (scheduleData[activeDay]) renderSchedule();
+  }, 60000);
 })();
 </script>
 </body>
