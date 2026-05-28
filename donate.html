@@ -1,719 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#0a0010" />
-<title>Support Us — AlnurFunds</title>
-<meta name="description" content="Help keep AlnurFunds free and ad-light. Support the project through donations and community channels." />
-<meta property="og:title" content="Support AlnurFunds" />
-<meta property="og:type" content="website" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%23b14bff'/%3E%3Cstop offset='1' stop-color='%236a1bcf'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Cpath d='M18 44 L32 18 L46 44 Z' fill='%23fff'/%3E%3C/svg%3E" />
-<link rel="preconnect" href="https://graphql.anilist.co" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="NamiTube - Support Us">
+<link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHE6pMgjbJ6YDLaMAtDUZCs6Zhkvxl0_fQnb0c0ZCmJOYRB_4N8dQ0ZWosBq_sZPK2wFel2E43Z2meo25JL3i7IZYkJ35FZ7lZ_BZfwlWofAKGhF1gWpFsxofeGUr87Peu6s7xtgvJMnrbtNnd4vJPtB7uG3L_wJ9tT8PKRCh-PXSxlyY9Ufn8OAzDY_Y/s320/NamiTube%20Original%20Favicon.png">
+<title>Donate - NamiTube</title>
 <style>
-  /* ===== shared base / theme ===== */
-  *,*::before,*::after{box-sizing:border-box}
-  html,body{overflow-x:hidden;max-width:100%}
-  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-  body{margin:0;font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;background:#06000c;color:#ece6f5;line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased}
-  img{max-width:100%;display:block}
-  a{color:inherit;text-decoration:none}
-  button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
-  ::-webkit-scrollbar{width:10px;height:10px}
-  ::-webkit-scrollbar-track{background:#0b0214}
-  ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#5a17a8,#2b0a5a);border-radius:10px}
-  ::selection{background:#7a2bd6;color:#fff}
-  :root{--border:rgba(160,90,255,.18);--purple:#9a3bff;--purple-2:#6a1bcf;--purple-glow:0 0 24px rgba(154,59,255,.45);--muted:#a89bc4;--header-h:68px;--radius:16px;--panel:rgba(20,8,38,.55)}
-  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 10% -10%,rgba(122,43,214,.30),transparent 60%),radial-gradient(800px 600px at 100% 10%,rgba(56,18,120,.28),transparent 65%),radial-gradient(700px 500px at 50% 110%,rgba(154,59,255,.18),transparent 60%),linear-gradient(180deg,#05000a 0%,#06000c 60%,#04000a 100%)}
-  body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.035) 1px,transparent 1px);background-size:3px 3px;mix-blend-mode:overlay;opacity:.5}
+:root {
+  --bg: #0a0a0f; --bg-elevated: #12121a; --bg-card: #16161f; --bg-glass: rgba(22,22,31,0.85);
+  --primary: #a855f7; --primary-light: #c084fc; --primary-dark: #7c3aed; --accent: #d946ef;
+  --text: #f1f1f4; --text-secondary: #a1a1aa; --text-muted: #71717a;
+  --border: rgba(168,85,247,0.15); --border-glow: rgba(168,85,247,0.3);
+  --success: #22c55e; --warning: #f59e0b; --radius: 14px; --radius-sm: 8px;
+  --shadow: 0 8px 32px rgba(0,0,0,0.4); --shadow-glow: 0 0 40px rgba(168,85,247,0.15);
+  --transition: all 0.3s cubic-bezier(0.4,0,0.2,1); --header-h: 64px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { overflow-x: hidden; max-width: 100%; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.5; -webkit-font-smoothing: antialiased;
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--primary-dark); border-radius: 4px; }
 
-  /* ===== Header / sidebar / search overlay (shared) ===== */
-  .header{position:sticky;top:0;z-index:60;height:var(--header-h);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(14px,3vw,28px);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);background:linear-gradient(180deg,rgba(8,2,18,.85),rgba(8,2,18,.55));border-bottom:1px solid var(--border)}
-  .header-left,.header-right{display:flex;align-items:center;gap:10px;flex:1}
-  .header-right{justify-content:flex-end}.header-center{display:flex;align-items:center;justify-content:center}
-  .icon-btn{width:42px;height:42px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;background:rgba(154,59,255,.08);border:1px solid var(--border);transition:transform .2s ease,background .2s ease,box-shadow .2s ease}
-  .icon-btn:hover{background:rgba(154,59,255,.18);transform:translateY(-1px);box-shadow:var(--purple-glow)}
-  .icon-btn svg{width:20px;height:20px;stroke:#e8defa;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .logo{display:inline-flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.4px;font-size:clamp(16px,2vw,20px)}
-  .logo-badge{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#b14bff,#6a1bcf);box-shadow:0 6px 22px rgba(154,59,255,.5);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:900}
-  .logo-text span{background:linear-gradient(90deg,#fff,#d7bfff);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .nav-desktop{display:none;gap:6px;margin-left:14px}
-  .nav-desktop a{padding:8px 14px;border-radius:10px;font-weight:600;color:#cfc3e6;transition:color .2s ease,background .2s ease}
-  .nav-desktop a:hover{color:#fff;background:rgba(154,59,255,.12)}
-  .nav-desktop a.active{color:#fff;background:rgba(154,59,255,.18);box-shadow:inset 0 0 0 1px var(--border)}
-  @media (min-width:900px){.nav-desktop{display:flex}}
-  .scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:70}
-  .scrim.open{opacity:1;pointer-events:auto}
-  .sidebar{position:fixed;top:0;left:0;height:100dvh;width:min(82vw,320px);background:linear-gradient(180deg,#0d0420,#08011a);border-right:1px solid var(--border);transform:translateX(-105%);transition:transform .3s cubic-bezier(.2,.7,.2,1);z-index:80;display:flex;flex-direction:column}
-  .sidebar.open{transform:translateX(0)}
-  .sidebar header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border)}
-  .sidebar nav{display:flex;flex-direction:column;padding:14px;gap:6px}
-  .sidebar nav a{padding:12px 14px;border-radius:12px;font-weight:600;color:#d6cbee;display:flex;align-items:center;gap:12px}
-  .sidebar nav a:hover{background:rgba(154,59,255,.14);color:#fff}
-  .sidebar nav a.active{background:rgba(154,59,255,.2);color:#fff;box-shadow:inset 0 0 0 1px var(--border)}
-  .sidebar footer{margin-top:auto;padding:14px 18px;color:var(--muted);font-size:12px;border-top:1px solid var(--border)}
-  .search-overlay{position:fixed;inset:0;z-index:90;background:rgba(4,0,12,.75);backdrop-filter:blur(22px) saturate(140%);-webkit-backdrop-filter:blur(22px) saturate(140%);opacity:0;pointer-events:none;transition:opacity .25s ease;display:flex;flex-direction:column}
-  .search-overlay.open{opacity:1;pointer-events:auto}
-  .search-bar{display:flex;align-items:center;gap:10px;padding:14px clamp(14px,3vw,28px);border-bottom:1px solid var(--border)}
-  .search-input-wrap{flex:1;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:10px 14px}
-  .search-input-wrap svg{width:18px;height:18px;stroke:#bfb0e6;fill:none;stroke-width:2}
-  .search-input-wrap input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:clamp(15px,2vw,17px)}
-  .search-close{padding:10px 14px;border-radius:12px;background:rgba(154,59,255,.12);border:1px solid var(--border);font-weight:600}
-  .search-body{flex:1;overflow:auto;padding:clamp(14px,3vw,28px)}
-  .search-suggestions{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
-  .search-empty{color:var(--muted);text-align:center;padding:40px 10px;font-size:14px}
+.header {
+  position: fixed; top: 0; left: 0; right: 0; height: var(--header-h);
+  background: rgba(10,10,15,0.92); backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border); z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(12px, 3vw, 32px); transition: var(--transition);
+}
+.header.scrolled { background: rgba(10,10,15,0.98); box-shadow: 0 4px 30px rgba(0,0,0,0.5); }
+.header-left { display: flex; align-items: center; gap: 16px; }
+.hamburger {
+  width: 40px; height: 40px; border: none; background: transparent; cursor: pointer;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+  border-radius: var(--radius-sm); transition: var(--transition);
+}
+.hamburger span { display: block; width: 22px; height: 2.5px; background: var(--text); border-radius: 2px; transition: var(--transition); }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+.logo-banner { height: 36px; width: auto; object-fit: contain; transition: var(--transition); }
+.logo-banner:hover { filter: drop-shadow(0 0 8px var(--primary-light)); }
+.desktop-nav { display: none; gap: 28px; }
+.desktop-nav a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; position: relative; transition: var(--transition); }
+.desktop-nav a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 1px; transition: var(--transition); }
+.desktop-nav a:hover, .desktop-nav a.active { color: var(--text); }
+.desktop-nav a:hover::after, .desktop-nav a.active::after { width: 100%; }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.search-btn {
+  width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border);
+  background: rgba(168,85,247,0.08); color: var(--text); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: var(--transition);
+}
+.search-btn:hover { background: rgba(168,85,247,0.2); border-color: var(--primary-light); box-shadow: 0 0 15px rgba(168,85,247,0.2); }
+.search-btn svg { width: 18px; height: 18px; }
 
-  /* ===== HERO ===== */
-  .hero-donate{
-    position:relative;overflow:hidden;
-    padding:clamp(40px,7vw,80px) clamp(14px,3vw,28px) clamp(28px,5vw,52px);
-    text-align:center;
-  }
-  .hero-donate::before{
-    content:"";position:absolute;inset:-20% -10%;z-index:-1;
-    background:
-      radial-gradient(500px 300px at 20% 30%,rgba(154,59,255,.30),transparent 60%),
-      radial-gradient(500px 300px at 80% 40%,rgba(255,76,179,.18),transparent 65%),
-      radial-gradient(500px 300px at 50% 110%,rgba(78,30,160,.35),transparent 60%);
-    filter:blur(10px);
-  }
-  .float-orb{
-    position:absolute;border-radius:50%;filter:blur(40px);opacity:.55;z-index:-1;
-    animation:float 10s ease-in-out infinite;
-  }
-  .float-orb.a{width:260px;height:260px;background:#9a3bff;top:-40px;left:-60px;animation-delay:-2s}
-  .float-orb.b{width:220px;height:220px;background:#ff4cb3;bottom:-40px;right:-40px;animation-delay:-5s}
-  .float-orb.c{width:180px;height:180px;background:#3aa8ff;top:30%;right:25%;opacity:.35}
-  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)}}
+.sidebar-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+  z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.sidebar-overlay.active { opacity: 1; pointer-events: all; }
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: min(280px, 80vw);
+  background: var(--bg-glass); backdrop-filter: blur(30px); border-right: 1px solid var(--border);
+  z-index: 1001; transform: translateX(-100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  display: flex; flex-direction: column; padding: 80px 24px 24px;
+}
+.sidebar.active { transform: translateX(0); }
+.sidebar a { display: flex; align-items: center; gap: 14px; padding: 14px 16px; color: var(--text-secondary); text-decoration: none; font-size: 1rem; font-weight: 500; border-radius: var(--radius-sm); transition: var(--transition); margin-bottom: 4px; }
+.sidebar a:hover, .sidebar a.active { background: rgba(168,85,247,0.12); color: var(--text); }
+.sidebar a svg { width: 20px; height: 20px; opacity: 0.7; }
+.sidebar a:hover svg, .sidebar a.active svg { opacity: 1; color: var(--primary-light); }
 
-  .hero-eyebrow{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.6px;
-    background:rgba(154,59,255,.14);border:1px solid var(--border);color:#e7d8ff;
-    text-transform:uppercase;
-  }
-  .hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:#37e6a1;box-shadow:0 0 12px rgba(55,230,161,.7);animation:pulse 1.6s ease-in-out infinite}
-  @keyframes pulse{50%{transform:scale(1.35);opacity:.65}}
-  .hero-donate h1{
-    margin:14px 0 8px;font-size:clamp(28px,5.5vw,52px);font-weight:900;line-height:1.05;
-    background:linear-gradient(180deg,#fff 0%,#d7bfff 60%,#a974ff 100%);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-  }
-  .hero-donate p{max-width:680px;margin:0 auto;color:#cfc3e6;font-size:clamp(14px,1.8vw,16px)}
-  .hero-actions{display:inline-flex;flex-wrap:wrap;gap:10px;margin-top:18px;justify-content:center}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:12px;font-weight:700;font-size:14px;border:1px solid var(--border);transition:transform .15s ease,background .2s ease,box-shadow .2s ease}
-  .btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .btn-primary{background:linear-gradient(135deg,#b14bff,#6a1bcf);color:#fff;border-color:transparent;box-shadow:var(--purple-glow)}
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(154,59,255,.55)}
-  .btn-ghost{background:rgba(255,255,255,.06);color:#fff}
-  .btn-ghost:hover{background:rgba(255,255,255,.12)}
+/* Donate Hero */
+.donate-hero {
+  margin-top: var(--header-h);
+  position: relative; padding: clamp(60px, 10vw, 120px) clamp(16px, 4vw, 48px);
+  text-align: center; overflow: hidden;
+}
+.donate-hero::before {
+  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(circle at 50% 50%, rgba(168,85,247,0.15) 0%, transparent 50%);
+  animation: pulse 8s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.1); opacity: 1; } }
+.donate-hero-inner { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
+.donate-hero h1 {
+  font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 16px;
+  background: linear-gradient(135deg, #fff 0%, #e9d5ff 50%, var(--primary-light) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.donate-hero p { color: var(--text-secondary); font-size: clamp(1rem, 2vw, 1.2rem); line-height: 1.7; margin-bottom: 32px; }
 
-  /* ===== Stats strip ===== */
-  .stats{
-    max-width:1100px;margin:24px auto 0;padding:0 clamp(14px,3vw,28px);
-    display:grid;gap:12px;
-    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  }
-  .stat{
-    background:var(--panel);border:1px solid var(--border);border-radius:14px;
-    padding:14px;text-align:center;backdrop-filter:blur(8px);
-    transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
-  }
-  .stat:hover{transform:translateY(-3px);border-color:rgba(154,59,255,.45);box-shadow:0 14px 32px rgba(120,40,210,.3)}
-  .stat .v{font-size:clamp(20px,2.6vw,26px);font-weight:900;background:linear-gradient(180deg,#fff,#d3bdff);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .stat .l{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-top:2px}
+/* Cards */
+.donate-section { padding: clamp(20px, 4vw, 48px) clamp(16px, 4vw, 48px); max-width: 1200px; margin: 0 auto; }
+.donate-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.donate-card {
+  background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 32px; text-align: center;
+  transition: var(--transition); position: relative; overflow: hidden;
+}
+.donate-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+}
+.donate-card:hover { transform: translateY(-8px); border-color: var(--border-glow); box-shadow: var(--shadow-glow); }
+.donate-icon {
+  width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 20px;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  box-shadow: 0 8px 24px rgba(168,85,247,0.3);
+}
+.donate-icon svg { width: 28px; height: 28px; color: white; }
+.donate-card h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+.donate-card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; }
+.donate-amount {
+  font-size: 2rem; font-weight: 800; color: var(--primary-light); margin-bottom: 20px;
+}
+.donate-btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white;
+  border: none; border-radius: var(--radius-sm); font-size: 0.95rem; font-weight: 600;
+  cursor: pointer; text-decoration: none; transition: var(--transition); box-shadow: 0 4px 20px rgba(168,85,247,0.3);
+}
+.donate-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(168,85,247,0.4); }
 
-  /* ===== Section heading ===== */
-  .section{max-width:1280px;margin:0 auto;padding:clamp(30px,4vw,46px) clamp(14px,3vw,28px) 0}
-  .section-head{text-align:center;margin-bottom:18px}
-  .section-head h2{
-    margin:0;font-size:clamp(22px,3vw,30px);font-weight:900;
-    background:linear-gradient(180deg,#fff,#d3bdff);-webkit-background-clip:text;background-clip:text;color:transparent;
-  }
-  .section-head p{margin:6px auto 0;color:var(--muted);max-width:600px;font-size:14px}
+/* QR / Payment placeholders */
+.payment-section { margin-top: 48px; }
+.payment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+.payment-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 24px; text-align: center; transition: var(--transition);
+}
+.payment-card:hover { border-color: var(--border-glow); }
+.payment-qr {
+  width: 160px; height: 160px; background: white; border-radius: var(--radius-sm);
+  margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.payment-qr::before {
+  content: 'QR'; position: absolute; font-size: 0.75rem; color: var(--text-muted);
+  bottom: 6px; right: 8px;
+}
+.payment-qr svg { width: 100px; height: 100px; color: var(--bg); }
+.payment-name { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+.payment-desc { font-size: 0.8rem; color: var(--text-muted); }
 
-  /* ===== Tier cards ===== */
-  .tiers{
-    display:grid;gap:14px;
-    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  }
-  .tier{
-    position:relative;display:flex;flex-direction:column;gap:8px;
-    background:var(--panel);border:1px solid var(--border);border-radius:18px;
-    padding:20px;backdrop-filter:blur(8px);
-    transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
-    overflow:hidden;
-  }
-  .tier::before{
-    content:"";position:absolute;inset:-1px;border-radius:18px;padding:1px;
-    background:linear-gradient(135deg,rgba(154,59,255,.55),rgba(255,76,179,.35) 60%,transparent);
-    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-    -webkit-mask-composite:xor;mask-composite:exclude;
-    opacity:0;transition:opacity .25s ease;pointer-events:none;
-  }
-  .tier:hover{transform:translateY(-4px);box-shadow:0 22px 50px rgba(120,40,210,.4)}
-  .tier:hover::before{opacity:1}
-  .tier.popular{
-    background:linear-gradient(180deg,rgba(154,59,255,.18),rgba(20,8,38,.55));
-    border-color:rgba(154,59,255,.5);box-shadow:0 18px 40px rgba(154,59,255,.25);
-  }
-  .tier.popular::before{opacity:1}
-  .ribbon{
-    position:absolute;top:14px;right:14px;
-    font-size:10.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
-    padding:4px 10px;border-radius:999px;color:#fff;
-    background:linear-gradient(135deg,#b14bff,#6a1bcf);box-shadow:var(--purple-glow);
-  }
-  .tier .icon-bx{
-    width:46px;height:46px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;
-    background:rgba(154,59,255,.18);border:1px solid var(--border);
-  }
-  .tier .icon-bx svg{width:22px;height:22px;stroke:#e8defa;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .tier h3{margin:6px 0 0;font-size:18px;font-weight:800;color:#fff}
-  .tier .price{font-size:28px;font-weight:900;background:linear-gradient(90deg,#fff,#d7bfff);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .tier .price small{font-size:13px;color:var(--muted);font-weight:600;margin-left:4px}
-  .tier ul{margin:6px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
-  .tier li{font-size:13.5px;color:#dccff7;display:flex;align-items:flex-start;gap:8px}
-  .tier li::before{content:"✓";color:#b5ff8a;font-weight:900;margin-top:1px}
-  .tier .cta{margin-top:14px}
+/* Social support */
+.social-section { margin-top: 48px; text-align: center; }
+.social-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 20px; }
+.social-grid { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.social-link {
+  display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  color: var(--text); text-decoration: none; font-weight: 600; font-size: 0.9rem;
+  transition: var(--transition);
+}
+.social-link:hover { border-color: var(--primary-light); background: rgba(168,85,247,0.1); transform: translateY(-3px); }
+.social-link svg { width: 20px; height: 20px; }
 
-  /* ===== Payment methods ===== */
-  .pay-grid{
-    display:grid;gap:14px;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  }
-  .pay-card{
-    background:var(--panel);border:1px solid var(--border);border-radius:18px;
-    padding:18px;backdrop-filter:blur(8px);
-    display:flex;flex-direction:column;gap:12px;
-  }
-  .pay-head{display:flex;align-items:center;gap:10px}
-  .pay-logo{
-    width:42px;height:42px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;
-    background:rgba(154,59,255,.18);border:1px solid var(--border);font-weight:900;color:#fff;
-  }
-  .pay-logo.crypto{background:linear-gradient(135deg,#f7931a,#b66800)}
-  .pay-logo.usdt{background:linear-gradient(135deg,#26a17b,#16785b)}
-  .pay-logo.eth{background:linear-gradient(135deg,#627eea,#3c4fa6)}
-  .pay-logo.kofi{background:linear-gradient(135deg,#ff5e5b,#c33d3a)}
-  .pay-logo.patreon{background:linear-gradient(135deg,#ff424d,#a3252c)}
-  .pay-logo.paypal{background:linear-gradient(135deg,#0079c1,#003087)}
-  .pay-head h4{margin:0;font-size:15.5px;font-weight:800;color:#fff}
-  .pay-head .net{font-size:11.5px;color:var(--muted)}
-  .qr{
-    align-self:center;width:140px;height:140px;border-radius:14px;
-    background:
-      linear-gradient(135deg,rgba(255,255,255,.04),rgba(255,255,255,.02)),
-      repeating-conic-gradient(#1a0a30 0% 25%,#2b1057 0% 50%) 50% / 14px 14px;
-    border:1px solid var(--border);position:relative;display:grid;place-items:center;color:#cfc3e6;font-size:11px;
-  }
-  .qr::after{content:"QR placeholder";position:absolute;bottom:6px;left:0;right:0;text-align:center;font-size:10px;color:#9c8ec5;letter-spacing:.4px}
-  .copy-row{
-    display:flex;align-items:center;gap:8px;
-    background:rgba(255,255,255,.04);border:1px solid var(--border);
-    border-radius:10px;padding:8px 10px;
-  }
-  .copy-row code{
-    flex:1;min-width:0;font-family:'JetBrains Mono','Fira Code',Menlo,monospace;
-    font-size:12.5px;color:#efe5ff;word-break:break-all;
-  }
-  .copy-btn{
-    padding:7px 10px;border-radius:8px;background:linear-gradient(135deg,#b14bff,#6a1bcf);
-    color:#fff;font-weight:700;font-size:12px;box-shadow:var(--purple-glow);
-  }
-  .copy-btn.ok{background:linear-gradient(135deg,#37e6a1,#00a37b);box-shadow:0 0 18px rgba(55,230,161,.45)}
-  .pay-link{
-    display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    padding:10px 14px;border-radius:10px;font-weight:700;font-size:13px;
-    background:rgba(154,59,255,.14);border:1px solid var(--border);color:#fff;
-    transition:background .2s ease,transform .15s ease;
-  }
-  .pay-link:hover{background:rgba(154,59,255,.28);transform:translateY(-2px)}
+/* Footer */
+.footer { border-top: 1px solid var(--border); padding: 40px clamp(16px, 4vw, 48px); background: var(--bg-elevated); margin-top: 60px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; text-align: center; }
+.footer-logo { height: 32px; margin-bottom: 16px; opacity: 0.8; }
+.footer-text { color: var(--text-muted); font-size: 0.85rem; line-height: 1.7; max-width: 600px; margin: 0 auto 20px; }
+.footer-social { display: flex; justify-content: center; gap: 16px; margin-bottom: 20px; }
+.footer-social a { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); transition: var(--transition); text-decoration: none; }
+.footer-social a:hover { border-color: var(--primary); color: var(--primary-light); background: rgba(168,85,247,0.1); }
+.footer-copy { color: var(--text-muted); font-size: 0.8rem; }
 
-  /* ===== FAQ ===== */
-  .faq{display:grid;gap:10px;max-width:780px;margin:0 auto}
-  .faq details{
-    background:var(--panel);border:1px solid var(--border);border-radius:12px;
-    padding:12px 14px;backdrop-filter:blur(8px);
-    transition:border-color .2s ease;
-  }
-  .faq details[open]{border-color:rgba(154,59,255,.45)}
-  .faq summary{
-    list-style:none;cursor:pointer;font-weight:800;font-size:14.5px;color:#fff;
-    display:flex;align-items:center;justify-content:space-between;gap:10px;
-  }
-  .faq summary::-webkit-details-marker{display:none}
-  .faq summary::after{
-    content:"+";font-size:20px;color:#cfa8ff;font-weight:700;line-height:1;
-    transition:transform .25s ease;
-  }
-  .faq details[open] summary::after{transform:rotate(45deg)}
-  .faq p{margin:8px 0 0;font-size:13.5px;color:#cfc3e6}
-
-  /* ===== Social row ===== */
-  .social{
-    max-width:780px;margin:0 auto;
-    display:grid;gap:10px;
-    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  }
-  .social a{
-    display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;
-    background:var(--panel);border:1px solid var(--border);backdrop-filter:blur(8px);
-    transition:background .2s ease,transform .15s ease,box-shadow .2s ease;font-weight:700;font-size:13.5px;color:#fff;
-  }
-  .social a:hover{background:rgba(154,59,255,.18);transform:translateY(-2px);box-shadow:0 12px 28px rgba(154,59,255,.25)}
-  .social a svg{width:18px;height:18px;fill:#dccff7}
-
-  /* ===== Toast ===== */
-  .toast{
-    position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);
-    background:linear-gradient(135deg,#37e6a1,#00a37b);color:#04140e;
-    padding:10px 16px;border-radius:12px;font-weight:800;font-size:13px;
-    box-shadow:0 18px 40px rgba(0,0,0,.5);opacity:0;pointer-events:none;
-    transition:opacity .25s ease,transform .25s ease;z-index:100;
-  }
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-  /* ===== Skeleton card (overlay search) ===== */
-  .card{position:relative;border-radius:14px;overflow:hidden;background:#120524;border:1px solid var(--border)}
-  .card-poster{position:relative;aspect-ratio:2/3;background:#1a0a30}
-  .card-poster img{width:100%;height:100%;object-fit:cover}
-  .card-grad{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(6,0,12,.85) 100%)}
-  .card-badges{position:absolute;top:8px;left:8px;right:8px;display:flex;flex-wrap:wrap;gap:6px}
-  .badge{font-size:10.5px;font-weight:800;padding:4px 8px;border-radius:8px;background:rgba(0,0,0,.55);border:1px solid var(--border);color:#fff}
-  .badge.hd{background:linear-gradient(135deg,#b14bff,#6a1bcf);border-color:transparent}
-  .badge.score{background:rgba(255,200,40,.18);color:#ffd66b;border-color:rgba(255,200,40,.35)}
-  .card-title{position:absolute;bottom:8px;left:10px;right:10px;font-size:12.5px;font-weight:700;color:#fff;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-shadow:0 2px 12px rgba(0,0,0,.7)}
-  .sk{background:linear-gradient(90deg,#160728 0%,#22103f 50%,#160728 100%);background-size:200% 100%;animation:shimmer 1.4s linear infinite;border-radius:12px}
-  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-  .sk-card{aspect-ratio:2/3;border-radius:14px}
-
-  /* ===== footer ===== */
-  footer.site{margin-top:60px;padding:30px clamp(14px,3vw,28px);border-top:1px solid var(--border);background:linear-gradient(180deg,transparent,rgba(10,2,22,.6));color:#b9adda;text-align:center;font-size:13px}
-  .footer-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;margin-bottom:12px}
-  .footer-row a{width:36px;height:36px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:rgba(154,59,255,.1);border:1px solid var(--border)}
-  .footer-row a:hover{background:rgba(154,59,255,.22)}
-  .footer-row svg{width:16px;height:16px;fill:#dccff7}
-  .disclaimer{max-width:760px;margin:6px auto 0;color:#9c8ec5}
-
-  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media (min-width: 768px) { .desktop-nav { display: flex; } .hamburger { display: none; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
 </style>
+<base target="_blank">
 </head>
 <body>
 
-<!-- Sidebar -->
-<div class="scrim" id="scrim"></div>
-<aside class="sidebar" id="sidebar">
-  <header>
-    <a href="index.html" class="logo"><span class="logo-badge">A</span><span class="logo-text"><span>AlnurFunds</span></span></a>
-    <button class="icon-btn" id="sidebarClose" aria-label="Close menu"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  </header>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="search.html?sort=TRENDING_DESC">Trending</a>
-    <a href="schedule.html">Schedule</a>
-    <a href="donate.html" class="active">Donate</a>
-  </nav>
-  <footer>© AlnurFunds · Powered by AniList</footer>
-</aside>
-
-<!-- Header -->
-<header class="header">
+<header class="header" id="header">
   <div class="header-left">
-    <button class="icon-btn" id="sidebarOpen" aria-label="Open menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-    <nav class="nav-desktop">
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <a href="index.html"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" class="logo-banner" loading="eager"></a>
+    <nav class="desktop-nav">
       <a href="index.html">Home</a>
-      <a href="search.html?sort=TRENDING_DESC">Trending</a>
+      <a href="search.html">Trending</a>
       <a href="schedule.html">Schedule</a>
       <a href="donate.html" class="active">Donate</a>
     </nav>
   </div>
-  <div class="header-center"><a href="index.html" class="logo"><span class="logo-badge">A</span><span class="logo-text"><span>AlnurFunds</span></span></a></div>
   <div class="header-right">
-    <button class="icon-btn" id="searchOpen" aria-label="Open search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
+    <a href="search.html" class="search-btn" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    </a>
   </div>
 </header>
 
-<!-- Search overlay -->
-<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true">
-  <div class="search-bar">
-    <div class="search-input-wrap">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input id="searchInput" type="search" placeholder="Search anime…  (press ESC to close)" autocomplete="off" />
-    </div>
-    <button class="search-close" id="searchClose">Close</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
+  <a href="search.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Trending</a>
+  <a href="schedule.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Schedule</a>
+  <a href="donate.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Donate</a>
+</aside>
+
+<section class="donate-hero">
+  <div class="donate-hero-inner">
+    <h1>Support NamiTube</h1>
+    <p>NamiTube is a free anime streaming platform built for the community. Your support helps us maintain servers, improve quality, and keep the site running ad-free. Every contribution matters!</p>
   </div>
-  <div class="search-body">
-    <div id="searchResults" class="search-suggestions" aria-live="polite"></div>
-    <div id="searchEmpty" class="search-empty">Start typing to search anime…</div>
+</section>
+
+<section class="donate-section">
+  <div class="donate-grid">
+    <div class="donate-card">
+      <div class="donate-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+      <h3>Small Support</h3>
+      <p>Buy us a coffee and help keep the servers warm.</p>
+      <div class="donate-amount">$5</div>
+      <a href="#" class="donate-btn">Donate $5</a>
+    </div>
+    <div class="donate-card">
+      <div class="donate-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+      <h3>Big Support</h3>
+      <p>Help us upgrade infrastructure and add new features.</p>
+      <div class="donate-amount">$15</div>
+      <a href="#" class="donate-btn">Donate $15</a>
+    </div>
+    <div class="donate-card">
+      <div class="donate-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div>
+      <h3>Legendary Support</h3>
+      <p>Become a legendary supporter and get eternal gratitude.</p>
+      <div class="donate-amount">$50</div>
+      <a href="#" class="donate-btn">Donate $50</a>
+    </div>
   </div>
-</div>
 
-<main>
-  <!-- ===== HERO ===== -->
-  <section class="hero-donate">
-    <div class="float-orb a"></div>
-    <div class="float-orb b"></div>
-    <div class="float-orb c"></div>
-
-    <span class="hero-eyebrow"><span class="dot"></span> Community-supported</span>
-    <h1>Help keep AlnurFunds<br/>free, fast and ad-light.</h1>
-    <p>Every donation directly funds server bandwidth, infrastructure, and the team that ships features. No accounts, no paywalls — just better anime streaming for everyone.</p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="#tiers">
-        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        Pick a tier
-      </a>
-      <a class="btn btn-ghost" href="#methods">
-        <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg>
-        See payment methods
-      </a>
-    </div>
-
-    <div class="stats" id="stats">
-      <div class="stat"><div class="v">100%</div><div class="l">Ad-light</div></div>
-      <div class="stat"><div class="v">0</div><div class="l">Accounts required</div></div>
-      <div class="stat"><div class="v">24/7</div><div class="l">Streaming uptime</div></div>
-      <div class="stat"><div class="v">∞</div><div class="l">Episodes via AniList</div></div>
-    </div>
-  </section>
-
-  <!-- ===== TIERS ===== -->
-  <section class="section" id="tiers">
-    <div class="section-head">
-      <h2>Choose your support tier</h2>
-      <p>Recurring or one-time — every contribution keeps the platform alive.</p>
-    </div>
-    <div class="tiers">
-      <article class="tier">
-        <div class="icon-bx"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-7-10a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.65-7 10-7 10"/></svg></div>
-        <h3>Supporter</h3>
-        <div class="price">$3<small>/month</small></div>
-        <ul>
-          <li>Help cover bandwidth</li>
-          <li>Name in Discord supporters channel</li>
-          <li>Early changelog access</li>
-        </ul>
-        <a class="btn btn-ghost cta" href="#methods">Pick payment method</a>
-      </article>
-
-      <article class="tier popular">
-        <span class="ribbon">Most popular</span>
-        <div class="icon-bx"><svg viewBox="0 0 24 24"><polygon points="12 2 15 8.5 22 9.3 17 14.1 18.5 21 12 17.8 5.5 21 7 14.1 2 9.3 9 8.5 12 2"/></svg></div>
-        <h3>Fan</h3>
-        <div class="price">$7<small>/month</small></div>
-        <ul>
-          <li>Everything in Supporter</li>
-          <li>Custom Discord role &amp; badge</li>
-          <li>Priority feature voting</li>
-          <li>Behind-the-scenes posts</li>
-        </ul>
-        <a class="btn btn-primary cta" href="#methods">Become a Fan</a>
-      </article>
-
-      <article class="tier">
-        <div class="icon-bx"><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.3L18 21l-6-4-6 4 1.5-7.7L2 9h7z"/></svg></div>
-        <h3>Patron</h3>
-        <div class="price">$15<small>/month</small></div>
-        <ul>
-          <li>Everything in Fan</li>
-          <li>Patron-only Discord channels</li>
-          <li>Monthly Q&amp;A with the team</li>
-          <li>Vote on next features first</li>
-        </ul>
-        <a class="btn btn-ghost cta" href="#methods">Become a Patron</a>
-      </article>
-
-      <article class="tier">
-        <div class="icon-bx"><svg viewBox="0 0 24 24"><path d="M3 3h18v4H3zM3 11h18v10H3z"/></svg></div>
-        <h3>One-time</h3>
-        <div class="price">Custom</div>
-        <ul>
-          <li>Donate any amount</li>
-          <li>Pay with card, PayPal or crypto</li>
-          <li>Optional thank-you shout-out</li>
-        </ul>
-        <a class="btn btn-ghost cta" href="#methods">Donate once</a>
-      </article>
-    </div>
-  </section>
-
-  <!-- ===== PAYMENT METHODS ===== -->
-  <section class="section" id="methods">
-    <div class="section-head">
-      <h2>Payment methods</h2>
-      <p>Pick whatever works for you. Crypto, fiat, recurring or one-time — all welcome.</p>
-    </div>
-
-    <div class="pay-grid">
-      <!-- Ko-fi -->
-      <div class="pay-card">
-        <div class="pay-head">
-          <div class="pay-logo kofi">K</div>
-          <div><h4>Ko-fi</h4><div class="net">One-time &amp; monthly</div></div>
-        </div>
-        <p style="margin:0;color:#cfc3e6;font-size:13.5px">The simplest way to send a tip. No account needed for donors.</p>
-        <a class="pay-link" href="https://ko-fi.com/" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M17 4v16M3 12h18"/></svg>
-          Open Ko-fi
-        </a>
+  <div class="payment-section">
+    <h2 style="text-align:center;font-size:1.5rem;font-weight:700;margin-bottom:24px;">Payment Methods</h2>
+    <div class="payment-grid">
+      <div class="payment-card">
+        <div class="payment-qr"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+        <div class="payment-name">PayPal</div>
+        <div class="payment-desc">Scan or click to donate via PayPal</div>
       </div>
-
-      <!-- Patreon -->
-      <div class="pay-card">
-        <div class="pay-head">
-          <div class="pay-logo patreon">P</div>
-          <div><h4>Patreon</h4><div class="net">Recurring memberships</div></div>
-        </div>
-        <p style="margin:0;color:#cfc3e6;font-size:13.5px">Best for monthly support and tier perks (badge, channels, polls).</p>
-        <a class="pay-link" href="https://www.patreon.com/" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V3M5 12h10a5 5 0 0 0 0-10H5"/></svg>
-          Open Patreon
-        </a>
+      <div class="payment-card">
+        <div class="payment-qr"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+        <div class="payment-name">Crypto</div>
+        <div class="payment-desc">BTC / ETH / USDT accepted</div>
       </div>
-
-      <!-- PayPal -->
-      <div class="pay-card">
-        <div class="pay-head">
-          <div class="pay-logo paypal">PP</div>
-          <div><h4>PayPal</h4><div class="net">Card &amp; PayPal balance</div></div>
-        </div>
-        <p style="margin:0;color:#cfc3e6;font-size:13.5px">One-tap donation in any currency.</p>
-        <div class="copy-row">
-          <code id="paypal-handle">donate@alnurfunds.example</code>
-          <button class="copy-btn" data-copy="#paypal-handle">Copy</button>
-        </div>
-        <a class="pay-link" href="https://www.paypal.com/" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21l4-18h7a4 4 0 0 1 0 8h-5l-2 10z"/></svg>
-          Open PayPal
-        </a>
-      </div>
-
-      <!-- BTC -->
-      <div class="pay-card">
-        <div class="pay-head">
-          <div class="pay-logo crypto">₿</div>
-          <div><h4>Bitcoin</h4><div class="net">BTC · On-chain</div></div>
-        </div>
-        <div class="qr" aria-label="Bitcoin address QR placeholder"></div>
-        <div class="copy-row">
-          <code id="btc-addr">bc1qexampleaddressreplacewithyours00000000000</code>
-          <button class="copy-btn" data-copy="#btc-addr">Copy</button>
-        </div>
-      </div>
-
-      <!-- USDT -->
-      <div class="pay-card">
-        <div class="pay-head">
-          <div class="pay-logo usdt">₮</div>
-          <div><h4>USDT</h4><div class="net">TRC-20 (Tron)</div></div>
-        </div>
-        <div class="qr" aria-label="USDT address QR placeholder"></div>
-        <div class="copy-row">
-          <code id="usdt-addr">TExampleUSDTaddressReplaceWithYours0000000</code>
-          <button class="copy-btn" data-copy="#usdt-addr">Copy</button>
-        </div>
-      </div>
-
-      <!-- ETH -->
-      <div class="pay-card">
-        <div class="pay-head">
-          <div class="pay-logo eth">Ξ</div>
-          <div><h4>Ethereum</h4><div class="net">ETH · ERC-20</div></div>
-        </div>
-        <div class="qr" aria-label="Ethereum address QR placeholder"></div>
-        <div class="copy-row">
-          <code id="eth-addr">0xExampleEthereumAddressReplaceWithYours000</code>
-          <button class="copy-btn" data-copy="#eth-addr">Copy</button>
-        </div>
+      <div class="payment-card">
+        <div class="payment-qr"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+        <div class="payment-name">Ko-fi</div>
+        <div class="payment-desc">Support us on Ko-fi platform</div>
       </div>
     </div>
-  </section>
-
-  <!-- ===== FAQ ===== -->
-  <section class="section">
-    <div class="section-head">
-      <h2>Frequently asked</h2>
-      <p>Everything you might want to know before donating.</p>
-    </div>
-    <div class="faq">
-      <details open>
-        <summary>Where does the money go?</summary>
-        <p>Server hosting, CDN bandwidth, domain renewals, and a small reserve for emergency infrastructure. We publish a yearly transparency report on the Discord server.</p>
-      </details>
-      <details>
-        <summary>Do donors get extra anime / exclusive episodes?</summary>
-        <p>No. All catalog content stays free for everyone — anime data comes from AniList and streams come from third-party servers we don't control. Donor perks are limited to community recognition (badges, channels, early changelog access).</p>
-      </details>
-      <details>
-        <summary>Are crypto donations refundable?</summary>
-        <p>On-chain transactions are final and non-refundable. Please double-check the address and network before sending.</p>
-      </details>
-      <details>
-        <summary>Can I cancel a recurring donation?</summary>
-        <p>Yes, anytime — from your Ko-fi or Patreon dashboard. Cancellation takes effect at the end of the current billing period.</p>
-      </details>
-      <details>
-        <summary>Do you store any personal data when I donate?</summary>
-        <p>Donations are processed by the payment providers (Ko-fi, Patreon, PayPal) or directly on-chain. We don't run our own accounts system and never see your card or wallet credentials.</p>
-      </details>
-    </div>
-  </section>
-
-  <!-- ===== SOCIAL / SUPPORT LINKS ===== -->
-  <section class="section">
-    <div class="section-head">
-      <h2>Other ways to support</h2>
-      <p>Donating isn't the only way to help.</p>
-    </div>
-    <div class="social">
-      <a href="#" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M20 4.5A18 18 0 0 0 15.6 3l-.2.4a16 16 0 0 0-6.8 0L8.4 3A18 18 0 0 0 4 4.5C1.6 8 1 11.4 1.3 14.8a18 18 0 0 0 5.5 2.8l1.1-1.7a11 11 0 0 1-1.7-.8l.4-.3a13 13 0 0 0 11 0l.4.3a11 11 0 0 1-1.7.8l1.1 1.7a18 18 0 0 0 5.5-2.8c.4-4 -.6-7.4-2.9-10.3zM9 13.5a1.8 1.8 0 1 1 0-3.7 1.8 1.8 0 0 1 0 3.7zm6 0a1.8 1.8 0 1 1 0-3.7 1.8 1.8 0 0 1 0 3.7z"/></svg>
-        Join our Discord
-      </a>
-      <a href="#" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M22 5.92a8.2 8.2 0 0 1-2.36.65 4.13 4.13 0 0 0 1.81-2.27 8.24 8.24 0 0 1-2.61 1 4.11 4.11 0 0 0-7 3.74A11.66 11.66 0 0 1 3.39 4.86a4.11 4.11 0 0 0 1.27 5.48 4.07 4.07 0 0 1-1.86-.51v.05a4.11 4.11 0 0 0 3.3 4.03 4.12 4.12 0 0 1-1.85.07 4.11 4.11 0 0 0 3.84 2.85A8.25 8.25 0 0 1 2 18.57a11.62 11.62 0 0 0 6.29 1.84c7.55 0 11.68-6.25 11.68-11.67v-.53A8.3 8.3 0 0 0 22 5.92z"/></svg>
-        Share on Twitter
-      </a>
-      <a href="#" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M21.9 4.2 2.5 11.6c-1 .4-1 1.9.1 2.2l4.7 1.5L9 21c.3.9 1.4 1.1 2 .4l2.8-3.2 4.7 3.5c.8.6 2 .1 2.1-.9l2.5-15.4c.2-1-.7-1.7-1.6-1.3zM9.4 14.4l8.9-5.6-7.4 6.7-.3 3.7-1.2-4.8z"/></svg>
-        Telegram channel
-      </a>
-      <a href="#" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg>
-        Star us on GitHub
-      </a>
-    </div>
-  </section>
-</main>
-
-<!-- Toast for copy -->
-<div class="toast" id="toast" role="status" aria-live="polite">Copied to clipboard</div>
-
-<footer class="site">
-  <div class="footer-row">
-    <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M22 5.92a8.2 8.2 0 0 1-2.36.65 4.13 4.13 0 0 0 1.81-2.27 8.24 8.24 0 0 1-2.61 1 4.11 4.11 0 0 0-7 3.74A11.66 11.66 0 0 1 3.39 4.86a4.11 4.11 0 0 0 1.27 5.48 4.07 4.07 0 0 1-1.86-.51v.05a4.11 4.11 0 0 0 3.3 4.03 4.12 4.12 0 0 1-1.85.07 4.11 4.11 0 0 0 3.84 2.85A8.25 8.25 0 0 1 2 18.57a11.62 11.62 0 0 0 6.29 1.84c7.55 0 11.68-6.25 11.68-11.67v-.53A8.3 8.3 0 0 0 22 5.92z"/></svg></a>
-    <a href="#" aria-label="Discord"><svg viewBox="0 0 24 24"><path d="M20 4.5A18 18 0 0 0 15.6 3l-.2.4a16 16 0 0 0-6.8 0L8.4 3A18 18 0 0 0 4 4.5C1.6 8 1 11.4 1.3 14.8a18 18 0 0 0 5.5 2.8l1.1-1.7a11 11 0 0 1-1.7-.8l.4-.3a13 13 0 0 0 11 0l.4.3a11 11 0 0 1-1.7.8l1.1 1.7a18 18 0 0 0 5.5-2.8c.4-4 -.6-7.4-2.9-10.3zM9 13.5a1.8 1.8 0 1 1 0-3.7 1.8 1.8 0 0 1 0 3.7zm6 0a1.8 1.8 0 1 1 0-3.7 1.8 1.8 0 0 1 0 3.7z"/></svg></a>
-    <a href="#" aria-label="Telegram"><svg viewBox="0 0 24 24"><path d="M21.9 4.2 2.5 11.6c-1 .4-1 1.9.1 2.2l4.7 1.5L9 21c.3.9 1.4 1.1 2 .4l2.8-3.2 4.7 3.5c.8.6 2 .1 2.1-.9l2.5-15.4c.2-1-.7-1.7-1.6-1.3zM9.4 14.4l8.9-5.6-7.4 6.7-.3 3.7-1.2-4.8z"/></svg></a>
-    <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg></a>
   </div>
-  <div>© <span id="year"></span> AlnurFunds · Built with AniList</div>
-  <p class="disclaimer">This site does not store any files on its server. All contents are provided by non-affiliated third parties.</p>
+
+  <div class="social-section">
+    <div class="social-title">Other Ways to Support</div>
+    <div class="social-grid">
+      <a href="#" class="social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>Star on GitHub</a>
+      <a href="#" class="social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Follow on X</a>
+      <a href="#" class="social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>Join Discord</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" class="footer-logo" loading="lazy">
+    <p class="footer-text">This site does not store any files on its server. All contents are provided by non-affiliated third parties.</p>
+    <div class="footer-social">
+      <a href="#" aria-label="Discord"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg></a>
+      <a href="#" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="#" aria-label="GitHub"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    </div>
+    <p class="footer-copy">&copy; 2025 NamiTube. All rights reserved.</p>
+  </div>
 </footer>
 
 <script>
-/* ===== AniList layer (shared, only used by search overlay) ===== */
-const ANILIST_URL='https://graphql.anilist.co';
-const CACHE_TTL=1000*60*10;
-const cacheKey=(q,v)=>'al:'+btoa(unescape(encodeURIComponent(q+JSON.stringify(v||{})))).slice(0,180);
-function readCache(k){try{const r=localStorage.getItem(k);if(!r)return null;const o=JSON.parse(r);if(!o||(Date.now()-o.t)>CACHE_TTL)return null;return o.d;}catch{return null;}}
-function writeCache(k,d){try{localStorage.setItem(k,JSON.stringify({t:Date.now(),d}));}catch{try{localStorage.clear();}catch{}}}
-const inflight=new Map();
-async function gql(query,variables={},{timeout=12000,retries=2,useCache=true}={}){
-  const key=cacheKey(query,variables);
-  if(useCache){const c=readCache(key);if(c)return c;}
-  if(inflight.has(key))return inflight.get(key);
-  const exec=async()=>{
-    let lastErr;
-    for(let a=0;a<=retries;a++){
-      const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),timeout);
-      try{
-        const r=await fetch(ANILIST_URL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({query,variables}),signal:ctrl.signal});
-        clearTimeout(to);
-        if(r.status===429){await new Promise(res=>setTimeout(res,800*(a+1)));continue;}
-        if(!r.ok)throw new Error('HTTP '+r.status);
-        const j=await r.json();
-        if(j.errors&&!j.data)throw new Error(j.errors[0]?.message||'GraphQL error');
-        if(useCache)writeCache(key,j.data);return j.data;
-      }catch(e){clearTimeout(to);lastErr=e;await new Promise(res=>setTimeout(res,400*(a+1)));}
-    }
-    throw lastErr||new Error('Request failed');
-  };
-  const p=exec().finally(()=>inflight.delete(key));inflight.set(key,p);return p;
-}
-
-/* ===== utils ===== */
-const $=(s,r=document)=>r.querySelector(s);
-const escapeHtml=(s='')=>s.replace(/[&<>"']/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const pickTitle=m=>m?.title?.english||m?.title?.userPreferred||m?.title?.romaji||m?.title?.native||'Untitled';
-const debounce=(fn,d=300)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),d);};};
-
-/* ===== sidebar / overlay search ===== */
-const $sb=$('#sidebar'),$sc=$('#scrim');
-$('#sidebarOpen').addEventListener('click',()=>{$sb.classList.add('open');$sc.classList.add('open');});
-$('#sidebarClose').addEventListener('click',()=>{$sb.classList.remove('open');$sc.classList.remove('open');});
-$sc.addEventListener('click',()=>{$sb.classList.remove('open');$sc.classList.remove('open');});
-
-const overlayEl=$('#searchOverlay'),overlayInput=$('#searchInput'),overlayResults=$('#searchResults'),overlayEmpty=$('#searchEmpty');
-function openOverlay(){overlayEl.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>overlayInput.focus(),50);}
-function closeOverlay(){overlayEl.classList.remove('open');document.body.style.overflow='';}
-$('#searchOpen').addEventListener('click',openOverlay);
-$('#searchClose').addEventListener('click',closeOverlay);
-document.addEventListener('keydown',e=>{
-  if(e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
-  if(e.key==='Escape')closeOverlay();
-  if((e.key==='/'||(e.ctrlKey&&e.key==='k'))&&!overlayEl.classList.contains('open')){e.preventDefault();openOverlay();}
-});
-const OVERLAY_Q=`query($s:String,$p:Int,$pp:Int){Page(page:$p,perPage:$pp){media(type:ANIME,search:$s,sort:SEARCH_MATCH){id title{english romaji userPreferred}coverImage{large}averageScore episodes format}}}`;
-function smallCard(m){const t=escapeHtml(pickTitle(m));return `<a class="card" href="anime.html?id=${m.id}"><div class="card-poster"><img loading="lazy" src="${m.coverImage?.large||''}" alt="${t}"><div class="card-grad"></div><div class="card-badges">${m.averageScore?`<span class="badge score">★ ${(m.averageScore/10).toFixed(1)}</span>`:''}<span class="badge hd">HD</span></div><div class="card-title">${t}</div></div></a>`;}
-const runOverlaySearch=debounce(async q=>{
-  if(!q||q.trim().length<2){overlayResults.innerHTML='';overlayEmpty.style.display='block';overlayEmpty.textContent='Start typing to search anime…';return;}
-  overlayEmpty.style.display='block';overlayEmpty.textContent='Searching…';
-  overlayResults.innerHTML=Array.from({length:8},()=>'<div class="sk sk-card"></div>').join('');
-  try{
-    const data=await gql(OVERLAY_Q,{s:q.trim(),p:1,pp:18},{useCache:false});
-    const list=data?.Page?.media?.filter(Boolean)||[];
-    if(!list.length){overlayResults.innerHTML='';overlayEmpty.textContent='No results found.';return;}
-    overlayEmpty.style.display='none';overlayResults.innerHTML=list.map(smallCard).join('');
-  }catch{overlayResults.innerHTML='';overlayEmpty.textContent='Search failed. Try again.';}
-},280);
-overlayInput.addEventListener('input',e=>runOverlaySearch(e.target.value));
-
-/* ===== copy-to-clipboard ===== */
-const toast = $('#toast');
-let toastTimer = null;
-function showToast(msg='Copied to clipboard'){
-  toast.textContent = msg;
-  toast.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=> toast.classList.remove('show'), 1800);
-}
-async function copyText(text){
-  try{
-    if(navigator.clipboard?.writeText){
-      await navigator.clipboard.writeText(text);
-      return true;
-    }
-  }catch{}
-  // fallback
-  try{
-    const ta = document.createElement('textarea');
-    ta.value = text; ta.setAttribute('readonly','');
-    ta.style.position='fixed'; ta.style.opacity='0';
-    document.body.appendChild(ta); ta.select();
-    const ok = document.execCommand('copy');
-    document.body.removeChild(ta);
-    return ok;
-  }catch{ return false; }
-}
-document.querySelectorAll('.copy-btn').forEach(btn=>{
-  btn.addEventListener('click', async ()=>{
-    const target = document.querySelector(btn.dataset.copy);
-    if(!target) return;
-    const ok = await copyText(target.textContent.trim());
-    if(ok){
-      btn.classList.add('ok');
-      const orig = btn.textContent;
-      btn.textContent = 'Copied';
-      showToast('Copied to clipboard');
-      setTimeout(()=>{ btn.classList.remove('ok'); btn.textContent = orig; }, 1600);
-    } else {
-      showToast('Copy failed — please copy manually');
-    }
-  });
-});
-
-$('#year').textContent = new Date().getFullYear();
+(function() {
+  const header=document.getElementById('header');
+  window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY>20), {passive:true});
+  const hamburger=document.getElementById('hamburger'), sidebar=document.getElementById('sidebar'), sidebarOverlay=document.getElementById('sidebarOverlay');
+  function toggleSidebar() { const active=sidebar.classList.toggle('active'); hamburger.classList.toggle('active',active); sidebarOverlay.classList.toggle('active',active); document.body.style.overflow=active?'hidden':''; }
+  hamburger.addEventListener('click', toggleSidebar); sidebarOverlay.addEventListener('click', toggleSidebar);
+})();
 </script>
 </body>
 </html>
