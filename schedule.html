@@ -323,6 +323,52 @@ body {
       }`, {start, end});
 
     if (!data || !data.Page || !data.Page.airingSchedule) {
+      // Fallback: try querying via media with airingSchedule
+      const fallback = await gql(`
+        query($start:Int,$end:Int){
+          Page(page:1,perPage:50){
+            media(type:ANIME,status:RELEASING,sort:POPULARITY_DESC){
+              id title{english romaji} coverImage{medium} format
+              airingSchedule(notYetAired:true,perPage:5){
+                nodes{id airingAt episode timeUntilAiring}
+              }
+            }
+          }
+        }`);
+
+      scheduleData = {};
+      for (let i=0; i<7; i++) scheduleData[i] = [];
+
+      if (fallback && fallback.Page && fallback.Page.media) {
+        fallback.Page.media.forEach(media => {
+          const nodes = media.airingSchedule?.nodes || [];
+          nodes.forEach(node => {
+            if (node.airingAt >= start && node.airingAt <= end) {
+              const date = new Date(node.airingAt * 1000);
+              const day = date.getDay();
+              scheduleData[day].push({
+                id: node.id,
+                airingAt: node.airingAt,
+                episode: node.episode,
+                timeUntilAiring: node.timeUntilAiring,
+                media: {
+                  id: media.id,
+                  title: media.title,
+                  coverImage: media.coverImage,
+                  format: media.format
+                }
+              });
+            }
+          });
+        });
+        // Sort each day by airing time
+        for (let i=0; i<7; i++) {
+          scheduleData[i].sort((a,b) => a.airingAt - b.airingAt);
+        }
+        renderSchedule();
+        return;
+      }
+
       grid.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:40px;">Failed to load schedule.</p>';
       return;
     }
