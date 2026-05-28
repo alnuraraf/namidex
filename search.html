@@ -1,774 +1,434 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#0a0010" />
-<title>Search — AlnurFunds</title>
-<meta name="description" content="Search and discover anime by genre, year, season, format, status and more. Powered by AniList." />
-<meta property="og:title" content="Search — AlnurFunds" />
-<meta property="og:type" content="website" />
-<link rel="preconnect" href="https://graphql.anilist.co" />
-<link rel="preconnect" href="https://s4.anilist.co" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%23b14bff'/%3E%3Cstop offset='1' stop-color='%236a1bcf'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Cpath d='M18 44 L32 18 L46 44 Z' fill='%23fff'/%3E%3C/svg%3E" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="NamiTube - Search Anime">
+<link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHE6pMgjbJ6YDLaMAtDUZCs6Zhkvxl0_fQnb0c0ZCmJOYRB_4N8dQ0ZWosBq_sZPK2wFel2E43Z2meo25JL3i7IZYkJ35FZ7lZ_BZfwlWofAKGhF1gWpFsxofeGUr87Peu6s7xtgvJMnrbtNnd4vJPtB7uG3L_wJ9tT8PKRCh-PXSxlyY9Ufn8OAzDY_Y/s320/NamiTube%20Original%20Favicon.png">
+<title>Search - NamiTube</title>
 <style>
-  /* ===== shared base / theme ===== */
-  *,*::before,*::after{box-sizing:border-box}
-  html,body{overflow-x:hidden;max-width:100%}
-  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-  body{margin:0;font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;background:#06000c;color:#ece6f5;line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased}
-  img{max-width:100%;display:block}
-  a{color:inherit;text-decoration:none}
-  button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
-  ::-webkit-scrollbar{width:10px;height:10px}
-  ::-webkit-scrollbar-track{background:#0b0214}
-  ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#5a17a8,#2b0a5a);border-radius:10px}
-  ::selection{background:#7a2bd6;color:#fff}
-  :root{--border:rgba(160,90,255,.18);--purple:#9a3bff;--purple-2:#6a1bcf;--purple-glow:0 0 24px rgba(154,59,255,.45);--muted:#a89bc4;--header-h:68px;--radius:16px;--panel:rgba(20,8,38,.55)}
-  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 10% -10%,rgba(122,43,214,.30),transparent 60%),radial-gradient(800px 600px at 100% 10%,rgba(56,18,120,.28),transparent 65%),radial-gradient(700px 500px at 50% 110%,rgba(154,59,255,.18),transparent 60%),linear-gradient(180deg,#05000a 0%,#06000c 60%,#04000a 100%)}
-  body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.035) 1px,transparent 1px);background-size:3px 3px;mix-blend-mode:overlay;opacity:.5}
+:root {
+  --bg: #0a0a0f; --bg-elevated: #12121a; --bg-card: #16161f; --bg-glass: rgba(22,22,31,0.85);
+  --primary: #a855f7; --primary-light: #c084fc; --primary-dark: #7c3aed; --accent: #d946ef;
+  --text: #f1f1f4; --text-secondary: #a1a1aa; --text-muted: #71717a;
+  --border: rgba(168,85,247,0.15); --border-glow: rgba(168,85,247,0.3);
+  --success: #22c55e; --warning: #f59e0b; --radius: 14px; --radius-sm: 8px;
+  --shadow: 0 8px 32px rgba(0,0,0,0.4); --shadow-glow: 0 0 40px rgba(168,85,247,0.15);
+  --transition: all 0.3s cubic-bezier(0.4,0,0.2,1); --header-h: 64px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { overflow-x: hidden; max-width: 100%; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.5; -webkit-font-smoothing: antialiased;
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--primary-dark); border-radius: 4px; }
 
-  /* ===== Header / sidebar / search overlay (shared) ===== */
-  .header{position:sticky;top:0;z-index:60;height:var(--header-h);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(14px,3vw,28px);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);background:linear-gradient(180deg,rgba(8,2,18,.85),rgba(8,2,18,.55));border-bottom:1px solid var(--border)}
-  .header-left,.header-right{display:flex;align-items:center;gap:10px;flex:1}
-  .header-right{justify-content:flex-end}.header-center{display:flex;align-items:center;justify-content:center}
-  .icon-btn{width:42px;height:42px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;background:rgba(154,59,255,.08);border:1px solid var(--border);transition:transform .2s ease,background .2s ease,box-shadow .2s ease}
-  .icon-btn:hover{background:rgba(154,59,255,.18);transform:translateY(-1px);box-shadow:var(--purple-glow)}
-  .icon-btn svg{width:20px;height:20px;stroke:#e8defa;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .logo{display:inline-flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.4px;font-size:clamp(16px,2vw,20px)}
-  .logo-badge{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#b14bff,#6a1bcf);box-shadow:0 6px 22px rgba(154,59,255,.5);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:900}
-  .logo-text span{background:linear-gradient(90deg,#fff,#d7bfff);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .nav-desktop{display:none;gap:6px;margin-left:14px}
-  .nav-desktop a{padding:8px 14px;border-radius:10px;font-weight:600;color:#cfc3e6;transition:color .2s ease,background .2s ease}
-  .nav-desktop a:hover{color:#fff;background:rgba(154,59,255,.12)}
-  .nav-desktop a.active{color:#fff;background:rgba(154,59,255,.18);box-shadow:inset 0 0 0 1px var(--border)}
-  @media (min-width:900px){.nav-desktop{display:flex}}
-  .scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:70}
-  .scrim.open{opacity:1;pointer-events:auto}
-  .sidebar{position:fixed;top:0;left:0;height:100dvh;width:min(82vw,320px);background:linear-gradient(180deg,#0d0420,#08011a);border-right:1px solid var(--border);transform:translateX(-105%);transition:transform .3s cubic-bezier(.2,.7,.2,1);z-index:80;display:flex;flex-direction:column}
-  .sidebar.open{transform:translateX(0)}
-  .sidebar header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border)}
-  .sidebar nav{display:flex;flex-direction:column;padding:14px;gap:6px}
-  .sidebar nav a{padding:12px 14px;border-radius:12px;font-weight:600;color:#d6cbee;display:flex;align-items:center;gap:12px}
-  .sidebar nav a:hover{background:rgba(154,59,255,.14);color:#fff}
-  .sidebar nav a.active{background:rgba(154,59,255,.2);color:#fff;box-shadow:inset 0 0 0 1px var(--border)}
-  .sidebar footer{margin-top:auto;padding:14px 18px;color:var(--muted);font-size:12px;border-top:1px solid var(--border)}
-  .search-overlay{position:fixed;inset:0;z-index:90;background:rgba(4,0,12,.75);backdrop-filter:blur(22px) saturate(140%);-webkit-backdrop-filter:blur(22px) saturate(140%);opacity:0;pointer-events:none;transition:opacity .25s ease;display:flex;flex-direction:column}
-  .search-overlay.open{opacity:1;pointer-events:auto}
-  .search-bar{display:flex;align-items:center;gap:10px;padding:14px clamp(14px,3vw,28px);border-bottom:1px solid var(--border)}
-  .search-input-wrap{flex:1;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:10px 14px}
-  .search-input-wrap svg{width:18px;height:18px;stroke:#bfb0e6;fill:none;stroke-width:2}
-  .search-input-wrap input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:clamp(15px,2vw,17px)}
-  .search-close{padding:10px 14px;border-radius:12px;background:rgba(154,59,255,.12);border:1px solid var(--border);font-weight:600}
-  .search-body{flex:1;overflow:auto;padding:clamp(14px,3vw,28px)}
-  .search-suggestions{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
-  .search-empty{color:var(--muted);text-align:center;padding:40px 10px;font-size:14px}
+.header {
+  position: fixed; top: 0; left: 0; right: 0; height: var(--header-h);
+  background: rgba(10,10,15,0.92); backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border); z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(12px, 3vw, 32px); transition: var(--transition);
+}
+.header.scrolled { background: rgba(10,10,15,0.98); box-shadow: 0 4px 30px rgba(0,0,0,0.5); }
+.header-left { display: flex; align-items: center; gap: 16px; }
+.hamburger {
+  width: 40px; height: 40px; border: none; background: transparent; cursor: pointer;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+  border-radius: var(--radius-sm); transition: var(--transition);
+}
+.hamburger span { display: block; width: 22px; height: 2.5px; background: var(--text); border-radius: 2px; transition: var(--transition); }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+.logo-banner { height: 36px; width: auto; object-fit: contain; transition: var(--transition); }
+.logo-banner:hover { filter: drop-shadow(0 0 8px var(--primary-light)); }
+.desktop-nav { display: none; gap: 28px; }
+.desktop-nav a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; position: relative; transition: var(--transition); }
+.desktop-nav a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 1px; transition: var(--transition); }
+.desktop-nav a:hover, .desktop-nav a.active { color: var(--text); }
+.desktop-nav a:hover::after, .desktop-nav a.active::after { width: 100%; }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.search-btn {
+  width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border);
+  background: rgba(168,85,247,0.08); color: var(--text); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: var(--transition);
+}
+.search-btn:hover { background: rgba(168,85,247,0.2); border-color: var(--primary-light); box-shadow: 0 0 15px rgba(168,85,247,0.2); }
+.search-btn svg { width: 18px; height: 18px; }
 
-  /* ===== Page header ===== */
-  .page-head{
-    max-width:1400px;margin:0 auto;padding:clamp(22px,4vw,40px) clamp(14px,3vw,28px) 6px;
-    text-align:center;
-  }
-  .page-head h1{
-    margin:0;font-size:clamp(24px,3.6vw,38px);font-weight:900;letter-spacing:.3px;
-    background:linear-gradient(180deg,#fff,#d3bdff);-webkit-background-clip:text;background-clip:text;color:transparent;
-  }
-  .page-head p{color:var(--muted);margin:6px 0 0;font-size:14px}
+.sidebar-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+  z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.sidebar-overlay.active { opacity: 1; pointer-events: all; }
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: min(280px, 80vw);
+  background: var(--bg-glass); backdrop-filter: blur(30px); border-right: 1px solid var(--border);
+  z-index: 1001; transform: translateX(-100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  display: flex; flex-direction: column; padding: 80px 24px 24px;
+}
+.sidebar.active { transform: translateX(0); }
+.sidebar a { display: flex; align-items: center; gap: 14px; padding: 14px 16px; color: var(--text-secondary); text-decoration: none; font-size: 1rem; font-weight: 500; border-radius: var(--radius-sm); transition: var(--transition); margin-bottom: 4px; }
+.sidebar a:hover, .sidebar a.active { background: rgba(168,85,247,0.12); color: var(--text); }
+.sidebar a svg { width: 20px; height: 20px; opacity: 0.7; }
+.sidebar a:hover svg, .sidebar a.active svg { opacity: 1; color: var(--primary-light); }
 
-  /* ===== Search row ===== */
-  .controls{
-    max-width:1400px;margin:0 auto;padding:clamp(14px,2vw,20px) clamp(14px,3vw,28px) 0;
-    display:grid;gap:12px;grid-template-columns:1fr;
-  }
-  .big-search{
-    display:flex;align-items:center;gap:10px;
-    background:var(--panel);border:1px solid var(--border);border-radius:14px;
-    padding:10px 14px;backdrop-filter:blur(8px);
-  }
-  .big-search svg{width:18px;height:18px;stroke:#bfb0e6;fill:none;stroke-width:2}
-  .big-search input{flex:1;background:transparent;border:0;outline:0;color:#fff;font-size:clamp(15px,2vw,16px);min-width:0}
-  .big-search button{padding:9px 14px;border-radius:10px;background:linear-gradient(135deg,#b14bff,#6a1bcf);color:#fff;font-weight:700;font-size:13px;box-shadow:var(--purple-glow)}
-  .big-search .clear{background:rgba(255,255,255,.06);box-shadow:none}
+/* Search page layout */
+.search-page { margin-top: var(--header-h); padding: clamp(20px, 3vw, 32px) clamp(16px, 4vw, 48px); max-width: 1400px; margin-left: auto; margin-right: auto; }
+.search-top {
+  display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;
+}
+.search-input-wrap {
+  display: flex; align-items: center; gap: 12px; padding: 14px 18px;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  transition: var(--transition);
+}
+.search-input-wrap:focus-within { border-color: var(--primary-light); box-shadow: var(--shadow-glow); }
+.search-input-wrap svg { width: 22px; height: 22px; color: var(--text-muted); flex-shrink: 0; }
+.search-input {
+  flex: 1; background: transparent; border: none; color: var(--text); font-size: 1.1rem;
+  outline: none; font-family: inherit;
+}
+.search-input::placeholder { color: var(--text-muted); }
 
-  /* ===== Filter rail ===== */
-  .filter-rail{
-    display:grid;gap:10px;
-    grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
-  }
-  .field{
-    display:flex;flex-direction:column;gap:6px;
-    background:var(--panel);border:1px solid var(--border);
-    border-radius:12px;padding:10px 12px;backdrop-filter:blur(8px);
-  }
-  .field label{
-    font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:#b2a4d5;font-weight:700;
-  }
-  .field select, .field input{
-    background:transparent;border:none;outline:none;color:#fff;
-    font-size:14px;font-weight:600;
-  }
-  .field select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,#a89bc4 50%),linear-gradient(135deg,#a89bc4 50%,transparent 50%);background-position:calc(100% - 14px) 50%,calc(100% - 9px) 50%;background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:24px}
-  .field select option{background:#0c0418;color:#fff}
+.filters-bar {
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+}
+.filters-bar select {
+  background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary);
+  padding: 8px 14px; border-radius: var(--radius-sm); font-size: 0.85rem; cursor: pointer;
+  outline: none; transition: var(--transition);
+}
+.filters-bar select:focus { border-color: var(--primary-light); }
 
-  .filter-actions{
-    display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;
-    max-width:1400px;margin:10px auto 0;padding:0 clamp(14px,3vw,28px);
-  }
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;font-weight:700;font-size:13px;border:1px solid var(--border);transition:transform .15s ease,background .2s ease,box-shadow .2s ease}
-  .btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .btn-primary{background:linear-gradient(135deg,#b14bff,#6a1bcf);color:#fff;border-color:transparent;box-shadow:var(--purple-glow)}
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(154,59,255,.55)}
-  .btn-ghost{background:rgba(255,255,255,.06);color:#fff}
-  .btn-ghost:hover{background:rgba(255,255,255,.12)}
+.results-count { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px; }
 
-  .meta-line{
-    max-width:1400px;margin:14px auto 0;padding:0 clamp(14px,3vw,28px);
-    color:var(--muted);font-size:13px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
-  }
-  .active-chips{display:flex;flex-wrap:wrap;gap:6px}
-  .achip{
-    font-size:11.5px;font-weight:700;padding:4px 8px;border-radius:999px;
-    background:rgba(154,59,255,.15);border:1px solid var(--border);color:#e7d8ff;
-    display:inline-flex;gap:6px;align-items:center;
-  }
-  .achip button{color:#fff;opacity:.7;font-weight:900;padding:0 0 0 2px}
-  .achip button:hover{opacity:1}
+/* Grid */
+.anime-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px; padding-bottom: 40px;
+}
+@media (min-width: 768px) { .anime-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); } }
+@media (min-width: 1200px) { .anime-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); } }
 
-  /* ===== Results grid ===== */
-  .results{
-    max-width:1400px;margin:18px auto 0;padding:0 clamp(14px,3vw,28px);
-    display:grid;gap:14px;
-    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-  }
-  @media (min-width:600px){.results{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}}
+/* Card */
+.anime-card {
+  position: relative; border-radius: var(--radius-sm); overflow: hidden;
+  background: var(--bg-card); cursor: pointer; transition: var(--transition);
+  text-decoration: none; display: block;
+}
+.anime-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-glow); }
+.anime-card:hover .card-img { transform: scale(1.08); }
+.anime-card:hover .card-overlay { opacity: 1; }
+.card-img-wrap { position: relative; aspect-ratio: 3/4.2; overflow: hidden; border-radius: var(--radius-sm); }
+.card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.card-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center; opacity: 0;
+  transition: opacity 0.3s;
+}
+.card-play { width: 48px; height: 48px; border-radius: 50%; background: rgba(168,85,247,0.9); display: flex; align-items: center; justify-content: center; }
+.card-play svg { width: 20px; height: 20px; color: white; }
+.card-badges {
+  position: absolute; top: 8px; left: 8px; right: 8px; display: flex; justify-content: space-between; pointer-events: none;
+}
+.card-badge {
+  font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.03em;
+}
+.badge-score { background: rgba(0,0,0,0.7); color: var(--warning); backdrop-filter: blur(4px); }
+.badge-ep { background: var(--primary-dark); color: white; }
+.badge-hd { background: var(--success); color: white; }
+.badge-format { background: rgba(0,0,0,0.6); color: var(--text-secondary); backdrop-filter: blur(4px); }
+.card-info { padding: 10px 12px 12px; }
+.card-title {
+  font-size: 0.85rem; font-weight: 600; color: var(--text); line-height: 1.35;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.card-meta { margin-top: 6px; font-size: 0.75rem; color: var(--text-muted); display: flex; gap: 8px; }
 
-  .card{position:relative;border-radius:14px;overflow:hidden;background:#120524;border:1px solid var(--border);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;isolation:isolate}
-  .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(120,40,210,.35);border-color:rgba(154,59,255,.45)}
-  .card-poster{position:relative;aspect-ratio:2/3;background:#1a0a30}
-  .card-poster img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-  .card:hover .card-poster img{transform:scale(1.06)}
-  .card-grad{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(6,0,12,.85) 100%)}
-  .card-badges{position:absolute;top:8px;left:8px;right:8px;display:flex;flex-wrap:wrap;gap:6px}
-  .badge{font-size:10.5px;font-weight:800;padding:4px 8px;border-radius:8px;letter-spacing:.4px;background:rgba(0,0,0,.55);border:1px solid var(--border);color:#fff}
-  .badge.hd{background:linear-gradient(135deg,#b14bff,#6a1bcf);border-color:transparent}
-  .badge.score{background:rgba(255,200,40,.18);color:#ffd66b;border-color:rgba(255,200,40,.35)}
-  .card-title{position:absolute;bottom:8px;left:10px;right:10px;font-size:13px;font-weight:700;line-height:1.25;color:#fff;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-shadow:0 2px 12px rgba(0,0,0,.7)}
-  .card-sub{padding:8px 10px 10px;font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;gap:6px}
+/* Skeleton */
+.skeleton { background: linear-gradient(90deg, var(--bg-card) 25%, #1f1f2e 50%, var(--bg-card) 75%); background-size: 200% 100%; animation: skeleton 1.5s infinite; border-radius: var(--radius-sm); }
+@keyframes skeleton { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.skeleton-card { width: 100%; }
+.skeleton-img { aspect-ratio: 3/4.2; border-radius: var(--radius-sm); }
+.skeleton-text { height: 16px; margin-top: 10px; border-radius: 4px; }
+.skeleton-text.short { width: 60%; }
 
-  /* ===== Skeleton + states ===== */
-  .sk{background:linear-gradient(90deg,#160728 0%,#22103f 50%,#160728 100%);background-size:200% 100%;animation:shimmer 1.4s linear infinite;border-radius:12px}
-  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-  .sk-card{aspect-ratio:2/3;border-radius:14px}
+/* Load more */
+.load-more-wrap { text-align: center; padding: 20px 0 40px; }
+.load-more-btn {
+  padding: 12px 32px; background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white; border: none; border-radius: var(--radius-sm); font-size: 0.95rem;
+  font-weight: 600; cursor: pointer; transition: var(--transition); font-family: inherit;
+  box-shadow: 0 4px 20px rgba(168,85,247,0.3);
+}
+.load-more-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(168,85,247,0.4); }
+.load-more-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-  .state-block{
-    max-width:1400px;margin:30px auto;padding:30px clamp(14px,3vw,28px);
-    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
-    backdrop-filter:blur(8px);text-align:center;color:#cfc3e6;
-  }
-  .state-block .icon{font-size:38px;margin-bottom:8px}
-  .state-block h3{margin:0 0 4px;font-size:18px;color:#fff}
-  .state-block p{margin:0;color:var(--muted);font-size:13.5px}
+/* Footer */
+.footer { border-top: 1px solid var(--border); padding: 40px clamp(16px, 4vw, 48px); background: var(--bg-elevated); margin-top: 40px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; text-align: center; }
+.footer-logo { height: 32px; margin-bottom: 16px; opacity: 0.8; }
+.footer-text { color: var(--text-muted); font-size: 0.85rem; line-height: 1.7; max-width: 600px; margin: 0 auto 20px; }
+.footer-social { display: flex; justify-content: center; gap: 16px; margin-bottom: 20px; }
+.footer-social a { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); transition: var(--transition); text-decoration: none; }
+.footer-social a:hover { border-color: var(--primary); color: var(--primary-light); background: rgba(168,85,247,0.1); }
+.footer-copy { color: var(--text-muted); font-size: 0.8rem; }
 
-  .sentinel{height:1px}
-  .end-message{
-    text-align:center;color:var(--muted);font-size:13px;
-    padding:20px clamp(14px,3vw,28px) 0;
-  }
-
-  /* ===== footer ===== */
-  footer.site{margin-top:60px;padding:30px clamp(14px,3vw,28px);border-top:1px solid var(--border);background:linear-gradient(180deg,transparent,rgba(10,2,22,.6));color:#b9adda;text-align:center;font-size:13px}
-  .footer-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;margin-bottom:12px}
-  .footer-row a{width:36px;height:36px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:rgba(154,59,255,.1);border:1px solid var(--border)}
-  .footer-row a:hover{background:rgba(154,59,255,.22)}
-  .footer-row svg{width:16px;height:16px;fill:#dccff7}
-  .disclaimer{max-width:760px;margin:6px auto 0;color:#9c8ec5}
-
-  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media (min-width: 768px) { .desktop-nav { display: flex; } .hamburger { display: none; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
 </style>
+<base target="_blank">
 </head>
 <body>
 
-<!-- Sidebar -->
-<div class="scrim" id="scrim"></div>
-<aside class="sidebar" id="sidebar">
-  <header>
-    <a href="index.html" class="logo"><span class="logo-badge">A</span><span class="logo-text"><span>AlnurFunds</span></span></a>
-    <button class="icon-btn" id="sidebarClose" aria-label="Close menu"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  </header>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="search.html?sort=TRENDING_DESC" class="active">Trending</a>
-    <a href="schedule.html">Schedule</a>
-    <a href="donate.html">Donate</a>
-  </nav>
-  <footer>© AlnurFunds · Powered by AniList</footer>
-</aside>
-
-<!-- Header -->
-<header class="header">
+<header class="header" id="header">
   <div class="header-left">
-    <button class="icon-btn" id="sidebarOpen" aria-label="Open menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-    <nav class="nav-desktop">
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <a href="index.html"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" class="logo-banner" loading="eager"></a>
+    <nav class="desktop-nav">
       <a href="index.html">Home</a>
-      <a href="search.html?sort=TRENDING_DESC" class="active">Trending</a>
+      <a href="search.html" class="active">Trending</a>
       <a href="schedule.html">Schedule</a>
       <a href="donate.html">Donate</a>
     </nav>
   </div>
-  <div class="header-center"><a href="index.html" class="logo"><span class="logo-badge">A</span><span class="logo-text"><span>AlnurFunds</span></span></a></div>
   <div class="header-right">
-    <button class="icon-btn" id="searchOpen" aria-label="Open search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
+    <a href="search.html" class="search-btn" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    </a>
   </div>
 </header>
 
-<!-- Search overlay -->
-<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true">
-  <div class="search-bar">
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
+  <a href="search.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Trending</a>
+  <a href="schedule.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Schedule</a>
+  <a href="donate.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Donate</a>
+</aside>
+
+<div class="search-page">
+  <div class="search-top">
     <div class="search-input-wrap">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input id="searchInput" type="search" placeholder="Search anime…  (press ESC to close)" autocomplete="off" />
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" class="search-input" id="searchInput" placeholder="Search anime, movies, OVAs..." autocomplete="off">
     </div>
-    <button class="search-close" id="searchClose">Close</button>
+    <div class="filters-bar">
+      <select id="fGenre"><option value="">All Genres</option></select>
+      <select id="fSeason"><option value="">All Seasons</option><option value="WINTER">Winter</option><option value="SPRING">Spring</option><option value="SUMMER">Summer</option><option value="FALL">Fall</option></select>
+      <select id="fYear"><option value="">All Years</option></select>
+      <select id="fFormat"><option value="">All Formats</option><option value="TV">TV</option><option value="TV_SHORT">TV Short</option><option value="MOVIE">Movie</option><option value="OVA">OVA</option><option value="ONA">ONA</option><option value="SPECIAL">Special</option></select>
+      <select id="fStatus"><option value="">All Status</option><option value="RELEASING">Airing</option><option value="FINISHED">Finished</option><option value="NOT_YET_RELEASED">Upcoming</option><option value="CANCELLED">Cancelled</option></select>
+      <select id="fSort"><option value="POPULARITY_DESC">Popular</option><option value="SCORE_DESC">Top Rated</option><option value="TRENDING_DESC">Trending</option><option value="START_DATE_DESC">Newest</option><option value="START_DATE">Oldest</option><option value="FAVOURITES_DESC">Most Favorited</option></select>
+    </div>
   </div>
-  <div class="search-body">
-    <div id="searchResults" class="search-suggestions" aria-live="polite"></div>
-    <div id="searchEmpty" class="search-empty">Start typing to search anime…</div>
+  <p class="results-count" id="resultsCount"></p>
+  <div class="anime-grid" id="animeGrid"></div>
+  <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+    <button class="load-more-btn" id="loadMoreBtn">Load More</button>
   </div>
 </div>
 
-<main>
-  <!-- Page head -->
-  <section class="page-head">
-    <h1>Discover Anime</h1>
-    <p>Search the AniList catalog with advanced filters.</p>
-  </section>
-
-  <!-- Controls -->
-  <section class="controls">
-    <form class="big-search" id="searchForm" role="search" aria-label="Search anime">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input id="qInput" type="search" placeholder="Search by title (e.g. Naruto, Frieren, One Piece)…" autocomplete="off" />
-      <button class="clear" type="button" id="clearBtn" title="Clear">Clear</button>
-      <button type="submit">Search</button>
-    </form>
-
-    <div class="filter-rail" id="filterRail">
-      <div class="field">
-        <label for="fGenre">Genre</label>
-        <select id="fGenre"><option value="">Any</option></select>
-      </div>
-      <div class="field">
-        <label for="fYear">Year</label>
-        <select id="fYear"><option value="">Any</option></select>
-      </div>
-      <div class="field">
-        <label for="fSeason">Season</label>
-        <select id="fSeason">
-          <option value="">Any</option>
-          <option value="WINTER">Winter</option>
-          <option value="SPRING">Spring</option>
-          <option value="SUMMER">Summer</option>
-          <option value="FALL">Fall</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="fFormat">Format</label>
-        <select id="fFormat">
-          <option value="">Any</option>
-          <option value="TV">TV</option>
-          <option value="TV_SHORT">TV Short</option>
-          <option value="MOVIE">Movie</option>
-          <option value="SPECIAL">Special</option>
-          <option value="OVA">OVA</option>
-          <option value="ONA">ONA</option>
-          <option value="MUSIC">Music</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="fStatus">Status</label>
-        <select id="fStatus">
-          <option value="">Any</option>
-          <option value="RELEASING">Airing</option>
-          <option value="FINISHED">Completed</option>
-          <option value="NOT_YET_RELEASED">Upcoming</option>
-          <option value="CANCELLED">Cancelled</option>
-          <option value="HIATUS">Hiatus</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="fSort">Sort by</label>
-        <select id="fSort">
-          <option value="POPULARITY_DESC">Popularity</option>
-          <option value="TRENDING_DESC">Trending</option>
-          <option value="SCORE_DESC">Top Rated</option>
-          <option value="UPDATED_AT_DESC">Recently Updated</option>
-          <option value="START_DATE_DESC">Newest</option>
-          <option value="START_DATE">Oldest</option>
-          <option value="TITLE_ROMAJI">Title A→Z</option>
-          <option value="EPISODES_DESC">Most Episodes</option>
-          <option value="FAVOURITES_DESC">Most Favourited</option>
-        </select>
-      </div>
+<footer class="footer">
+  <div class="footer-inner">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" class="footer-logo" loading="lazy">
+    <p class="footer-text">This site does not store any files on its server. All contents are provided by non-affiliated third parties.</p>
+    <div class="footer-social">
+      <a href="#" aria-label="Discord"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg></a>
+      <a href="#" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="#" aria-label="GitHub"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
     </div>
-  </section>
-
-  <div class="filter-actions">
-    <button class="btn btn-ghost" id="resetBtn"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15.5-6.3L21 8"/><path d="M21 3v5h-5"/></svg> Reset</button>
-    <button class="btn btn-primary" id="applyBtn"><svg viewBox="0 0 24 24"><path d="M3 6h18M6 12h12M10 18h4"/></svg> Apply</button>
+    <p class="footer-copy">&copy; 2025 NamiTube. All rights reserved.</p>
   </div>
-
-  <div class="meta-line" id="metaLine">
-    <div id="resultCount">Searching…</div>
-    <div class="active-chips" id="activeChips"></div>
-  </div>
-
-  <section class="results" id="resultsGrid" aria-live="polite"></section>
-  <div class="end-message" id="endMessage" style="display:none">— end of results —</div>
-  <div class="sentinel" id="sentinel"></div>
-</main>
-
-<footer class="site">
-  <div class="footer-row">
-    <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M22 5.92a8.2 8.2 0 0 1-2.36.65 4.13 4.13 0 0 0 1.81-2.27 8.24 8.24 0 0 1-2.61 1 4.11 4.11 0 0 0-7 3.74A11.66 11.66 0 0 1 3.39 4.86a4.11 4.11 0 0 0 1.27 5.48 4.07 4.07 0 0 1-1.86-.51v.05a4.11 4.11 0 0 0 3.3 4.03 4.12 4.12 0 0 1-1.85.07 4.11 4.11 0 0 0 3.84 2.85A8.25 8.25 0 0 1 2 18.57a11.62 11.62 0 0 0 6.29 1.84c7.55 0 11.68-6.25 11.68-11.67v-.53A8.3 8.3 0 0 0 22 5.92z"/></svg></a>
-    <a href="#" aria-label="Discord"><svg viewBox="0 0 24 24"><path d="M20 4.5A18 18 0 0 0 15.6 3l-.2.4a16 16 0 0 0-6.8 0L8.4 3A18 18 0 0 0 4 4.5C1.6 8 1 11.4 1.3 14.8a18 18 0 0 0 5.5 2.8l1.1-1.7a11 11 0 0 1-1.7-.8l.4-.3a13 13 0 0 0 11 0l.4.3a11 11 0 0 1-1.7.8l1.1 1.7a18 18 0 0 0 5.5-2.8c.4-4 -.6-7.4-2.9-10.3zM9 13.5a1.8 1.8 0 1 1 0-3.7 1.8 1.8 0 0 1 0 3.7zm6 0a1.8 1.8 0 1 1 0-3.7 1.8 1.8 0 0 1 0 3.7z"/></svg></a>
-    <a href="#" aria-label="Telegram"><svg viewBox="0 0 24 24"><path d="M21.9 4.2 2.5 11.6c-1 .4-1 1.9.1 2.2l4.7 1.5L9 21c.3.9 1.4 1.1 2 .4l2.8-3.2 4.7 3.5c.8.6 2 .1 2.1-.9l2.5-15.4c.2-1-.7-1.7-1.6-1.3zM9.4 14.4l8.9-5.6-7.4 6.7-.3 3.7-1.2-4.8z"/></svg></a>
-    <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg></a>
-  </div>
-  <div>© <span id="year"></span> AlnurFunds · Built with AniList</div>
-  <p class="disclaimer">This site does not store any files on its server. All contents are provided by non-affiliated third parties.</p>
 </footer>
 
 <script>
-/* ===== AniList layer (shared) ===== */
-const ANILIST_URL='https://graphql.anilist.co';
-const CACHE_TTL=1000*60*10;
-const cacheKey=(q,v)=>'al:'+btoa(unescape(encodeURIComponent(q+JSON.stringify(v||{})))).slice(0,180);
-function readCache(k){try{const r=localStorage.getItem(k);if(!r)return null;const o=JSON.parse(r);if(!o||(Date.now()-o.t)>CACHE_TTL)return null;return o.d;}catch{return null;}}
-function writeCache(k,d){try{localStorage.setItem(k,JSON.stringify({t:Date.now(),d}));}catch{try{localStorage.clear();}catch{}}}
-const inflight=new Map();
-async function gql(query,variables={},{timeout=12000,retries=2,useCache=true,signal=null}={}){
-  const key=cacheKey(query,variables);
-  if(useCache){const c=readCache(key);if(c)return c;}
-  if(inflight.has(key))return inflight.get(key);
-  const exec=async()=>{
-    let lastErr;
-    for(let a=0;a<=retries;a++){
-      const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),timeout);
-      const onAbort=()=>ctrl.abort();
-      if(signal) signal.addEventListener('abort',onAbort,{once:true});
-      try{
-        const r=await fetch(ANILIST_URL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({query,variables}),signal:ctrl.signal});
-        clearTimeout(to);
-        if(r.status===429){await new Promise(res=>setTimeout(res,800*(a+1)));continue;}
-        if(!r.ok)throw new Error('HTTP '+r.status);
-        const j=await r.json();
-        if(j.errors&&!j.data)throw new Error(j.errors[0]?.message||'GraphQL error');
-        if(useCache)writeCache(key,j.data);return j.data;
-      }catch(e){
-        clearTimeout(to);lastErr=e;
-        if(signal?.aborted) throw e;
-        await new Promise(res=>setTimeout(res,400*(a+1)));
-      }
-    }
-    throw lastErr||new Error('Request failed');
-  };
-  const p=exec().finally(()=>inflight.delete(key));inflight.set(key,p);return p;
-}
+(function() {
+  'use strict';
+  const API = 'https://graphql.anilist.co';
+  const CACHE_TTL = 1000 * 60 * 15;
+  const MAX_RETRIES = 3;
+  const TIMEOUT = 8000;
+  const $ = (s, c=document) => c.querySelector(s);
+  const $$ = (s, c=document) => Array.from(c.querySelectorAll(s));
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  const params = new URLSearchParams(location.search);
 
-/* ===== utils ===== */
-const $=(s,r=document)=>r.querySelector(s);
-const escapeHtml=(s='')=>s.replace(/[&<>"']/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const pickTitle=m=>m?.title?.english||m?.title?.userPreferred||m?.title?.romaji||m?.title?.native||'Untitled';
-const debounce=(fn,d=300)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),d);};};
-
-/* ===== Sidebar / overlay search ===== */
-const $sb=$('#sidebar'),$sc=$('#scrim');
-$('#sidebarOpen').addEventListener('click',()=>{$sb.classList.add('open');$sc.classList.add('open');});
-$('#sidebarClose').addEventListener('click',()=>{$sb.classList.remove('open');$sc.classList.remove('open');});
-$sc.addEventListener('click',()=>{$sb.classList.remove('open');$sc.classList.remove('open');});
-
-const overlayEl=$('#searchOverlay'),overlayInput=$('#searchInput'),overlayResults=$('#searchResults'),overlayEmpty=$('#searchEmpty');
-function openOverlay(){overlayEl.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>overlayInput.focus(),50);}
-function closeOverlay(){overlayEl.classList.remove('open');document.body.style.overflow='';}
-$('#searchOpen').addEventListener('click',openOverlay);
-$('#searchClose').addEventListener('click',closeOverlay);
-document.addEventListener('keydown',e=>{
-  if(e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
-  if(e.key==='Escape')closeOverlay();
-  if((e.key==='/'||(e.ctrlKey&&e.key==='k'))&&!overlayEl.classList.contains('open')){e.preventDefault();openOverlay();}
-});
-const OVERLAY_Q=`query($s:String,$p:Int,$pp:Int){Page(page:$p,perPage:$pp){media(type:ANIME,search:$s,sort:SEARCH_MATCH){id title{english romaji userPreferred}coverImage{large}averageScore episodes format}}}`;
-function smallCard(m){const t=escapeHtml(pickTitle(m));return `<a class="card" href="anime.html?id=${m.id}"><div class="card-poster"><img loading="lazy" src="${m.coverImage?.large||''}" alt="${t}"><div class="card-grad"></div><div class="card-badges">${m.averageScore?`<span class="badge score">★ ${(m.averageScore/10).toFixed(1)}</span>`:''}<span class="badge hd">HD</span></div><div class="card-title">${t}</div></div></a>`;}
-const runOverlaySearch=debounce(async q=>{
-  if(!q||q.trim().length<2){overlayResults.innerHTML='';overlayEmpty.style.display='block';overlayEmpty.textContent='Start typing to search anime…';return;}
-  overlayEmpty.style.display='block';overlayEmpty.textContent='Searching…';
-  overlayResults.innerHTML=Array.from({length:8},()=>'<div class="sk sk-card"></div>').join('');
-  try{
-    const data=await gql(OVERLAY_Q,{s:q.trim(),p:1,pp:18},{useCache:false});
-    const list=data?.Page?.media?.filter(Boolean)||[];
-    if(!list.length){overlayResults.innerHTML='';overlayEmpty.textContent='No results found.';return;}
-    overlayEmpty.style.display='none';overlayResults.innerHTML=list.map(smallCard).join('');
-  }catch{overlayResults.innerHTML='';overlayEmpty.textContent='Search failed. Try again.';}
-},280);
-overlayInput.addEventListener('input',e=>runOverlaySearch(e.target.value));
-
-/* ============================================================
-   STATE FROM URL
-============================================================ */
-const PER_PAGE = 24;
-const STATE = {
-  q: '',
-  genre: '',
-  year: '',
-  season: '',
-  format: '',
-  status: '',
-  sort: 'POPULARITY_DESC',
-  page: 1,
-  total: 0,
-  hasNext: true,
-  loading: false,
-  ended: false,
-  abort: null,
-};
-
-function readUrl(){
-  const u = new URLSearchParams(location.search);
-  STATE.q = u.get('q') || '';
-  STATE.genre = u.get('genre') || '';
-  STATE.year = u.get('year') || '';
-  STATE.season = u.get('season') || '';
-  STATE.format = u.get('format') || '';
-  STATE.status = u.get('status') || '';
-  STATE.sort = u.get('sort') || 'POPULARITY_DESC';
-}
-function writeUrl(){
-  const u = new URLSearchParams();
-  if(STATE.q) u.set('q', STATE.q);
-  if(STATE.genre) u.set('genre', STATE.genre);
-  if(STATE.year) u.set('year', STATE.year);
-  if(STATE.season) u.set('season', STATE.season);
-  if(STATE.format) u.set('format', STATE.format);
-  if(STATE.status) u.set('status', STATE.status);
-  if(STATE.sort && STATE.sort!=='POPULARITY_DESC') u.set('sort', STATE.sort);
-  const qs = u.toString();
-  history.replaceState(null, '', qs ? `?${qs}` : location.pathname);
-}
-
-/* ============================================================
-   FIELDS
-============================================================ */
-function populateYears(){
-  const sel = $('#fYear');
-  const now = new Date().getFullYear() + 1;
-  let html = '<option value="">Any</option>';
-  for(let y=now; y>=1960; y--) html += `<option value="${y}">${y}</option>`;
-  sel.innerHTML = html;
-}
-async function populateGenres(){
-  const sel = $('#fGenre');
-  try{
-    const d = await gql(`query{ GenreCollection }`);
-    const genres = d?.GenreCollection || [];
-    sel.innerHTML = '<option value="">Any</option>' + genres.map(g=>`<option value="${escapeHtml(g)}">${escapeHtml(g)}</option>`).join('');
-    if(STATE.genre) sel.value = STATE.genre;
-  }catch{
-    sel.innerHTML = '<option value="">Any</option>';
+  function cacheGet(key) {
+    try { const item = JSON.parse(localStorage.getItem('nt_'+key)); if (item && Date.now()-item.t < CACHE_TTL) return item.d; } catch(e){}
+    return null;
   }
-}
-
-function syncFormFromState(){
-  $('#qInput').value = STATE.q;
-  $('#fGenre').value = STATE.genre;
-  $('#fYear').value  = STATE.year;
-  $('#fSeason').value= STATE.season;
-  $('#fFormat').value= STATE.format;
-  $('#fStatus').value= STATE.status;
-  $('#fSort').value  = STATE.sort;
-}
-function syncStateFromForm(){
-  STATE.q     = $('#qInput').value.trim();
-  STATE.genre = $('#fGenre').value;
-  STATE.year  = $('#fYear').value;
-  STATE.season= $('#fSeason').value;
-  STATE.format= $('#fFormat').value;
-  STATE.status= $('#fStatus').value;
-  STATE.sort  = $('#fSort').value || 'POPULARITY_DESC';
-}
-
-/* ============================================================
-   ACTIVE FILTER CHIPS
-============================================================ */
-function renderChips(){
-  const wrap = $('#activeChips');
-  const items = [];
-  const push = (label, key)=> items.push(`<span class="achip">${escapeHtml(label)} <button data-key="${key}" aria-label="Remove ${escapeHtml(label)}">✕</button></span>`);
-  if(STATE.q) push(`"${STATE.q}"`, 'q');
-  if(STATE.genre) push(STATE.genre, 'genre');
-  if(STATE.year) push(String(STATE.year), 'year');
-  if(STATE.season) push(STATE.season[0]+STATE.season.slice(1).toLowerCase(), 'season');
-  if(STATE.format) push(STATE.format.replace('_',' '), 'format');
-  if(STATE.status) push(({RELEASING:'Airing',FINISHED:'Completed',NOT_YET_RELEASED:'Upcoming',CANCELLED:'Cancelled',HIATUS:'Hiatus'}[STATE.status]||STATE.status), 'status');
-  if(STATE.sort && STATE.sort!=='POPULARITY_DESC') push('Sort: '+STATE.sort.replace('_',' ').toLowerCase(), 'sort');
-  wrap.innerHTML = items.join('');
-  wrap.querySelectorAll('button[data-key]').forEach(b=>{
-    b.addEventListener('click', ()=>{
-      const k = b.dataset.key;
-      if(k==='sort') STATE.sort = 'POPULARITY_DESC';
-      else STATE[k] = '';
-      syncFormFromState();
-      writeUrl();
-      reload();
-    });
-  });
-}
-
-/* ============================================================
-   QUERY
-============================================================ */
-const SEARCH_FIELDS = `
-  id idMal
-  title{english romaji userPreferred native}
-  coverImage{large extraLarge color}
-  averageScore popularity episodes duration
-  format status season seasonYear genres
-  startDate{year}
-`;
-function buildQuery(){
-  // build a single GraphQL query, variables filled dynamically
-  const args = ['type:ANIME','sort:[$sort]'];
-  if(STATE.q) args.push('search:$search');
-  if(STATE.genre) args.push('genre:$genre');
-  if(STATE.year) args.push('seasonYear:$year');
-  if(STATE.season) args.push('season:$season');
-  if(STATE.format) args.push('format:$format');
-  if(STATE.status) args.push('status:$status');
-  const varDefs = ['$page:Int','$perPage:Int','$sort:[MediaSort]'];
-  if(STATE.q) varDefs.push('$search:String');
-  if(STATE.genre) varDefs.push('$genre:String');
-  if(STATE.year) varDefs.push('$year:Int');
-  if(STATE.season) varDefs.push('$season:MediaSeason');
-  if(STATE.format) varDefs.push('$format:MediaFormat');
-  if(STATE.status) varDefs.push('$status:MediaStatus');
-
-  return `
-  query(${varDefs.join(',')}){
-    Page(page:$page,perPage:$perPage){
-      pageInfo{ total currentPage lastPage hasNextPage perPage }
-      media(${args.join(',')}){ ${SEARCH_FIELDS} }
+  function cacheSet(key, data) {
+    try { localStorage.setItem('nt_'+key, JSON.stringify({t:Date.now(),d:data})); } catch(e){}
+  }
+  async function gql(query, variables={}, retries=MAX_RETRIES) {
+    const cacheKey = query.trim().slice(0,60)+JSON.stringify(variables);
+    const cached = cacheGet(cacheKey); if (cached) return cached;
+    for (let i=0; i<retries; i++) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), TIMEOUT);
+      try {
+        const res = await fetch(API, { method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body: JSON.stringify({query,variables}), signal: controller.signal });
+        clearTimeout(timer);
+        if (!res.ok) throw new Error('HTTP '+res.status);
+        const json = await res.json();
+        if (json.errors) throw new Error(json.errors[0].message);
+        cacheSet(cacheKey, json.data); return json.data;
+      } catch(e) { clearTimeout(timer); if (i===retries-1) { console.error('GraphQL failed:', e.message); return null; } await wait(1000*(i+1)); }
     }
-  }`;
-}
-function buildVars(){
-  // If user is searching by text, the most useful sort is SEARCH_MATCH (but allow override).
-  const sort = STATE.q && STATE.sort==='POPULARITY_DESC' ? 'SEARCH_MATCH' : STATE.sort;
-  const v = { page: STATE.page, perPage: PER_PAGE, sort: [sort] };
-  if(STATE.q) v.search = STATE.q;
-  if(STATE.genre) v.genre = STATE.genre;
-  if(STATE.year) v.year = parseInt(STATE.year,10);
-  if(STATE.season) v.season = STATE.season;
-  if(STATE.format) v.format = STATE.format;
-  if(STATE.status) v.status = STATE.status;
-  return v;
-}
+    return null;
+  }
+  function esc(s) { const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
 
-/* ============================================================
-   RENDER
-============================================================ */
-function cardHtml(m){
-  if(!m) return '';
-  const title = escapeHtml(pickTitle(m));
-  const img = m.coverImage?.extraLarge || m.coverImage?.large || '';
-  const score = m.averageScore ? (m.averageScore/10).toFixed(1) : null;
-  const eps = m.episodes || null;
-  const fmt = m.format ? m.format.replace('_',' ') : '';
-  const sub = [m.season?(m.season[0]+m.season.slice(1).toLowerCase()):'', m.seasonYear || m.startDate?.year || ''].filter(Boolean).join(' · ');
-  return `
-    <a class="card" href="anime.html?id=${m.id}" aria-label="${title}">
-      <div class="card-poster">
-        <img loading="lazy" decoding="async" src="${img}" alt="${title}" onerror="this.style.opacity=0">
-        <div class="card-grad"></div>
+  let currentPage = 1;
+  let hasNextPage = true;
+  let isLoading = false;
+  let currentQuery = '';
+
+  function cardHTML(anime) {
+    const a = anime || {};
+    const img = a.coverImage?.large || a.coverImage?.medium || '';
+    const title = a.title?.english || a.title?.romaji || a.title?.native || 'Unknown';
+    const score = a.averageScore ? (a.averageScore/10).toFixed(1) : '';
+    const ep = a.nextAiringEpisode?.episode || a.episodes || '';
+    const fmt = a.format || '';
+    const year = a.seasonYear || (a.startDate?.year) || '';
+    const status = a.status || '';
+    return `<a href="anime.html?id=${a.id}" class="anime-card" aria-label="${esc(title)}">
+      <div class="card-img-wrap">
+        <img src="${esc(img)}" alt="${esc(title)}" class="card-img" loading="lazy">
+        <div class="card-overlay"><div class="card-play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
         <div class="card-badges">
-          ${score?`<span class="badge score">★ ${score}</span>`:''}
-          <span class="badge hd">HD</span>
-          ${eps?`<span class="badge">EP ${eps}</span>`:''}
-          ${fmt?`<span class="badge">${escapeHtml(fmt)}</span>`:''}
+          ${score ? `<span class="card-badge badge-score">★ ${score}</span>` : ''}
+          ${ep ? `<span class="card-badge badge-ep">EP ${ep}</span>` : ''}
+          <span class="card-badge badge-hd">HD</span>
         </div>
-        <div class="card-title">${title}</div>
+        <div class="card-badges" style="top:auto;bottom:8px;right:8px;left:auto;">
+          ${fmt ? `<span class="card-badge badge-format">${esc(fmt.replace(/_/g,' '))}</span>` : ''}
+        </div>
       </div>
-      <div class="card-sub">
-        <span>${escapeHtml(sub||'—')}</span>
-        <span>${escapeHtml(m.status?m.status.replace('_',' ').toLowerCase():'')}</span>
+      <div class="card-info">
+        <div class="card-title">${esc(title)}</div>
+        <div class="card-meta">${year ? esc(year) : ''}${status ? ' · '+esc(status.replace(/_/g,' ')) : ''}</div>
       </div>
     </a>`;
-}
-
-const resultsGrid = $('#resultsGrid');
-const endMessage  = $('#endMessage');
-const resultCount = $('#resultCount');
-
-function renderSkeletons(n=12){
-  resultsGrid.insertAdjacentHTML('beforeend',
-    Array.from({length:n},()=>'<div class="sk sk-card"></div>').join(''));
-}
-function clearSkeletons(){
-  resultsGrid.querySelectorAll('.sk.sk-card').forEach(n=>n.remove());
-}
-
-function renderState(kind, message){
-  resultsGrid.innerHTML = `
-    <div class="state-block" style="grid-column:1/-1">
-      <div class="icon">${kind==='empty'?'🔍':'⚠️'}</div>
-      <h3>${kind==='empty'?'No results':'Something went wrong'}</h3>
-      <p>${escapeHtml(message||'Try adjusting your filters.')}</p>
-    </div>`;
-}
-
-/* ============================================================
-   LOAD
-============================================================ */
-async function loadPage(reset=false){
-  if(STATE.loading) return;
-  if(STATE.ended && !reset) return;
-  STATE.loading = true;
-
-  if(reset){
-    STATE.page = 1;
-    STATE.total = 0;
-    STATE.hasNext = true;
-    STATE.ended = false;
-    resultsGrid.innerHTML = '';
-    endMessage.style.display = 'none';
-    resultCount.textContent = 'Searching…';
-    renderChips();
-    // cancel previous request
-    if(STATE.abort) STATE.abort.abort();
-    STATE.abort = new AbortController();
   }
 
-  renderSkeletons(12);
+  function skeletonCards(count=12) {
+    return Array(count).fill(0).map(() => `<div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text short"></div></div>`).join('');
+  }
 
-  try{
-    const data = await gql(buildQuery(), buildVars(), {useCache: !reset, signal: STATE.abort?.signal});
-    clearSkeletons();
+  async function doSearch(reset=false) {
+    if (isLoading) return;
+    isLoading = true;
+    const grid = $('#animeGrid');
+    const loadBtn = $('#loadMoreBtn');
+    if (reset) { currentPage = 1; hasNextPage = true; grid.innerHTML = skeletonCards(12); }
+    else { loadBtn.disabled = true; loadBtn.textContent = 'Loading...'; }
 
-    const page = data?.Page;
-    const list = (page?.media||[]).filter(Boolean);
-    STATE.total = page?.pageInfo?.total || 0;
-    STATE.hasNext = !!page?.pageInfo?.hasNextPage;
+    const q = $('#searchInput').value.trim();
+    const genre = $('#fGenre').value;
+    const season = $('#fSeason').value;
+    const year = $('#fYear').value;
+    const format = $('#fFormat').value;
+    const status = $('#fStatus').value;
+    const sort = $('#fSort').value;
 
-    if(reset && list.length===0){
-      renderState('empty','No anime matches your filters. Try removing some.');
-      resultCount.textContent = '0 results';
-      STATE.ended = true;
-      STATE.loading = false;
+    const vars = { search: q || undefined, page: currentPage, perPage: 24 };
+    if (genre) vars.genre = genre;
+    if (season) vars.season = season;
+    if (year) vars.seasonYear = parseInt(year);
+    if (format) vars.format = format;
+    if (status) vars.status = status;
+    if (sort) vars.sort = sort;
+
+    const data = await gql(`
+      query($search:String,$page:Int,$perPage:Int,$genre:String,$season:MediaSeason,$seasonYear:Int,$format:MediaFormat,$status:MediaStatus,$sort:[MediaSort]){
+        Page(page:$page,perPage:$perPage){
+          pageInfo{hasNextPage total}
+          media(search:$search,type:ANIME,genre:$genre,season:$season,seasonYear:$seasonYear,format:$format,status:$status,sort:$sort){
+            id title{english romaji native} coverImage{large medium} averageScore format episodes status seasonYear nextAiringEpisode{episode}
+          }
+        }
+      }`, vars);
+
+    isLoading = false;
+    if (reset) grid.innerHTML = '';
+
+    if (!data || !data.Page || !data.Page.media || !data.Page.media.length) {
+      if (reset) grid.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:40px;grid-column:1/-1;">No results found</p>';
+      $('#resultsCount').textContent = '0 results';
+      $('#loadMoreWrap').style.display = 'none';
       return;
     }
 
-    resultsGrid.insertAdjacentHTML('beforeend', list.map(cardHtml).join(''));
-    resultCount.textContent = `${STATE.total.toLocaleString()} result${STATE.total===1?'':'s'}`;
+    const pageInfo = data.Page.pageInfo;
+    hasNextPage = pageInfo?.hasNextPage || false;
+    $('#resultsCount').textContent = `${pageInfo?.total || data.Page.media.length} results`;
+    $('#loadMoreWrap').style.display = hasNextPage ? 'block' : 'none';
+    loadBtn.disabled = false;
+    loadBtn.textContent = 'Load More';
 
-    if(!STATE.hasNext){
-      STATE.ended = true;
-      endMessage.style.display = 'block';
-    } else {
-      STATE.page += 1;
-    }
-  }catch(e){
-    clearSkeletons();
-    if(e?.name==='AbortError') { STATE.loading=false; return; }
-    console.warn('[search]', e);
-    if(reset){
-      renderState('error','We could not reach AniList. Please retry.');
-      resultCount.textContent = '—';
-    } else {
-      endMessage.style.display = 'block';
-      endMessage.textContent = '— failed to load more, scroll up and try again —';
-      STATE.ended = true;
-    }
-  } finally {
-    STATE.loading = false;
+    const html = data.Page.media.map(cardHTML).join('');
+    if (reset) grid.innerHTML = html;
+    else grid.insertAdjacentHTML('beforeend', html);
   }
-}
 
-function reload(){ loadPage(true); }
+  // Header scroll
+  const header=$('#header');
+  window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY>20), {passive:true});
 
-/* ============================================================
-   INFINITE SCROLL
-============================================================ */
-const sentinel = $('#sentinel');
-const io = new IntersectionObserver(entries=>{
-  for(const e of entries){
-    if(e.isIntersecting && !STATE.loading && !STATE.ended){
-      loadPage(false);
-    }
+  // Sidebar
+  const hamburger=$('#hamburger'), sidebar=$('#sidebar'), sidebarOverlay=$('#sidebarOverlay');
+  function toggleSidebar() { const active=sidebar.classList.toggle('active'); hamburger.classList.toggle('active',active); sidebarOverlay.classList.toggle('active',active); document.body.style.overflow=active?'hidden':''; }
+  hamburger.addEventListener('click', toggleSidebar); sidebarOverlay.addEventListener('click', toggleSidebar);
+
+  // Populate year filter
+  const fYear = $('#fYear');
+  const curYear = new Date().getFullYear();
+  for (let y=curYear+1; y>=1980; y--) { const o=document.createElement('option'); o.value=y; o.textContent=y; fYear.appendChild(o); }
+
+  // Populate genre filter
+  async function loadGenres() {
+    const data = await gql(`query{GenreCollection}`);
+    if (!data) return;
+    const sel = $('#fGenre');
+    (data.GenreCollection||[]).forEach(g => { const o=document.createElement('option'); o.value=g; o.textContent=g; sel.appendChild(o); });
   }
-}, { rootMargin: '600px 0px' });
-io.observe(sentinel);
+  loadGenres();
 
-/* ============================================================
-   FORM EVENTS
-============================================================ */
-$('#searchForm').addEventListener('submit', e=>{
-  e.preventDefault();
-  syncStateFromForm();
-  writeUrl();
-  reload();
-});
-$('#applyBtn').addEventListener('click', ()=>{
-  syncStateFromForm();
-  writeUrl();
-  reload();
-});
-$('#clearBtn').addEventListener('click', ()=>{
-  $('#qInput').value='';
-  syncStateFromForm();
-  writeUrl();
-  reload();
-  $('#qInput').focus();
-});
-$('#resetBtn').addEventListener('click', ()=>{
-  STATE.q=''; STATE.genre=''; STATE.year=''; STATE.season='';
-  STATE.format=''; STATE.status=''; STATE.sort='POPULARITY_DESC';
-  syncFormFromState();
-  writeUrl();
-  reload();
-});
+  // Search events
+  let searchDebounce;
+  $('#searchInput').addEventListener('input', () => { clearTimeout(searchDebounce); searchDebounce = setTimeout(() => doSearch(true), 400); });
+  $$('.filters-bar select').forEach(s => s.addEventListener('change', () => doSearch(true)));
 
-// auto-apply when filters change (debounced)
-['fGenre','fYear','fSeason','fFormat','fStatus','fSort'].forEach(id=>{
-  document.getElementById(id).addEventListener('change', debounce(()=>{
-    syncStateFromForm();
-    writeUrl();
-    reload();
-  }, 100));
-});
-// live-update on typing in main search (debounced longer)
-$('#qInput').addEventListener('input', debounce(()=>{
-  syncStateFromForm();
-  writeUrl();
-  reload();
-}, 380));
+  // Load more
+  $('#loadMoreBtn').addEventListener('click', () => {
+    if (hasNextPage && !isLoading) { currentPage++; doSearch(false); }
+  });
 
-// react to back/forward
-window.addEventListener('popstate', ()=>{
-  readUrl();
-  syncFormFromState();
-  reload();
-});
+  // Infinite scroll
+  let scrollDebounce;
+  window.addEventListener('scroll', () => {
+    clearTimeout(scrollDebounce);
+    scrollDebounce = setTimeout(() => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 800) {
+        if (hasNextPage && !isLoading) { currentPage++; doSearch(false); }
+      }
+    }, 200);
+  }, {passive:true});
 
-/* ============================================================
-   BOOT
-============================================================ */
-$('#year').textContent = new Date().getFullYear();
-
-(async ()=>{
-  populateYears();
-  readUrl();
-  syncFormFromState();
-  await populateGenres();
-  syncFormFromState(); // reapply after genres exist
-  reload();
+  // Initial load
+  const initialQ = params.get('q') || '';
+  const initialGenre = params.get('genre') || '';
+  if (initialQ) $('#searchInput').value = initialQ;
+  if (initialGenre) $('#fGenre').value = initialGenre;
+  doSearch(true);
 })();
 </script>
 </body>
