@@ -234,16 +234,6 @@ body {
 }
 .hero-nav-btn:hover { background: rgba(168,85,247,0.3); border-color: var(--primary-light); }
 .hero-nav-btn svg { width: 18px; height: 18px; }
-.hero-dots {
-  position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 4;
-  display: flex; gap: 8px;
-}
-.hero-dot {
-  width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); border: none;
-  cursor: pointer; transition: var(--transition); padding: 0;
-}
-.hero-dot.active { width: 24px; border-radius: 4px; background: var(--primary-light); }
-
 /* Widgets */
 .section { padding: clamp(24px, 4vw, 48px) clamp(16px, 4vw, 48px); }
 .section-header {
@@ -350,6 +340,7 @@ body {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 </style>
+<base target="_blank">
 </head>
 <body>
 
@@ -406,7 +397,6 @@ body {
     <button class="hero-nav-btn" id="heroPrev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
     <button class="hero-nav-btn" id="heroNext" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
   </div>
-  <div class="hero-dots" id="heroDots"></div>
 </section>
 
 <main>
@@ -522,8 +512,8 @@ body {
     const score = a.averageScore ? (a.averageScore/10).toFixed(1) : '';
     const ep = a.nextAiringEpisode?.episode || a.episodes || '';
     const fmt = a.format || '';
-    const year = a.seasonYear || (a.startDate?.year) || '';
-    const status = a.status || '';
+    const year = '';
+    const status = '';
     return `<a href="anime.html?id=${a.id}" class="anime-card" aria-label="${esc(title)}">
       <div class="card-img-wrap">
         <img src="${esc(img)}" alt="${esc(title)}" class="card-img" loading="lazy">
@@ -693,8 +683,7 @@ body {
         </div>
       </div>`;
     }).join('');
-    heroDots.innerHTML = heroSlides.map((_,i) => `<button class="hero-dot ${i===0?'active':''}" data-index="${i}" aria-label="Slide ${i+1}"></button>`).join('');
-    $$('.hero-dot').forEach(d => d.addEventListener('click', () => goHero(parseInt(d.dataset.index))));
+
   }
 
   function goHero(idx) {
@@ -702,7 +691,7 @@ body {
     if (idx >= heroSlides.length) idx = 0;
     heroIndex = idx;
     $$('.hero-slide').forEach((s,i) => s.classList.toggle('active', i===idx));
-    $$('.hero-dot').forEach((d,i) => d.classList.toggle('active', i===idx));
+    
   }
   function nextHero() { goHero(heroIndex+1); }
   function prevHero() { goHero(heroIndex-1); }
