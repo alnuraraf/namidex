@@ -249,12 +249,6 @@ button{cursor:pointer;border:none;outline:none;font-family:inherit}
   position:absolute;bottom:clamp(16px,4vh,40px);right:clamp(16px,4vw,60px);
   display:flex;align-items:center;gap:12px;
 }
-.hero-dots{display:flex;gap:6px}
-.hero-dot{
-  width:8px;height:8px;border-radius:4px;
-  background:rgba(255,255,255,.3);transition:all .4s;cursor:pointer;
-}
-.hero-dot.active{width:24px;background:var(--purple2)}
 .hero-arrow{
   width:40px;height:40px;border-radius:50%;
   background:rgba(255,255,255,.1);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);
@@ -342,9 +336,19 @@ button{cursor:pointer;border:none;outline:none;font-family:inherit}
   transform:scale(.7);transition:transform .3s;
 }
 .anime-card:hover .card-play{transform:scale(1)}
+/* top-left badges: score + HD */
 .card-badges{
-  position:absolute;top:6px;left:6px;right:6px;
+  position:absolute;top:6px;left:6px;
   display:flex;gap:4px;flex-wrap:wrap;
+}
+/* bottom-right format badge */
+.card-format-badge{
+  position:absolute;bottom:6px;right:6px;
+  padding:2px 7px;border-radius:4px;
+  font-size:.6rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  background:rgba(13,13,26,.88);color:var(--purple3);
+  border:1px solid rgba(168,85,247,.4);
+  backdrop-filter:blur(4px);
 }
 .cbadge{
   padding:2px 6px;border-radius:4px;
@@ -353,10 +357,8 @@ button{cursor:pointer;border:none;outline:none;font-family:inherit}
 .cbadge-score{background:rgba(255,215,0,.85);color:#000}
 .cbadge-hd{background:rgba(0,230,118,.85);color:#000}
 .cbadge-ep{background:rgba(168,85,247,.85);color:#fff}
-.cbadge-format{background:rgba(30,30,53,.9);color:var(--text2);border:1px solid var(--border)}
 .card-info{padding:8px 10px 10px}
 .card-title{font-size:.78rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text)}
-.card-meta{font-size:.68rem;color:var(--text3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* ===== SKELETON ===== */
 .skeleton{
@@ -422,7 +424,6 @@ button{cursor:pointer;border:none;outline:none;font-family:inherit}
     </button>
     <nav class="nav-desktop">
       <a href="index.html" class="active">Home</a>
-      <a href="#trending">Trending</a>
       <a href="schedule.html">Schedule</a>
       <a href="donate.html">Donate</a>
     </nav>
@@ -508,7 +509,6 @@ button{cursor:pointer;border:none;outline:none;font-family:inherit}
   <div class="hero-track" id="hero-track"></div>
   <div class="hero-controls">
     <button class="hero-arrow" id="hero-prev" aria-label="Previous">&#8592;</button>
-    <div class="hero-dots" id="hero-dots"></div>
     <button class="hero-arrow" id="hero-next" aria-label="Next">&#8594;</button>
   </div>
 </section>
@@ -694,7 +694,6 @@ async function loadHero() {
 
 function buildHero() {
   const track = document.getElementById('hero-track');
-  const dots = document.getElementById('hero-dots');
   if (!heroSlides.length) { track.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text3)">Loading...</div>'; return; }
   track.innerHTML = heroSlides.map((a, i) => `
     <div class="hero-slide${i===0?' active':''}" data-index="${i}">
@@ -719,7 +718,6 @@ function buildHero() {
         </div>
       </div>
     </div>`).join('');
-  dots.innerHTML = heroSlides.map((_,i) => `<button class="hero-dot${i===0?' active':''}" onclick="gotoSlide(${i})"></button>`).join('');
   startHeroTimer();
   bindHeroDrag();
   document.getElementById('hero-prev').onclick = () => gotoSlide((heroCurrent - 1 + heroSlides.length) % heroSlides.length);
@@ -730,12 +728,9 @@ function gotoSlide(idx) {
   if (heroLocked || !heroSlides.length) return;
   heroLocked = true;
   const slides = document.querySelectorAll('.hero-slide');
-  const dots = document.querySelectorAll('.hero-dot');
   slides[heroCurrent]?.classList.remove('active');
-  dots[heroCurrent]?.classList.remove('active');
   heroCurrent = (idx + heroSlides.length) % heroSlides.length;
   slides[heroCurrent]?.classList.add('active');
-  dots[heroCurrent]?.classList.add('active');
   document.getElementById('hero-track').style.transform = `translateX(-${heroCurrent * 100}%)`;
   setTimeout(() => heroLocked = false, 750);
   restartHeroTimer();
@@ -805,6 +800,7 @@ async function loadSection(sec) {
 }
 
 function buildCard(a) {
+  const fmt = a.format || 'TV';
   return `<div class="anime-card" onclick="location.href='anime.html?id=${a.id}'">
     <div class="card-poster">
       <img src="${a.coverImage?.large || ''}" alt="${a.title?.romaji||''}" loading="lazy"/>
@@ -814,10 +810,10 @@ function buildCard(a) {
         <span class="cbadge cbadge-hd">HD</span>
         ${a.episodes ? `<span class="cbadge cbadge-ep">${a.episodes} EP</span>` : ''}
       </div>
+      <span class="card-format-badge">${fmt}</span>
     </div>
     <div class="card-info">
       <div class="card-title">${a.title?.english || a.title?.romaji || 'Unknown'}</div>
-      <div class="card-meta">${a.format || 'TV'} · ${a.status || ''}</div>
     </div>
   </div>`;
 }
