@@ -7,47 +7,53 @@
     <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHE6pMgjbJ6YDLaMAtDUZCs6Zhkvxl0_fQnb0c0ZCmJOYRB_4N8dQ0ZWosBq_sZPK2wFel2E43Z2meo25JL3i7IZYkJ35FZ7lZ_BZfwlWofAKGhF1gWpFsxofeGUr87Peu6s7xtgvJMnrbtNnd4vJPtB7uG3L_wJ9tT8PKRCh-PXSxlyY9Ufn8OAzDY_Y/s320/NamiTube%20Original%20Favicon.png" type="image/png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
-        /* ----- RESET & BASE ----- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: #050505;
             color: #fff;
             overflow-x: hidden;
         }
+
         a {
             text-decoration: none;
             color: inherit;
         }
+
         img {
             display: block;
             max-width: 100%;
         }
+
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
+
         ::-webkit-scrollbar-track {
             background: #0a0a0a;
         }
+
         ::-webkit-scrollbar-thumb {
             background: #8b5cf6;
             border-radius: 12px;
         }
+
         ::-webkit-scrollbar-thumb:hover {
             background: #a855f7;
         }
+
         .container {
             max-width: 1440px;
             margin: 0 auto;
             padding: 0 24px;
         }
 
-        /* ----- HEADER ----- */
         header {
             position: sticky;
             top: 0;
@@ -58,6 +64,7 @@
             border-bottom: 1px solid rgba(139, 92, 246, .2);
             padding: 10px 0;
         }
+
         .header-inner {
             display: flex;
             align-items: center;
@@ -67,6 +74,7 @@
             padding: 0 24px;
             gap: 16px;
         }
+
         .hamburger {
             background: none;
             border: none;
@@ -80,10 +88,12 @@
             align-items: center;
             justify-content: center;
         }
+
         .hamburger:hover {
             background: rgba(139, 92, 246, .2);
             color: #a855f7;
         }
+
         .header-logo {
             flex: 1;
             display: flex;
@@ -91,11 +101,13 @@
             align-items: center;
             min-width: 0;
         }
+
         .header-logo a {
             display: flex;
             justify-content: center;
             align-items: center;
         }
+
         .header-logo img {
             max-height: 52px;
             width: auto;
@@ -104,9 +116,11 @@
             border-radius: 4px;
             transition: filter .3s;
         }
+
         .header-logo img:hover {
             filter: drop-shadow(0 0 50px rgba(139, 92, 246, .6));
         }
+
         .header-search {
             background: none;
             border: none;
@@ -120,12 +134,12 @@
             align-items: center;
             justify-content: center;
         }
+
         .header-search:hover {
             background: rgba(139, 92, 246, .2);
             color: #a855f7;
         }
 
-        /* ----- DRAWER ----- */
         .drawer-overlay {
             position: fixed;
             inset: 0;
@@ -137,10 +151,12 @@
             visibility: hidden;
             transition: .35s;
         }
+
         .drawer-overlay.active {
             opacity: 1;
             visibility: visible;
         }
+
         .drawer {
             position: fixed;
             top: 0;
@@ -155,9 +171,11 @@
             overflow-y: auto;
             box-shadow: 4px 0 40px rgba(0, 0, 0, .6);
         }
+
         .drawer.open {
             left: 0;
         }
+
         .drawer-close {
             background: none;
             border: none;
@@ -172,27 +190,33 @@
             padding: 4px 0;
             transition: .2s;
         }
+
         .drawer-close:hover {
             color: #a855f7;
         }
+
         .drawer-logo {
             text-align: center;
             margin-bottom: 30px;
         }
+
         .drawer-logo a {
             display: inline-block;
         }
+
         .drawer-logo img {
             max-height: 44px;
             width: auto;
             margin: 0 auto;
             filter: drop-shadow(0 0 20px rgba(139, 92, 246, .3));
         }
+
         .drawer-nav {
             display: flex;
             flex-direction: column;
             gap: 6px;
         }
+
         .drawer-nav a {
             display: flex;
             align-items: center;
@@ -205,6 +229,7 @@
             transition: .25s;
             background: transparent;
         }
+
         .drawer-nav a i {
             width: 24px;
             text-align: center;
@@ -212,17 +237,18 @@
             color: #8b5cf6;
             transition: .25s;
         }
+
         .drawer-nav a:hover {
             background: rgba(139, 92, 246, .12);
             color: #fff;
             padding-left: 24px;
         }
+
         .drawer-nav a:hover i {
             color: #a855f7;
             transform: scale(1.1);
         }
 
-        /* ----- SEARCH OVERLAY ----- */
         .search-overlay {
             position: fixed;
             inset: 0;
@@ -238,10 +264,12 @@
             visibility: hidden;
             transition: .4s;
         }
+
         .search-overlay.active {
             opacity: 1;
             visibility: visible;
         }
+
         .search-close {
             align-self: flex-end;
             background: none;
@@ -252,16 +280,19 @@
             transition: .2s;
             padding: 8px;
         }
+
         .search-close:hover {
             color: #a855f7;
             transform: rotate(90deg);
         }
+
         .search-input-wrap {
             width: 100%;
             max-width: 680px;
             margin-top: 20px;
             position: relative;
         }
+
         .search-input-wrap input {
             width: 100%;
             padding: 18px 22px;
@@ -274,13 +305,16 @@
             transition: .3s;
             font-weight: 400;
         }
+
         .search-input-wrap input:focus {
             border-color: #8b5cf6;
             box-shadow: 0 0 40px rgba(139, 92, 246, .15);
         }
+
         .search-input-wrap input::placeholder {
             color: rgba(255, 255, 255, .4);
         }
+
         .search-results {
             width: 100%;
             max-width: 680px;
@@ -292,67 +326,30 @@
             overflow-y: auto;
             padding: 4px;
         }
-        .search-results .result-card {
-            background: rgba(255, 255, 255, .04);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: .3s;
-            cursor: pointer;
-            border: 1px solid rgba(139, 92, 246, .08);
-        }
-        .search-results .result-card:hover {
-            transform: scale(1.04);
-            border-color: #8b5cf6;
-            box-shadow: 0 0 30px rgba(139, 92, 246, .15);
-        }
-        .search-results .result-card img {
-            width: 100%;
-            aspect-ratio: 2/3;
-            object-fit: cover;
-        }
-        .search-results .result-card .info {
-            padding: 10px 12px 14px;
-        }
-        .search-results .result-card .info h4 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .search-results .result-card .info span {
-            font-size: 12px;
-            color: #aaa;
-        }
-        .search-no-results {
-            color: #888;
-            font-size: 18px;
-            text-align: center;
-            padding: 40px 0;
-            grid-column: 1 / -1;
-        }
 
-        /* ----- FOOTER ----- */
         footer {
             background: #08080c;
             border-top: 1px solid rgba(139, 92, 246, .15);
             padding: 40px 24px 30px;
             margin-top: 60px;
         }
+
         .footer-inner {
             max-width: 1440px;
             margin: 0 auto;
             text-align: center;
         }
+
         .footer-banner {
             display: flex;
             justify-content: center;
             margin-bottom: 24px;
         }
+
         .footer-banner a {
             display: inline-block;
         }
+
         .footer-banner img {
             max-height: 48px;
             width: auto;
@@ -360,9 +357,11 @@
             border-radius: 4px;
             transition: filter .3s;
         }
+
         .footer-banner img:hover {
             filter: drop-shadow(0 0 50px rgba(139, 92, 246, .6));
         }
+
         .footer-socials {
             display: flex;
             justify-content: center;
@@ -370,6 +369,7 @@
             flex-wrap: wrap;
             margin-bottom: 20px;
         }
+
         .footer-socials a {
             display: flex;
             align-items: center;
@@ -383,6 +383,7 @@
             transition: .3s;
             border: 1px solid rgba(139, 92, 246, .06);
         }
+
         .footer-socials a:hover {
             background: rgba(139, 92, 246, .15);
             color: #a855f7;
@@ -390,6 +391,7 @@
             box-shadow: 0 0 30px rgba(139, 92, 246, .2);
             border-color: #8b5cf6;
         }
+
         .footer-disclaimer {
             max-width: 720px;
             margin: 16px auto 12px;
@@ -398,675 +400,665 @@
             line-height: 1.7;
             padding: 0 12px;
         }
+
         .footer-copy {
             font-size: 14px;
             color: #555;
         }
+
         .footer-copy span {
             color: #8b5cf6;
         }
 
-        /* ----- RESPONSIVE ----- */
-        @media (max-width: 768px) {
-            .header-inner {
-                padding: 0 14px;
-                gap: 8px;
-            }
-            .header-logo img {
-                max-height: 38px;
-            }
-            .hamburger {
-                font-size: 22px;
-                padding: 4px 8px;
-            }
-            .header-search {
-                font-size: 18px;
-                padding: 4px 8px;
-            }
-            .drawer {
-                width: 280px;
-                left: -290px;
-                padding: 24px 16px;
-            }
-            .drawer-nav a {
-                font-size: 15px;
-                padding: 12px 14px;
-            }
-            .search-input-wrap input {
-                font-size: 17px;
-                padding: 14px 18px;
-            }
-            .search-results {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-                gap: 12px;
-            }
-            .footer-socials {
-                gap: 16px;
-            }
-            .footer-socials a {
-                width: 40px;
-                height: 40px;
-                font-size: 17px;
-            }
-            .footer-banner img {
-                max-height: 36px;
-            }
-            .container {
-                padding: 0 14px;
-            }
-        }
-        @media (max-width: 480px) {
-            .header-logo img {
-                max-height: 30px;
-            }
-            .search-results {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-                gap: 10px;
-            }
-            .drawer {
-                width: 260px;
-                left: -270px;
-            }
-        }
-        @media (min-width: 1600px) {
-            .container {
-                padding: 0 40px;
-            }
-            .header-inner {
-                padding: 0 40px;
-            }
-        }
-
-        /* ----- DONATE SPECIFIC ----- */
         .donate-hero {
-            padding: 40px 0 20px;
+            padding: 60px 0 30px;
             text-align: center;
         }
+
         .donate-hero h1 {
-            font-size: clamp(32px, 5vw, 60px);
+            font-size: clamp(36px, 6vw, 70px);
+            margin-bottom: 18px;
+            font-weight: 800;
+            background: linear-gradient(90deg,#fff,#a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .donate-hero p {
+            max-width: 900px;
+            margin: 0 auto;
+            color: #bdbdbd;
+            line-height: 1.9;
+            font-size: 18px;
+        }
+
+        .hero-highlight {
+            color: #a855f7;
             font-weight: 700;
+        }
+
+        .notice-box {
+            margin: 40px auto;
+            max-width: 1100px;
+            background: rgba(139,92,246,.06);
+            border: 1px solid rgba(139,92,246,.18);
+            border-radius: 26px;
+            padding: 30px;
+            backdrop-filter: blur(12px);
+        }
+
+        .notice-box h2 {
+            font-size: 28px;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+
+        .notice-box p {
+            color: #cfcfcf;
+            line-height: 1.9;
+            font-size: 16px;
+        }
+
+        .lang-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+            gap: 22px;
+            margin-top: 40px;
+        }
+
+        .lang-card {
+            background: rgba(255,255,255,.03);
+            border: 1px solid rgba(139,92,246,.1);
+            border-radius: 24px;
+            padding: 24px;
+            transition: .3s;
+        }
+
+        .lang-card:hover {
+            transform: translateY(-6px);
+            border-color: #8b5cf6;
+            box-shadow: 0 0 40px rgba(139,92,246,.1);
+        }
+
+        .lang-card h3 {
+            margin-bottom: 14px;
+            font-size: 22px;
+            color: #a855f7;
+        }
+
+        .lang-card p {
+            color: #d0d0d0;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .wallet-section {
+            margin-top: 60px;
+        }
+
+        .wallet-title {
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 40px;
+            font-weight: 800;
+        }
+
+        .wallet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+            gap: 24px;
+        }
+
+        .wallet-card {
+            background: rgba(255,255,255,.03);
+            border: 1px solid rgba(139,92,246,.1);
+            border-radius: 24px;
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+            transition: .35s;
+        }
+
+        .wallet-card:hover {
+            transform: translateY(-8px);
+            border-color: #8b5cf6;
+            box-shadow: 0 0 50px rgba(139,92,246,.12);
+        }
+
+        .wallet-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            background: rgba(139,92,246,.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
-        .donate-hero h1 i {
-            color: #8b5cf6;
-        }
-        .donate-hero p {
-            font-size: 18px;
-            color: #aaa;
-            max-width: 640px;
-            margin: 0 auto 8px;
-            line-height: 1.7;
-        }
-        .donate-hero .highlight {
+            margin-bottom: 18px;
+            font-size: 30px;
             color: #a855f7;
-            font-weight: 600;
         }
 
-        .donate-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 28px;
-            padding: 20px 0 30px;
-        }
-        .donate-card {
-            background: rgba(255, 255, 255, .03);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(139, 92, 246, .12);
-            border-radius: 24px;
-            padding: 30px 24px 34px;
-            text-align: center;
-            transition: .35s;
-            box-shadow: 0 4px 40px rgba(0, 0, 0, .3), 0 0 40px rgba(139, 92, 246, .02);
-            position: relative;
-            overflow: hidden;
-        }
-        .donate-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at center, rgba(139, 92, 246, .04), transparent 70%);
-            opacity: 0;
-            transition: .5s;
-            pointer-events: none;
-        }
-        .donate-card:hover::before {
-            opacity: 1;
-        }
-        .donate-card:hover {
-            transform: translateY(-8px);
-            border-color: #8b5cf6;
-            box-shadow: 0 12px 60px rgba(139, 92, 246, .15), 0 0 80px rgba(139, 92, 246, .05);
-        }
-        .donate-card .icon {
-            font-size: 44px;
-            color: #8b5cf6;
-            margin-bottom: 14px;
-            display: block;
-        }
-        .donate-card .amount {
-            font-size: 36px;
+        .wallet-name {
+            font-size: 24px;
             font-weight: 700;
-            margin-bottom: 4px;
-            color: #fff;
+            margin-bottom: 12px;
         }
-        .donate-card .amount span {
-            font-size: 20px;
-            color: #888;
-            font-weight: 400;
-        }
-        .donate-card .label {
+
+        .wallet-address {
+            background: rgba(255,255,255,.04);
+            border: 1px solid rgba(139,92,246,.08);
+            border-radius: 16px;
+            padding: 16px;
+            word-break: break-all;
+            color: #d8d8d8;
+            line-height: 1.8;
             font-size: 14px;
-            color: #999;
-            margin-bottom: 14px;
+            margin-bottom: 18px;
         }
-        .donate-card .desc {
-            font-size: 14px;
-            color: #bbb;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            padding: 0 4px;
-        }
-        .donate-card .donate-btn {
-            background: rgba(139, 92, 246, .12);
-            border: 1px solid rgba(139, 92, 246, .2);
+
+        .copy-btn {
+            width: 100%;
+            border: none;
+            background: #8b5cf6;
             color: #fff;
-            padding: 12px 32px;
+            padding: 14px;
             border-radius: 60px;
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: .3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
         }
-        .donate-card .donate-btn:hover {
-            background: #8b5cf6;
-            box-shadow: 0 0 40px rgba(139, 92, 246, .25);
-            transform: scale(1.04);
-        }
-        .donate-card.featured {
-            border-color: #8b5cf6;
-            box-shadow: 0 0 60px rgba(139, 92, 246, .08);
-            background: rgba(139, 92, 246, .04);
-        }
-        .donate-card.featured .donate-btn {
-            background: #8b5cf6;
-            box-shadow: 0 0 40px rgba(139, 92, 246, .2);
-        }
-        .donate-card.featured .donate-btn:hover {
+
+        .copy-btn:hover {
             background: #a855f7;
-            box-shadow: 0 0 60px rgba(139, 92, 246, .3);
+            transform: scale(1.02);
         }
-        .donate-card .badge {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: rgba(139, 92, 246, .15);
-            padding: 4px 14px;
-            border-radius: 30px;
-            font-size: 11px;
-            border: 1px solid rgba(139, 92, 246, .15);
+
+        .why-support {
+            margin-top: 70px;
+            text-align: center;
+        }
+
+        .why-support h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .why-support p {
+            color: #bbb;
+            line-height: 1.9;
+            max-width: 1000px;
+            margin: auto;
+            font-size: 17px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
+            gap: 22px;
+            margin-top: 40px;
+        }
+
+        .feature-box {
+            background: rgba(255,255,255,.03);
+            border: 1px solid rgba(139,92,246,.1);
+            border-radius: 24px;
+            padding: 28px;
+            transition: .3s;
+        }
+
+        .feature-box:hover {
+            border-color: #8b5cf6;
+            transform: translateY(-5px);
+        }
+
+        .feature-box i {
+            font-size: 36px;
             color: #a855f7;
+            margin-bottom: 18px;
+        }
+
+        .feature-box h3 {
+            margin-bottom: 12px;
+            font-size: 22px;
+        }
+
+        .feature-box p {
+            color: #bbb;
+            line-height: 1.8;
+            font-size: 15px;
         }
 
         .thankyou-section {
             text-align: center;
-            padding: 20px 0 30px;
-            border-top: 1px solid rgba(139, 92, 246, .06);
-            margin-top: 10px;
+            margin-top: 70px;
+            padding: 40px 0;
         }
-        .thankyou-section .heart {
-            font-size: 48px;
+
+        .thankyou-section i {
+            font-size: 60px;
             color: #a855f7;
-            display: block;
-            margin-bottom: 12px;
-            animation: pulse 2s ease-in-out infinite;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
         }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.12); }
-        }
+
         .thankyou-section h2 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 6px;
+            font-size: 42px;
+            margin-bottom: 18px;
         }
+
         .thankyou-section p {
-            color: #aaa;
-            font-size: 16px;
-            max-width: 500px;
-            margin: 0 auto;
-            line-height: 1.7;
+            max-width: 760px;
+            margin: auto;
+            color: #bbb;
+            line-height: 1.9;
+            font-size: 17px;
         }
 
-        .support-extra {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-            justify-content: center;
-            padding: 16px 0 10px;
-            border-top: 1px solid rgba(139, 92, 246, .06);
-            margin-top: 8px;
-        }
-        .support-extra .item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(255, 255, 255, .02);
-            padding: 12px 24px;
-            border-radius: 60px;
-            border: 1px solid rgba(139, 92, 246, .06);
-            transition: .3s;
-        }
-        .support-extra .item:hover {
-            border-color: rgba(139, 92, 246, .2);
-            background: rgba(139, 92, 246, .04);
-        }
-        .support-extra .item i {
-            font-size: 22px;
-            color: #8b5cf6;
-        }
-        .support-extra .item span {
-            font-size: 14px;
-            color: #ccc;
+        @keyframes pulse {
+            0%,100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
-        .payment-methods {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            justify-content: center;
-            padding: 10px 0 20px;
-        }
-        .payment-methods .method {
-            background: rgba(255, 255, 255, .03);
-            border: 1px solid rgba(139, 92, 246, .06);
-            padding: 10px 22px;
-            border-radius: 40px;
-            font-size: 14px;
-            color: #aaa;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: .3s;
-        }
-        .payment-methods .method:hover {
-            border-color: #8b5cf6;
-            color: #fff;
-            background: rgba(139, 92, 246, .06);
-        }
-        .payment-methods .method i {
-            font-size: 20px;
-            color: #8b5cf6;
-        }
+        @media(max-width:768px){
+            .wallet-grid,
+            .lang-grid,
+            .feature-grid{
+                grid-template-columns:1fr;
+            }
 
-        .loading-placeholder {
-            padding: 40px;
-            text-align: center;
-            color: #666;
-            font-size: 18px;
-        }
-        .loading-placeholder i {
-            font-size: 30px;
-            color: #8b5cf6;
-            display: block;
-            margin-bottom: 12px;
-        }
+            .wallet-title,
+            .why-support h2,
+            .thankyou-section h2{
+                font-size:30px;
+            }
 
-        @media (max-width: 600px) {
-            .donate-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
+            .donate-hero p{
+                font-size:16px;
             }
-            .donate-card {
-                padding: 24px 18px 28px;
-            }
-            .donate-card .amount {
-                font-size: 30px;
-            }
-            .donate-hero h1 {
-                font-size: 28px;
-            }
-            .support-extra .item {
-                padding: 10px 18px;
-                font-size: 13px;
-            }
-            .payment-methods .method {
-                padding: 8px 16px;
-                font-size: 13px;
+
+            .container{
+                padding:0 14px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
-    <header>
-        <div class="header-inner">
-            <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="header-logo">
-                <a href="index.html">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
-                </a>
-            </div>
-            <button class="header-search" id="searchBtn" aria-label="Search">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-    </header>
+<header>
+    <div class="header-inner">
+        <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
 
-    <!-- ===== DRAWER ===== -->
-    <div class="drawer-overlay" id="drawerOverlay"></div>
-    <div class="drawer" id="drawer">
-        <button class="drawer-close" id="drawerClose"><i class="fas fa-times"></i></button>
-        <div class="drawer-logo">
+        <div class="header-logo">
             <a href="index.html">
                 <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
             </a>
         </div>
-        <nav class="drawer-nav">
-            <a href="index.html"><i class="fas fa-house"></i> Home</a>
-            <a href="discover.html"><i class="fas fa-compass"></i> Discover</a>
-            <a href="donate.html"><i class="fas fa-hand-holding-heart"></i> Donate</a>
-            <a href="creator.html"><i class="fas fa-star"></i> Creator</a>
-        </nav>
+
+        <button class="header-search" id="searchBtn" aria-label="Search">
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+</header>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<div class="drawer" id="drawer">
+    <button class="drawer-close" id="drawerClose">
+        <i class="fas fa-times"></i>
+    </button>
+
+    <div class="drawer-logo">
+        <a href="index.html">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
+        </a>
     </div>
 
-    <!-- ===== SEARCH OVERLAY ===== -->
-    <div class="search-overlay" id="searchOverlay">
-        <button class="search-close" id="searchClose"><i class="fas fa-times"></i></button>
-        <div class="search-input-wrap">
-            <input type="text" id="searchInput" placeholder="Search animation &amp; anime..." autofocus />
-        </div>
-        <div class="search-results" id="searchResults"></div>
+    <nav class="drawer-nav">
+        <a href="index.html"><i class="fas fa-house"></i> Home</a>
+        <a href="discover.html"><i class="fas fa-compass"></i> Discover</a>
+        <a href="donate.html"><i class="fas fa-hand-holding-heart"></i> Donate</a>
+        <a href="creator.html"><i class="fas fa-star"></i> Creator</a>
+    </nav>
+</div>
+
+<div class="search-overlay" id="searchOverlay">
+    <button class="search-close" id="searchClose">
+        <i class="fas fa-times"></i>
+    </button>
+
+    <div class="search-input-wrap">
+        <input type="text" id="searchInput" placeholder="Search animation & anime..." autofocus />
     </div>
 
-    <!-- ===== MAIN ===== -->
-    <main>
-        <div class="container">
-            <!-- Hero -->
-            <div class="donate-hero">
-                <h1>
-                    <i class="fas fa-hand-holding-heart"></i>
-                    Support NamiTube
-                </h1>
-                <p>
-                    Your contribution helps us keep the platform running, improve features, and deliver the best
-                    <span class="highlight">animation &amp; anime</span> experience. Every donation, big or small, makes a difference.
-                </p>
-            </div>
+    <div class="search-results" id="searchResults"></div>
+</div>
 
-            <!-- Donation Cards -->
-            <div class="donate-grid" id="donateGrid">
-                <div class="donate-card">
-                    <span class="icon"><i class="fas fa-mug-hot"></i></span>
-                    <div class="amount">$3 <span>USD</span></div>
-                    <div class="label">Supporter</div>
-                    <div class="desc">Help us cover basic server costs and keep the streams running smoothly.</div>
-                    <button class="donate-btn" onclick="handleDonate(3)"><i class="fas fa-heart"></i> Donate $3</button>
-                </div>
+<main>
+    <div class="container">
 
-                <div class="donate-card featured">
-                    <span class="badge">Popular</span>
-                    <span class="icon"><i class="fas fa-star"></i></span>
-                    <div class="amount">$10 <span>USD</span></div>
-                    <div class="label">Champion</div>
-                    <div class="desc">Get a special mention on our supporter wall and help us upgrade our infrastructure.</div>
-                    <button class="donate-btn" onclick="handleDonate(10)"><i class="fas fa-heart"></i> Donate $10</button>
-                </div>
+        <section class="donate-hero">
+            <h1>Support NamiTube 💜</h1>
 
-                <div class="donate-card">
-                    <span class="icon"><i class="fas fa-crown"></i></span>
-                    <div class="amount">$25 <span>USD</span></div>
-                    <div class="label">Legend</div>
-                    <div class="desc">Top-tier support. You'll get a legendary badge on your profile and our eternal gratitude.</div>
-                    <button class="donate-btn" onclick="handleDonate(25)"><i class="fas fa-heart"></i> Donate $25</button>
-                </div>
-            </div>
+            <p>
+                NamiTube is a free anime streaming platform created for anime fans worldwide.
+                We currently do <span class="hero-highlight">NOT run ads</span> on the website,
+                and the platform is running on a free subdomain.
+                Your donation will help us maintain servers, improve streaming quality,
+                and purchase a premium domain for a better experience.
+            </p>
+        </section>
 
-            <!-- Payment Methods -->
-            <div class="payment-methods">
-                <div class="method"><i class="fab fa-cc-paypal"></i> PayPal</div>
-                <div class="method"><i class="fab fa-cc-stripe"></i> Stripe</div>
-                <div class="method"><i class="fab fa-bitcoin"></i> Bitcoin</div>
-                <div class="method"><i class="fab fa-cc-visa"></i> Visa</div>
-                <div class="method"><i class="fab fa-cc-mastercard"></i> Mastercard</div>
-            </div>
+        <div class="notice-box">
+            <h2>Why We Need Donations</h2>
 
-            <!-- Thank You -->
-            <div class="thankyou-section">
-                <span class="heart"><i class="fas fa-heart"></i></span>
-                <h2>Thank You for Your Support</h2>
-                <p>
-                    Every donation helps us continue to provide <strong>free, premium animation streaming</strong>
-                    for fans around the world. You're awesome.
-                </p>
-            </div>
-
-            <!-- Extra support options -->
-            <div class="support-extra">
-                <div class="item"><i class="fas fa-envelope"></i> <span>Sponsor@NamiTube.com</span></div>
-                <div class="item"><i class="fas fa-message"></i> <span>DM us on Discord</span></div>
-                <div class="item"><i class="fas fa-coins"></i> <span>Monthly recurring</span></div>
-            </div>
+            <p>
+                Running an anime streaming platform requires server maintenance, bandwidth, API services,
+                domain costs, and continuous development. Since we don't use annoying popups or intrusive ads,
+                donations from our community are the only way to keep NamiTube alive and improving.
+                Even a small contribution means a lot and helps thousands of anime fans enjoy free streaming.
+            </p>
         </div>
-    </main>
 
-    <!-- ===== FOOTER ===== -->
-    <footer>
-        <div class="footer-inner">
-            <div class="footer-banner">
-                <a href="index.html">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
-                </a>
-            </div>
-            <div class="footer-socials">
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
-                <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
-                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-            </div>
-            <div class="footer-disclaimer">
-                This website does not host any video content on its servers. All media content is embedded from third-party providers. We do not store or upload any videos. All trademarks, logos, and content belong to their respective owners.
-            </div>
-            <div class="footer-copy">
-                &copy; 2026 <span>NamiTube</span>. All Rights Reserved.<br />
-                Powered by TMDB API
-            </div>
-        </div>
-    </footer>
+        <section class="wallet-section">
+            <h2 class="wallet-title">Crypto Donation Wallets</h2>
 
-    <script>
-        // ============================================================
-        //  CONFIG
-        // ============================================================
-        const TMDB_API_KEY = "e10da2e2cbb23ea7ebfb64c3a188b64a";
-        const TMDB_BASE = "https://api.themoviedb.org/3";
-        const TMDB_IMG = "https://image.tmdb.org/t/p";
-        const GENRE_ID = 16;
+            <div class="wallet-grid">
 
-        // ============================================================
-        //  DRAWER & SEARCH (reused)
-        // ============================================================
-        const hamburger = document.getElementById('hamburgerBtn');
-        const drawer = document.getElementById('drawer');
-        const overlay = document.getElementById('drawerOverlay');
-        const closeBtn = document.getElementById('drawerClose');
-
-        function openDrawer() { drawer.classList.add('open');
-            overlay.classList.add('active'); }
-
-        function closeDrawer() { drawer.classList.remove('open');
-            overlay.classList.remove('active'); }
-        hamburger.addEventListener('click', openDrawer);
-        closeBtn.addEventListener('click', closeDrawer);
-        overlay.addEventListener('click', closeDrawer);
-
-        const searchBtn = document.getElementById('searchBtn');
-        const searchOverlay = document.getElementById('searchOverlay');
-        const searchClose = document.getElementById('searchClose');
-        const searchInput = document.getElementById('searchInput');
-        const searchResults = document.getElementById('searchResults');
-        let searchTimeout = null;
-
-        function openSearch() { searchOverlay.classList.add('active');
-            setTimeout(() => searchInput.focus(), 200); }
-
-        function closeSearch() { searchOverlay.classList.remove('active');
-            searchResults.innerHTML = '';
-            searchInput.value = ''; }
-        searchBtn.addEventListener('click', openSearch);
-        searchClose.addEventListener('click', closeSearch);
-
-        searchInput.addEventListener('input', function() {
-            clearTimeout(searchTimeout);
-            const q = this.value.trim();
-            if (q.length < 2) { searchResults.innerHTML = ''; return; }
-            searchTimeout = setTimeout(() => performSearch(q), 400);
-        });
-
-        async function performSearch(query) {
-            try {
-                const url =
-                    `${TMDB_BASE}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&with_genres=${GENRE_ID}`;
-                const res = await fetch(url);
-                const data = await res.json();
-                let results = data.results || [];
-                results = results.filter(item =>
-                    (item.media_type === 'movie' || item.media_type === 'tv') &&
-                    item.genre_ids && item.genre_ids.includes(GENRE_ID)
-                );
-                if (!results.length) {
-                    searchResults.innerHTML = '<div class="search-no-results">No animation results found.</div>';
-                    return;
-                }
-                let html = '';
-                results.slice(0, 20).forEach(item => {
-                    const id = item.id;
-                    const type = item.media_type;
-                    const title = item.title || item.name || 'Untitled';
-                    const poster = `${TMDB_IMG}/w200${item.poster_path}`;
-                    const year = (item.release_date || item.first_air_date || '').slice(0, 4);
-                    const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
-                    html += `
-                        <div class="result-card" onclick="location.href='info.html?id=${id}&type=${type}'">
-                            <img src="${poster}" alt="${title}" loading="lazy" />
-                            <div class="info"><h4>${title}</h4><span>${year} · ${rating} ⭐</span></div>
-                        </div>
-                    `;
-                });
-                searchResults.innerHTML = html;
-            } catch (e) { searchResults.innerHTML = '<div class="search-no-results">Error loading results.</div>'; }
-        }
-
-        // ============================================================
-        //  DONATE HANDLER
-        // ============================================================
-        function handleDonate(amount) {
-            // In a real implementation, this would open a payment modal or redirect to a payment processor.
-            // For this demo, we show a beautiful thank you message.
-            const overlay = document.createElement('div');
-            overlay.style.cssText = `
-                position: fixed;
-                inset: 0;
-                background: rgba(0,0,0,.85);
-                backdrop-filter: blur(20px);
-                -webkit-backdrop-filter: blur(20px);
-                z-index: 9999;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 24px;
-                animation: fadeIn .4s ease;
-            `;
-            overlay.innerHTML = `
-                <div style="
-                    background: rgba(255,255,255,.04);
-                    backdrop-filter: blur(16px);
-                    -webkit-backdrop-filter: blur(16px);
-                    border: 1px solid rgba(139,92,246,.2);
-                    border-radius: 32px;
-                    padding: 40px 48px;
-                    max-width: 440px;
-                    width: 100%;
-                    text-align: center;
-                    box-shadow: 0 20px 80px rgba(0,0,0,.6), 0 0 60px rgba(139,92,246,.05);
-                ">
-                    <div style="font-size: 64px; color: #a855f7; margin-bottom: 12px;">
-                        <i class="fas fa-heart" style="animation: pulse 1.8s ease-in-out infinite;"></i>
+                <div class="wallet-card">
+                    <div class="wallet-icon">
+                        <i class="fab fa-bitcoin"></i>
                     </div>
-                    <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 6px;">Thank You! 💜</h2>
-                    <p style="color: #bbb; font-size: 16px; line-height: 1.7; margin-bottom: 20px;">
-                        Your donation of <strong style="color:#a855f7;">$${amount}</strong> will help us keep NamiTube running and improving.
-                    </p>
-                    <button onclick="this.closest('div[style]').parentElement.remove()" style="
-                        background: #8b5cf6;
-                        border: none;
-                        color: #fff;
-                        padding: 12px 36px;
-                        border-radius: 60px;
-                        font-size: 15px;
-                        font-weight: 600;
-                        cursor: pointer;
-                        transition: .3s;
-                        box-shadow: 0 0 40px rgba(139,92,246,.15);
-                    ">Close</button>
+
+                    <div class="wallet-name">Bitcoin (BTC)</div>
+
+                    <div class="wallet-address" id="btc">
+                        bc1p0a277qndfq5wsn96pk75uzwva9yvphyy9djmehlrjgvdx53cw02q7zjxts
+                    </div>
+
+                    <button class="copy-btn" onclick="copyWallet('btc')">
+                        Copy BTC Address
+                    </button>
                 </div>
-            `;
-            document.body.appendChild(overlay);
 
-            // Add keyframe if not already present
-            if (!document.getElementById('donateFadeKeyframes')) {
-                const style = document.createElement('style');
-                style.id = 'donateFadeKeyframes';
-                style.textContent = `
-                    @keyframes fadeIn { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: scale(1); } }
-                `;
-                document.head.appendChild(style);
-            }
+                <div class="wallet-card">
+                    <div class="wallet-icon">
+                        <i class="fab fa-ethereum"></i>
+                    </div>
 
-            // Close on click outside
-            overlay.addEventListener('click', function(e) {
-                if (e.target === this) this.remove();
-            });
+                    <div class="wallet-name">EVM / ETH</div>
 
-            // Close on Escape
-            const escHandler = function(e) {
-                if (e.key === 'Escape' && document.body.contains(overlay)) {
-                    overlay.remove();
-                    document.removeEventListener('keydown', escHandler);
-                }
-            };
-            document.addEventListener('keydown', escHandler);
+                    <div class="wallet-address" id="evm">
+                        0x65c12979Ee4053b5F3A03ab7C108AB442798eAdc
+                    </div>
+
+                    <button class="copy-btn" onclick="copyWallet('evm')">
+                        Copy EVM Address
+                    </button>
+                </div>
+
+                <div class="wallet-card">
+                    <div class="wallet-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+
+                    <div class="wallet-name">Solana (SOL)</div>
+
+                    <div class="wallet-address" id="sol">
+                        32cFiMySGc3TBJxeydHfcyL4WwL8nXh84SssPzdofriR
+                    </div>
+
+                    <button class="copy-btn" onclick="copyWallet('sol')">
+                        Copy SOL Address
+                    </button>
+                </div>
+
+                <div class="wallet-card">
+                    <div class="wallet-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+
+                    <div class="wallet-name">TRON (TRX)</div>
+
+                    <div class="wallet-address" id="trx">
+                        TKXa7gFssQ9Cze3ArYpNbrzP3J9jMV9TYh
+                    </div>
+
+                    <button class="copy-btn" onclick="copyWallet('trx')">
+                        Copy TRX Address
+                    </button>
+                </div>
+
+                <div class="wallet-card">
+                    <div class="wallet-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+
+                    <div class="wallet-name">TON</div>
+
+                    <div class="wallet-address" id="ton">
+                        UQDHhRctCX4qzcbbvKzpU_Q7Vn58H8OKPW2ow2BiSqChTZkA
+                    </div>
+
+                    <button class="copy-btn" onclick="copyWallet('ton')">
+                        Copy TON Address
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="why-support">
+            <h2>What Your Support Helps With</h2>
+
+            <div class="feature-grid">
+
+                <div class="feature-box">
+                    <i class="fas fa-server"></i>
+                    <h3>Server Costs</h3>
+                    <p>
+                        Donations help us maintain servers and keep streaming stable and fast worldwide.
+                    </p>
+                </div>
+
+                <div class="feature-box">
+                    <i class="fas fa-globe"></i>
+                    <h3>Premium Domain</h3>
+                    <p>
+                        We currently use a free subdomain. Your support helps us purchase a professional premium domain.
+                    </p>
+                </div>
+
+                <div class="feature-box">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Better Features</h3>
+                    <p>
+                        Faster updates, better UI, smoother streaming, and more anime features for everyone.
+                    </p>
+                </div>
+
+                <div class="feature-box">
+                    <i class="fas fa-ban"></i>
+                    <h3>No Annoying Ads</h3>
+                    <p>
+                        We want to keep NamiTube clean and user-friendly without intrusive popup advertisements.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="lang-grid">
+
+            <div class="lang-card">
+                <h3>🇺🇸 English</h3>
+                <p>
+                    NamiTube is completely free and currently has no ads. Donations help us maintain the website,
+                    improve streaming quality, and purchase a premium domain. Thank you for supporting anime fans worldwide.
+                </p>
+            </div>
+
+            <div class="lang-card">
+                <h3>🇧🇩 বাংলা</h3>
+                <p>
+                    NamiTube সম্পূর্ণ ফ্রি এবং বর্তমানে কোনো বিজ্ঞাপন চালানো হয় না।
+                    আপনার ডোনেশন আমাদের সার্ভার মেইনটেইন, স্ট্রিমিং কোয়ালিটি উন্নত এবং প্রিমিয়াম ডোমেইন কিনতে সাহায্য করবে।
+                    আপনার সহযোগিতার জন্য অসংখ্য ধন্যবাদ।
+                </p>
+            </div>
+
+            <div class="lang-card">
+                <h3>🇮🇳 हिन्दी</h3>
+                <p>
+                    NamiTube पूरी तरह मुफ्त है और वेबसाइट पर कोई विज्ञापन नहीं चलाया जाता।
+                    आपका डोनेशन सर्वर खर्च, बेहतर स्ट्रीमिंग और प्रीमियम डोमेन खरीदने में मदद करेगा।
+                    आपके समर्थन के लिए धन्यवाद।
+                </p>
+            </div>
+
+            <div class="lang-card">
+                <h3>🇵🇰 اردو</h3>
+                <p>
+                    NamiTube مکمل طور پر مفت ہے اور ویب سائٹ پر کوئی اشتہار نہیں چلایا جاتا۔
+                    آپ کی ڈونیشن سرور مینٹیننس، بہتر اسٹریمنگ اور پریمیم ڈومین خریدنے میں مدد کرے گی۔
+                    آپ کے تعاون کا شکریہ۔
+                </p>
+            </div>
+
+            <div class="lang-card">
+                <h3>🇯🇵 日本語</h3>
+                <p>
+                    NamiTubeは完全無料で、現在広告を表示していません。
+                    ご支援はサーバー維持、ストリーミング品質向上、
+                    そしてプレミアムドメイン購入のために使用されます。
+                    ご支援ありがとうございます。
+                </p>
+            </div>
+
+            <div class="lang-card">
+                <h3>🇮🇳 தமிழ்</h3>
+                <p>
+                    NamiTube முற்றிலும் இலவசமான anime streaming தளம்.
+                    எங்களிடம் தற்போது எந்த ads-உம் இல்லை.
+                    உங்கள் donation server maintenance, premium domain மற்றும் better streaming qualityக்கு உதவும்.
+                    உங்கள் ஆதரவுக்கு நன்றி.
+                </p>
+            </div>
+
+            <div class="lang-card">
+                <h3>🇮🇳 తెలుగు</h3>
+                <p>
+                    NamiTube పూర్తిగా ఉచిత anime streaming website.
+                    ప్రస్తుతం మేము ఎలాంటి ads ఉపయోగించడం లేదు.
+                    మీ donation server maintenance, premium domain మరియు మంచి streaming quality కోసం ఉపయోగించబడుతుంది.
+                    మీ సహకారానికి ధన్యవాదాలు.
+                </p>
+            </div>
+
+        </section>
+
+        <section class="thankyou-section">
+            <i class="fas fa-heart"></i>
+
+            <h2>Thank You For Supporting NamiTube</h2>
+
+            <p>
+                Every donation — big or small — helps us continue building a better free anime streaming experience
+                for fans around the world. Your support truly means everything to us. 💜
+            </p>
+        </section>
+
+    </div>
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-banner">
+            <a href="index.html">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
+            </a>
+        </div>
+
+        <div class="footer-socials">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+            <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        </div>
+
+        <div class="footer-disclaimer">
+            This website does not host any video content on its servers. All media content is embedded from third-party providers. We do not store or upload any videos. All trademarks, logos, and content belong to their respective owners.
+        </div>
+
+        <div class="footer-copy">
+            &copy; 2026 <span>NamiTube</span>. All Rights Reserved.<br />
+            Powered by TMDB API
+        </div>
+    </div>
+</footer>
+
+<script>
+    const hamburger = document.getElementById('hamburgerBtn');
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('drawerOverlay');
+    const closeBtn = document.getElementById('drawerClose');
+
+    function openDrawer() {
+        drawer.classList.add('open');
+        overlay.classList.add('active');
+    }
+
+    function closeDrawer() {
+        drawer.classList.remove('open');
+        overlay.classList.remove('active');
+    }
+
+    hamburger.addEventListener('click', openDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+
+    const searchBtn = document.getElementById('searchBtn');
+    const searchOverlay = document.getElementById('searchOverlay');
+    const searchClose = document.getElementById('searchClose');
+
+    function openSearch() {
+        searchOverlay.classList.add('active');
+    }
+
+    function closeSearch() {
+        searchOverlay.classList.remove('active');
+    }
+
+    searchBtn.addEventListener('click', openSearch);
+    searchClose.addEventListener('click', closeSearch);
+
+    function copyWallet(id) {
+        const text = document.getElementById(id).innerText.trim();
+
+        navigator.clipboard.writeText(text);
+
+        const btn = event.target;
+
+        const oldText = btn.innerHTML;
+
+        btn.innerHTML = "Copied Successfully ✓";
+
+        setTimeout(() => {
+            btn.innerHTML = oldText;
+        }, 2200);
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (searchOverlay.classList.contains('active')) closeSearch();
+            if (drawer.classList.contains('open')) closeDrawer();
         }
+    });
+</script>
 
-        // ============================================================
-        //  INIT
-        // ============================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            // Any additional init if needed
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (searchOverlay.classList.contains('active')) closeSearch();
-                if (drawer.classList.contains('open')) closeDrawer();
-            }
-        });
-    </script>
 </body>
 </html>
