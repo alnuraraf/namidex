@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creator · NamiTube</title>
+    <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHE6pMgjbJ6YDLaMAtDUZCs6Zhkvxl0_fQnb0c0ZCmJOYRB_4N8dQ0ZWosBq_sZPK2wFel2E43Z2meo25JL3i7IZYkJ35FZ7lZ_BZfwlWofAKGhF1gWpFsxofeGUr87Peu6s7xtgvJMnrbtNnd4vJPtB7uG3L_wJ9tT8PKRCh-PXSxlyY9Ufn8OAzDY_Y/s320/NamiTube%20Original%20Favicon.png" type="image/png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* ----- RESET & BASE ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #050505;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        img {
+            display: block;
+            max-width: 100%;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8b5cf6;
+            border-radius: 12px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a855f7;
+        }
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ----- HEADER ----- */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            background: rgba(5, 5, 5, .85);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(139, 92, 246, .2);
+            padding: 10px 0;
+        }
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 24px;
+            gap: 16px;
+        }
+        .hamburger {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 26px;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 8px;
+            transition: .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hamburger:hover {
+            background: rgba(139, 92, 246, .2);
+            color: #a855f7;
+        }
+        .header-logo {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 0;
+        }
+        .header-logo a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .header-logo img {
+            max-height: 52px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 30px rgba(139, 92, 246, .35));
+            border-radius: 4px;
+            transition: filter .3s;
+        }
+        .header-logo img:hover {
+            filter: drop-shadow(0 0 50px rgba(139, 92, 246, .6));
+        }
+        .header-search {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 8px;
+            transition: .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-search:hover {
+            background: rgba(139, 92, 246, .2);
+            color: #a855f7;
+        }
+
+        /* ----- DRAWER ----- */
+        .drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .7);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: .35s;
+        }
+        .drawer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .drawer {
+            position: fixed;
+            top: 0;
+            left: -320px;
+            width: 300px;
+            height: 100vh;
+            background: #0a0a0f;
+            border-right: 1px solid rgba(139, 92, 246, .25);
+            z-index: 1001;
+            padding: 30px 20px;
+            transition: left .35s cubic-bezier(.22, 1, .36, 1);
+            overflow-y: auto;
+            box-shadow: 4px 0 40px rgba(0, 0, 0, .6);
+        }
+        .drawer.open {
+            left: 0;
+        }
+        .drawer-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            width: 100%;
+            padding: 4px 0;
+            transition: .2s;
+        }
+        .drawer-close:hover {
+            color: #a855f7;
+        }
+        .drawer-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .drawer-logo a {
+            display: inline-block;
+        }
+        .drawer-logo img {
+            max-height: 44px;
+            width: auto;
+            margin: 0 auto;
+            filter: drop-shadow(0 0 20px rgba(139, 92, 246, .3));
+        }
+        .drawer-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .drawer-nav a {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #ccc;
+            transition: .25s;
+            background: transparent;
+        }
+        .drawer-nav a i {
+            width: 24px;
+            text-align: center;
+            font-size: 18px;
+            color: #8b5cf6;
+            transition: .25s;
+        }
+        .drawer-nav a:hover {
+            background: rgba(139, 92, 246, .12);
+            color: #fff;
+            padding-left: 24px;
+        }
+        .drawer-nav a:hover i {
+            color: #a855f7;
+            transform: scale(1.1);
+        }
+
+        /* ----- SEARCH OVERLAY ----- */
+        .search-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 5, .92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 24px;
+            opacity: 0;
+            visibility: hidden;
+            transition: .4s;
+        }
+        .search-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .search-close {
+            align-self: flex-end;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 32px;
+            cursor: pointer;
+            transition: .2s;
+            padding: 8px;
+        }
+        .search-close:hover {
+            color: #a855f7;
+            transform: rotate(90deg);
+        }
+        .search-input-wrap {
+            width: 100%;
+            max-width: 680px;
+            margin-top: 20px;
+            position: relative;
+        }
+        .search-input-wrap input {
+            width: 100%;
+            padding: 18px 22px;
+            font-size: 20px;
+            border: 2px solid rgba(139, 92, 246, .3);
+            border-radius: 60px;
+            background: rgba(255, 255, 255, .05);
+            color: #fff;
+            outline: none;
+            transition: .3s;
+            font-weight: 400;
+        }
+        .search-input-wrap input:focus {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 40px rgba(139, 92, 246, .15);
+        }
+        .search-input-wrap input::placeholder {
+            color: rgba(255, 255, 255, .4);
+        }
+        .search-results {
+            width: 100%;
+            max-width: 680px;
+            margin-top: 28px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 18px;
+            max-height: 60vh;
+            overflow-y: auto;
+            padding: 4px;
+        }
+        .search-results .result-card {
+            background: rgba(255, 255, 255, .04);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: .3s;
+            cursor: pointer;
+            border: 1px solid rgba(139, 92, 246, .08);
+        }
+        .search-results .result-card:hover {
+            transform: scale(1.04);
+            border-color: #8b5cf6;
+            box-shadow: 0 0 30px rgba(139, 92, 246, .15);
+        }
+        .search-results .result-card img {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+        }
+        .search-results .result-card .info {
+            padding: 10px 12px 14px;
+        }
+        .search-results .result-card .info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .search-results .result-card .info span {
+            font-size: 12px;
+            color: #aaa;
+        }
+        .search-no-results {
+            color: #888;
+            font-size: 18px;
+            text-align: center;
+            padding: 40px 0;
+            grid-column: 1 / -1;
+        }
+
+        /* ----- FOOTER ----- */
+        footer {
+            background: #08080c;
+            border-top: 1px solid rgba(139, 92, 246, .15);
+            padding: 40px 24px 30px;
+            margin-top: 60px;
+        }
+        .footer-inner {
+            max-width: 1440px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .footer-banner {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .footer-banner a {
+            display: inline-block;
+        }
+        .footer-banner img {
+            max-height: 48px;
+            width: auto;
+            filter: drop-shadow(0 0 30px rgba(139, 92, 246, .25));
+            border-radius: 4px;
+            transition: filter .3s;
+        }
+        .footer-banner img:hover {
+            filter: drop-shadow(0 0 50px rgba(139, 92, 246, .6));
+        }
+        .footer-socials {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .footer-socials a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .04);
+            color: #bbb;
+            font-size: 20px;
+            transition: .3s;
+            border: 1px solid rgba(139, 92, 246, .06);
+        }
+        .footer-socials a:hover {
+            background: rgba(139, 92, 246, .15);
+            color: #a855f7;
+            transform: scale(1.12);
+            box-shadow: 0 0 30px rgba(139, 92, 246, .2);
+            border-color: #8b5cf6;
+        }
+        .footer-disclaimer {
+            max-width: 720px;
+            margin: 16px auto 12px;
+            font-size: 13px;
+            color: #666;
+            line-height: 1.7;
+            padding: 0 12px;
+        }
+        .footer-copy {
+            font-size: 14px;
+            color: #555;
+        }
+        .footer-copy span {
+            color: #8b5cf6;
+        }
+
+        /* ----- RESPONSIVE ----- */
+        @media (max-width: 768px) {
+            .header-inner {
+                padding: 0 14px;
+                gap: 8px;
+            }
+            .header-logo img {
+                max-height: 38px;
+            }
+            .hamburger {
+                font-size: 22px;
+                padding: 4px 8px;
+            }
+            .header-search {
+                font-size: 18px;
+                padding: 4px 8px;
+            }
+            .drawer {
+                width: 280px;
+                left: -290px;
+                padding: 24px 16px;
+            }
+            .drawer-nav a {
+                font-size: 15px;
+                padding: 12px 14px;
+            }
+            .search-input-wrap input {
+                font-size: 17px;
+                padding: 14px 18px;
+            }
+            .search-results {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 12px;
+            }
+            .footer-socials {
+                gap: 16px;
+            }
+            .footer-socials a {
+                width: 40px;
+                height: 40px;
+                font-size: 17px;
+            }
+            .footer-banner img {
+                max-height: 36px;
+            }
+            .container {
+                padding: 0 14px;
+            }
+        }
+        @media (max-width: 480px) {
+            .header-logo img {
+                max-height: 30px;
+            }
+            .search-results {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 10px;
+            }
+            .drawer {
+                width: 260px;
+                left: -270px;
+            }
+        }
+        @media (min-width: 1600px) {
+            .container {
+                padding: 0 40px;
+            }
+            .header-inner {
+                padding: 0 40px;
+            }
+        }
+
+        /* ----- CREATOR SPECIFIC ----- */
+        .creator-hero {
+            padding: 60px 0 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .creator-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(139, 92, 246, .06), transparent 70%);
+            pointer-events: none;
+            animation: floatGlow 8s ease-in-out infinite alternate;
+        }
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(2%, 2%) scale(1.1); }
+        }
+        .creator-hero .avatar {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 3px solid rgba(139, 92, 246, .3);
+            box-shadow: 0 0 60px rgba(139, 92, 246, .15);
+            object-fit: cover;
+            margin: 0 auto 20px;
+            background: #1a1a2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            color: #8b5cf6;
+            position: relative;
+            z-index: 1;
+        }
+        .creator-hero .avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .creator-hero h1 {
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+        .creator-hero h1 i {
+            color: #8b5cf6;
+        }
+        .creator-hero .sub {
+            font-size: 18px;
+            color: #aaa;
+            margin-top: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .creator-hero .badge {
+            display: inline-block;
+            margin-top: 12px;
+            background: rgba(139, 92, 246, .12);
+            border: 1px solid rgba(139, 92, 246, .15);
+            padding: 6px 24px;
+            border-radius: 40px;
+            font-size: 13px;
+            color: #a855f7;
+            position: relative;
+            z-index: 1;
+        }
+
+        .creator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 28px;
+            padding: 20px 0 30px;
+        }
+        .creator-card {
+            background: rgba(255, 255, 255, .03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(139, 92, 246, .08);
+            border-radius: 24px;
+            padding: 30px 24px 34px;
+            text-align: center;
+            transition: .35s;
+            box-shadow: 0 4px 40px rgba(0, 0, 0, .3);
+            position: relative;
+            overflow: hidden;
+        }
+        .creator-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(139, 92, 246, .03), transparent 70%);
+            opacity: 0;
+            transition: .5s;
+            pointer-events: none;
+        }
+        .creator-card:hover::before {
+            opacity: 1;
+        }
+        .creator-card:hover {
+            transform: translateY(-6px);
+            border-color: #8b5cf6;
+            box-shadow: 0 12px 60px rgba(139, 92, 246, .1);
+        }
+        .creator-card .icon {
+            font-size: 40px;
+            color: #8b5cf6;
+            margin-bottom: 14px;
+            display: block;
+        }
+        .creator-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .creator-card p {
+            font-size: 15px;
+            color: #bbb;
+            line-height: 1.7;
+        }
+        .creator-card .link-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 16px;
+        }
+        .creator-card .link-group a {
+            padding: 8px 20px;
+            border-radius: 40px;
+            background: rgba(139, 92, 246, .08);
+            border: 1px solid rgba(139, 92, 246, .1);
+            font-size: 14px;
+            transition: .3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .creator-card .link-group a:hover {
+            background: rgba(139, 92, 246, .15);
+            border-color: #8b5cf6;
+            transform: scale(1.04);
+        }
+        .creator-card .link-group a i {
+            color: #8b5cf6;
+        }
+
+        .mission-section {
+            padding: 20px 0 30px;
+            border-top: 1px solid rgba(139, 92, 246, .06);
+            margin-top: 10px;
+        }
+        .mission-section .inner {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .mission-section h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .mission-section h2 i {
+            color: #8b5cf6;
+        }
+        .mission-section p {
+            font-size: 16px;
+            color: #bbb;
+            line-height: 1.8;
+        }
+        .mission-section .highlight {
+            color: #a855f7;
+            font-weight: 600;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            padding: 16px 0 10px;
+        }
+        .contact-links a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, .02);
+            padding: 12px 24px;
+            border-radius: 60px;
+            border: 1px solid rgba(139, 92, 246, .06);
+            transition: .3s;
+            font-size: 14px;
+            color: #ccc;
+        }
+        .contact-links a:hover {
+            border-color: #8b5cf6;
+            background: rgba(139, 92, 246, .06);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+        .contact-links a i {
+            color: #8b5cf6;
+            font-size: 18px;
+        }
+
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            padding: 10px 0 20px;
+        }
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid rgba(139, 92, 246, .08);
+            color: #bbb;
+            font-size: 22px;
+            transition: .3s;
+        }
+        .social-links a:hover {
+            background: rgba(139, 92, 246, .12);
+            color: #a855f7;
+            transform: scale(1.12);
+            box-shadow: 0 0 30px rgba(139, 92, 246, .15);
+            border-color: #8b5cf6;
+        }
+
+        .loading-placeholder {
+            padding: 40px;
+            text-align: center;
+            color: #666;
+            font-size: 18px;
+        }
+        .loading-placeholder i {
+            font-size: 30px;
+            color: #8b5cf6;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .creator-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .creator-hero .avatar {
+                width: 120px;
+                height: 120px;
+                font-size: 48px;
+            }
+            .creator-hero h1 {
+                font-size: 28px;
+            }
+            .contact-links a {
+                padding: 10px 18px;
+                font-size: 13px;
+            }
+            .social-links a {
+                width: 44px;
+                height: 44px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="header-inner">
+            <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="header-logo">
+                <a href="index.html">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
+                </a>
+            </div>
+            <button class="header-search" id="searchBtn" aria-label="Search">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ===== DRAWER ===== -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+    <div class="drawer" id="drawer">
+        <button class="drawer-close" id="drawerClose"><i class="fas fa-times"></i></button>
+        <div class="drawer-logo">
+            <a href="index.html">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
+            </a>
+        </div>
+        <nav class="drawer-nav">
+            <a href="index.html"><i class="fas fa-house"></i> Home</a>
+            <a href="discover.html"><i class="fas fa-compass"></i> Discover</a>
+            <a href="donate.html"><i class="fas fa-hand-holding-heart"></i> Donate</a>
+            <a href="creator.html"><i class="fas fa-star"></i> Creator</a>
+        </nav>
+    </div>
+
+    <!-- ===== SEARCH OVERLAY ===== -->
+    <div class="search-overlay" id="searchOverlay">
+        <button class="search-close" id="searchClose"><i class="fas fa-times"></i></button>
+        <div class="search-input-wrap">
+            <input type="text" id="searchInput" placeholder="Search animation &amp; anime..." autofocus />
+        </div>
+        <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <!-- ===== MAIN ===== -->
+    <main>
+        <div class="container">
+            <!-- Hero -->
+            <div class="creator-hero">
+                <div class="avatar">
+                    <i class="fas fa-user-astronaut"></i>
+                </div>
+                <h1><i class="fas fa-star"></i> Meet the Creator</h1>
+                <div class="sub">The vision behind NamiTube</div>
+                <div class="badge"><i class="fas fa-code"></i> Built with ❤️ for animation fans</div>
+            </div>
+
+            <!-- Creator Grid -->
+            <div class="creator-grid" id="creatorGrid">
+                <div class="creator-card">
+                    <span class="icon"><i class="fas fa-user"></i></span>
+                    <h3>Who Am I?</h3>
+                    <p>Hi, I'm <strong style="color:#a855f7;">Nami</strong> — a passionate developer and animation enthusiast. I created NamiTube to share the joy of anime and animated films with fans around the world.</p>
+                </div>
+
+                <div class="creator-card">
+                    <span class="icon"><i class="fas fa-bullseye"></i></span>
+                    <h3>Mission</h3>
+                    <p>To provide a <strong style="color:#a855f7;">free, premium</strong> streaming experience for animation lovers. No ads, no clutter — just great content, beautifully presented.</p>
+                </div>
+
+                <div class="creator-card">
+                    <span class="icon"><i class="fas fa-heart"></i></span>
+                    <h3>About the Project</h3>
+                    <p>NamiTube is built on the TMDB API and designed with a <strong style="color:#a855f7;">dark, cinematic aesthetic</strong>. Every line of code is crafted to feel premium and immersive.</p>
+                </div>
+            </div>
+
+            <!-- Mission Section -->
+            <div class="mission-section">
+                <div class="inner">
+                    <h2><i class="fas fa-quote-left"></i> Our Vision</h2>
+                    <p>
+                        NamiTube is more than just a streaming site — it's a <span class="highlight">celebration of animation</span>.
+                        From timeless classics to the latest anime, every title is handpicked to ensure a world-class experience.
+                        We believe that <span class="highlight">great stories deserve a great home</span>, and that's what we've built.
+                    </p>
+                    <p style="margin-top: 12px; color: #888;">
+                        <i class="fas fa-infinity" style="color:#8b5cf6;"></i> Always free. Always animation.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Contact Links -->
+            <div class="contact-links">
+                <a href="mailto:contact@namitube.com"><i class="fas fa-envelope"></i> contact@namitube.com</a>
+                <a href="#"><i class="fas fa-message"></i> Discord</a>
+                <a href="#"><i class="fab fa-twitter"></i> @NamiTube</a>
+                <a href="#"><i class="fab fa-github"></i> GitHub</a>
+            </div>
+
+            <!-- Social Links -->
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-banner">
+                <a href="index.html">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
+                </a>
+            </div>
+            <div class="footer-socials">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            </div>
+            <div class="footer-disclaimer">
+                This website does not host any video content on its servers. All media content is embedded from third-party providers. We do not store or upload any videos. All trademarks, logos, and content belong to their respective owners.
+            </div>
+            <div class="footer-copy">
+                &copy; 2026 <span>NamiTube</span>. All Rights Reserved.<br />
+                Powered by TMDB API
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================================
+        //  CONFIG
+        // ============================================================
+        const TMDB_API_KEY = "e10da2e2cbb23ea7ebfb64c3a188b64a";
+        const TMDB_BASE = "https://api.themoviedb.org/3";
+        const TMDB_IMG = "https://image.tmdb.org/t/p";
+        const GENRE_ID = 16;
+
+        // ============================================================
+        //  DRAWER & SEARCH (reused)
+        // ============================================================
+        const hamburger = document.getElementById('hamburgerBtn');
+        const drawer = document.getElementById('drawer');
+        const overlay = document.getElementById('drawerOverlay');
+        const closeBtn = document.getElementById('drawerClose');
+
+        function openDrawer() { drawer.classList.add('open');
+            overlay.classList.add('active'); }
+
+        function closeDrawer() { drawer.classList.remove('open');
+            overlay.classList.remove('active'); }
+        hamburger.addEventListener('click', openDrawer);
+        closeBtn.addEventListener('click', closeDrawer);
+        overlay.addEventListener('click', closeDrawer);
+
+        const searchBtn = document.getElementById('searchBtn');
+        const searchOverlay = document.getElementById('searchOverlay');
+        const searchClose = document.getElementById('searchClose');
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        let searchTimeout = null;
+
+        function openSearch() { searchOverlay.classList.add('active');
+            setTimeout(() => searchInput.focus(), 200); }
+
+        function closeSearch() { searchOverlay.classList.remove('active');
+            searchResults.innerHTML = '';
+            searchInput.value = ''; }
+        searchBtn.addEventListener('click', openSearch);
+        searchClose.addEventListener('click', closeSearch);
+
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const q = this.value.trim();
+            if (q.length < 2) { searchResults.innerHTML = ''; return; }
+            searchTimeout = setTimeout(() => performSearch(q), 400);
+        });
+
+        async function performSearch(query) {
+            try {
+                const url =
+                    `${TMDB_BASE}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&with_genres=${GENRE_ID}`;
+                const res = await fetch(url);
+                const data = await res.json();
+                let results = data.results || [];
+                results = results.filter(item =>
+                    (item.media_type === 'movie' || item.media_type === 'tv') &&
+                    item.genre_ids && item.genre_ids.includes(GENRE_ID)
+                );
+                if (!results.length) {
+                    searchResults.innerHTML = '<div class="search-no-results">No animation results found.</div>';
+                    return;
+                }
+                let html = '';
+                results.slice(0, 20).forEach(item => {
+                    const id = item.id;
+                    const type = item.media_type;
+                    const title = item.title || item.name || 'Untitled';
+                    const poster = `${TMDB_IMG}/w200${item.poster_path}`;
+                    const year = (item.release_date || item.first_air_date || '').slice(0, 4);
+                    const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
+                    html += `
+                        <div class="result-card" onclick="location.href='info.html?id=${id}&type=${type}'">
+                            <img src="${poster}" alt="${title}" loading="lazy" />
+                            <div class="info"><h4>${title}</h4><span>${year} · ${rating} ⭐</span></div>
+                        </div>
+                    `;
+                });
+                searchResults.innerHTML = html;
+            } catch (e) { searchResults.innerHTML = '<div class="search-no-results">Error loading results.</div>'; }
+        }
+
+        // ============================================================
+        //  KEYBOARD ESCAPE
+        // ============================================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (searchOverlay.classList.contains('active')) closeSearch();
+                if (drawer.classList.contains('open')) closeDrawer();
+            }
+        });
+    </script>
+</body>
+</html>
