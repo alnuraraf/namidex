@@ -1,717 +1,780 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Anime details on NamiTube - Watch trailers, episodes, and discover related anime.">
-<link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHE6pMgjbJ6YDLaMAtDUZCs6Zhkvxl0_fQnb0c0ZCmJOYRB_4N8dQ0ZWosBq_sZPK2wFel2E43Z2meo25JL3i7IZYkJ35FZ7lZ_BZfwlWofAKGhF1gWpFsxofeGUr87Peu6s7xtgvJMnrbtNnd4vJPtB7uG3L_wJ9tT8PKRCh-PXSxlyY9Ufn8OAzDY_Y/s320/NamiTube%20Original%20Favicon.png">
-<title>Anime Details - NamiTube</title>
+````text
+Create a FULLY PRODUCTION-READY Anime Streaming Platform inspired by:
+
+* HiAnime
+* AnimeKai
+* 9anime
+* Netflix
+* Enma
+
+The final website MUST look, feel, and behave like a REAL premium anime streaming platform built by senior frontend engineers.
+
+The generated result MUST be:
+
+* Cinematic
+* Ultra modern
+* Stable
+* Responsive
+* Netflix-quality
+* Smooth animated
+* Fast
+* Professional
+* Deployable immediately
+
+The website MUST NOT feel like:
+
+* demo code
+* AI-generated low quality UI
+* unfinished prototype
+* basic anime site
+* placeholder implementation
+
+The output quality MUST be so consistent that:
+
+* Claude
+* DeepSeek
+* Kimi
+* GPT
+* Any advanced AI model
+
+ALL generate the SAME premium-quality structure, layout, engineering system, and UI behavior.
+
+==================================================
+## CORE DEVELOPMENT RULES
+==================================================
+
+Use ONLY:
+
+* HTML
+* Vanilla CSS
+* Vanilla JavaScript
+
+STRICTLY NO:
+
+* React
+* Vue
+* Angular
+* Tailwind
+* Bootstrap
+* jQuery
+* Frameworks
+* Build tools
+* External CSS files
+* External JavaScript files
+
+ONLY create these frontend files:
+
+* index.html
+* anime.html
+* watch.html
+* search.html
+* schedule.html
+* donate.html
+
+ALL CSS MUST stay INSIDE each HTML file:
+
+```html
 <style>
-:root {
-  --bg: #0a0a0f; --bg-elevated: #12121a; --bg-card: #16161f; --bg-glass: rgba(22,22,31,0.85);
-  --primary: #a855f7; --primary-light: #c084fc; --primary-dark: #7e22ce; --accent: #d946ef;
-  --text: #f1f1f4; --text-secondary: #a1a1aa; --text-muted: #71717a;
-  --border: rgba(168,85,247,0.15); --border-hover: rgba(168,85,247,0.3);
-  --shadow-glow: 0 0 40px rgba(168,85,247,0.15); --radius: 16px; --radius-sm: 10px;
-  --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-html,body { overflow-x:hidden; max-width:100%; background:var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,-apple-system,sans-serif; line-height:1.6; }
-::-webkit-scrollbar { width:8px; height:8px; }
-::-webkit-scrollbar-track { background:var(--bg); }
-::-webkit-scrollbar-thumb { background:var(--primary-dark); border-radius:4px; }
-
-/* Header */
-.header {
-  position:fixed; top:0; left:0; right:0; z-index:1000;
-  background:linear-gradient(180deg, rgba(10,10,15,0.95) 0%, rgba(10,10,15,0.7) 60%, transparent 100%);
-  backdrop-filter:blur(20px); padding:0 4vw; height:70px; display:flex; align-items:center; justify-content:space-between;
-}
-.header.scrolled { background:rgba(10,10,15,0.95); box-shadow:0 4px 30px rgba(0,0,0,0.5); }
-.header-left { display:flex; align-items:center; gap:20px; }
-.hamburger { width:32px; height:32px; display:flex; flex-direction:column; justify-content:center; gap:5px; cursor:pointer; background:none; border:none; padding:0; }
-.hamburger span { display:block; width:24px; height:2.5px; background:var(--text); border-radius:2px; transition:var(--transition); }
-.hamburger.active span:nth-child(1) { transform:translateY(7.5px) rotate(45deg); }
-.hamburger.active span:nth-child(2) { opacity:0; }
-.hamburger.active span:nth-child(3) { transform:translateY(-7.5px) rotate(-45deg); }
-.logo-img { height:42px; width:auto; object-fit:contain; filter:drop-shadow(0 0 10px rgba(168,85,247,0.3)); }
-.desktop-nav { display:flex; gap:32px; align-items:center; }
-.desktop-nav a { color:var(--text-secondary); text-decoration:none; font-size:0.95rem; font-weight:500; position:relative; }
-.desktop-nav a::after { content:''; position:absolute; bottom:-6px; left:0; width:0; height:2px; background:linear-gradient(90deg,var(--primary),var(--accent)); border-radius:2px; transition:width 0.3s; }
-.desktop-nav a:hover, .desktop-nav a.active { color:var(--text); }
-.desktop-nav a:hover::after, .desktop-nav a.active::after { width:100%; }
-.header-right { display:flex; align-items:center; gap:16px; }
-.search-btn { width:40px; height:40px; border-radius:50%; background:rgba(168,85,247,0.1); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text); transition:var(--transition); }
-.search-btn:hover { background:var(--primary); border-color:var(--primary); transform:scale(1.05); }
-
-/* Sidebar */
-.sidebar-overlay { position:fixed; inset:0; z-index:999; background:rgba(0,0,0,0.6); backdrop-filter:blur(8px); opacity:0; pointer-events:none; transition:opacity 0.4s; }
-.sidebar-overlay.active { opacity:1; pointer-events:all; }
-.sidebar { position:fixed; top:0; left:0; width:280px; max-width:85vw; height:100vh; background:linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg) 100%); border-right:1px solid var(--border); z-index:1001; transform:translateX(-100%); transition:transform 0.4s cubic-bezier(0.4,0,0.2,1); padding:24px; display:flex; flex-direction:column; gap:8px; }
-.sidebar.active { transform:translateX(0); }
-.sidebar-logo { display:flex; align-items:center; gap:12px; margin-bottom:24px; }
-.sidebar-logo img { height:36px; }
-.sidebar a { display:flex; align-items:center; gap:14px; padding:14px 16px; border-radius:var(--radius-sm); color:var(--text-secondary); text-decoration:none; font-size:0.95rem; font-weight:500; transition:var(--transition); }
-.sidebar a:hover, .sidebar a.active { background:rgba(168,85,247,0.1); color:var(--text); }
-.sidebar-divider { height:1px; background:var(--border); margin:12px 0; }
-
-/* Search Overlay */
-.search-overlay { position:fixed; inset:0; z-index:2000; background:rgba(10,10,15,0.97); backdrop-filter:blur(30px); opacity:0; pointer-events:none; transition:opacity 0.4s; display:flex; flex-direction:column; }
-.search-overlay.active { opacity:1; pointer-events:all; }
-.search-header { padding:24px 4vw; display:flex; align-items:center; gap:20px; border-bottom:1px solid var(--border); }
-.search-input-wrap { flex:1; display:flex; align-items:center; gap:16px; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:14px 20px; transition:var(--transition); }
-.search-input-wrap:focus-within { border-color:var(--primary); box-shadow:0 0 20px rgba(168,85,247,0.15); }
-.search-input-wrap input { flex:1; background:none; border:none; color:var(--text); font-size:1.1rem; outline:none; }
-.search-close { width:44px; height:44px; border-radius:50%; background:var(--bg-card); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text); transition:var(--transition); }
-.search-close:hover { background:var(--primary); border-color:var(--primary); }
-.search-filters { padding:16px 4vw; display:flex; gap:12px; flex-wrap:wrap; border-bottom:1px solid var(--border); }
-.filter-select { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--text); padding:8px 14px; font-size:0.85rem; cursor:pointer; outline:none; font-family:inherit; }
-.filter-select:focus { border-color:var(--primary); }
-.search-results { flex:1; overflow-y:auto; padding:24px 4vw; }
-.search-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:20px; }
-.search-skeleton { background:linear-gradient(90deg, var(--bg-card) 25%, var(--bg-elevated) 50%, var(--bg-card) 75%); background-size:200% 100%; animation:shimmer 1.5s infinite; border-radius:var(--radius-sm); aspect-ratio:2/3; }
-@keyframes shimmer { 0%{background-position:200%0} 100%{background-position:-200%0} }
-.search-empty { text-align:center; padding:60px 20px; color:var(--text-muted); }
-
-/* Anime Banner */
-.anime-banner { position:relative; width:100%; height:55vh; min-height:400px; max-height:600px; overflow:hidden; margin-top:0; }
-.anime-banner-bg { position:absolute; inset:0; background-size:cover; background-position:center 20%; }
-.anime-banner-overlay { position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,10,15,0.4) 0%, rgba(10,10,15,0.7) 50%, var(--bg) 100%); }
-.anime-banner-content { position:relative; z-index:2; display:flex; gap:32px; padding:0 4vw; align-items:flex-end; height:100%; padding-bottom:40px; max-width:1400px; margin:0 auto; }
-.anime-poster-wrap { flex-shrink:0; width:clamp(160px, 22vw, 260px); aspect-ratio:2/3; border-radius:var(--radius); overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(168,85,247,0.1); border:1px solid var(--border); position:relative; }
-.anime-poster { width:100%; height:100%; object-fit:cover; }
-.anime-poster-badge { position:absolute; top:12px; left:12px; padding:6px 12px; background:rgba(234,179,8,0.9); color:#000; border-radius:6px; font-weight:700; font-size:0.85rem; }
-.anime-info { flex:1; min-width:0; }
-.anime-title { font-size:clamp(1.8rem, 4vw, 2.8rem); font-weight:800; line-height:1.15; margin-bottom:12px; }
-.anime-alt-title { font-size:1rem; color:var(--text-muted); margin-bottom:16px; }
-.anime-meta-row { display:flex; gap:16px; align-items:center; margin-bottom:16px; flex-wrap:wrap; }
-.anime-score { display:flex; align-items:center; gap:6px; padding:6px 14px; background:rgba(234,179,8,0.15); border-radius:8px; color:#fbbf24; font-weight:700; }
-.anime-status { padding:4px 12px; border-radius:100px; font-size:0.8rem; font-weight:600; }
-.status-airing { background:rgba(34,197,94,0.15); color:#4ade80; }
-.status-finished { background:rgba(59,130,246,0.15); color:#60a5fa; }
-.status-upcoming { background:rgba(168,85,247,0.15); color:var(--primary-light); }
-.anime-genres { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
-.anime-genre { padding:5px 14px; background:rgba(168,85,247,0.1); border:1px solid var(--border); border-radius:100px; font-size:0.8rem; color:var(--primary-light); transition:var(--transition); cursor:pointer; }
-.anime-genre:hover { background:var(--primary); color:#fff; border-color:var(--primary); }
-.anime-actions { display:flex; gap:12px; flex-wrap:wrap; }
-.btn-watch { display:inline-flex; align-items:center; gap:10px; padding:14px 32px; background:linear-gradient(135deg, var(--primary), var(--primary-dark)); border:none; border-radius:var(--radius-sm); color:#fff; font-size:1rem; font-weight:600; cursor:pointer; transition:var(--transition); text-decoration:none; box-shadow:0 4px 20px rgba(168,85,247,0.3); }
-.btn-watch:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(168,85,247,0.4); }
-.btn-trailer { display:inline-flex; align-items:center; gap:10px; padding:14px 28px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:var(--radius-sm); color:var(--text); font-size:1rem; font-weight:600; cursor:pointer; transition:var(--transition); text-decoration:none; }
-.btn-trailer:hover { background:rgba(255,255,255,0.15); }
-
-/* Content Tabs */
-.anime-content { max-width:1400px; margin:0 auto; padding:32px 4vw; }
-.tabs { display:flex; gap:8px; border-bottom:1px solid var(--border); margin-bottom:32px; overflow-x:auto; padding-bottom:1px; }
-.tab-btn { padding:12px 20px; background:none; border:none; color:var(--text-muted); font-size:0.95rem; font-weight:600; cursor:pointer; transition:var(--transition); white-space:nowrap; position:relative; font-family:inherit; }
-.tab-btn::after { content:''; position:absolute; bottom:-1px; left:0; width:0; height:2px; background:linear-gradient(90deg,var(--primary),var(--accent)); transition:width 0.3s; border-radius:2px; }
-.tab-btn:hover { color:var(--text); }
-.tab-btn.active { color:var(--primary-light); }
-.tab-btn.active::after { width:100%; }
-.tab-panel { display:none; animation:fadeIn 0.4s ease; }
-.tab-panel.active { display:block; }
-@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-
-/* Overview */
-.overview-grid { display:grid; grid-template-columns:1fr 320px; gap:32px; }
-@media (max-width:1024px){ .overview-grid { grid-template-columns:1fr; } }
-.overview-main {}
-.section-block { margin-bottom:40px; }
-.section-block h3 { font-size:1.2rem; margin-bottom:16px; display:flex; align-items:center; gap:10px; }
-.section-block h3::before { content:''; width:3px; height:20px; background:linear-gradient(180deg,var(--primary),var(--accent)); border-radius:2px; }
-.synopsis { color:var(--text-secondary); line-height:1.8; font-size:0.95rem; }
-.synopsis p { margin-bottom:12px; }
-
-/* Info Grid */
-.info-grid { display:grid; grid-template-columns:repeat(2, 1fr); gap:16px; }
-.info-item { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px 16px; }
-.info-label { font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
-.info-value { font-size:0.95rem; color:var(--text); font-weight:600; }
-.info-value a { color:var(--primary-light); text-decoration:none; }
-.info-value a:hover { text-decoration:underline; }
-
-/* Episodes */
-.episodes-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(100px, 1fr)); gap:12px; }
-.episode-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px; text-align:center; cursor:pointer; transition:var(--transition); text-decoration:none; color:var(--text); }
-.episode-card:hover { background:var(--bg-elevated); border-color:var(--primary); transform:translateY(-3px); box-shadow:0 4px 20px rgba(168,85,247,0.1); }
-.episode-num { font-size:1.3rem; font-weight:700; color:var(--primary-light); }
-.episode-label { font-size:0.75rem; color:var(--text-muted); margin-top:4px; }
-
-/* Characters */
-.char-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(120px, 1fr)); gap:16px; }
-.char-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; transition:var(--transition); cursor:pointer; }
-.char-card:hover { border-color:var(--primary); transform:translateY(-4px); }
-.char-img { width:100%; aspect-ratio:1; object-fit:cover; }
-.char-info { padding:10px; }
-.char-name { font-size:0.8rem; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.char-role { font-size:0.7rem; color:var(--text-muted); margin-top:2px; }
-
-/* Recommendations */
-.rec-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:20px; }
-.rec-card { cursor:pointer; transition:var(--transition); }
-.rec-card:hover { transform:translateY(-6px); }
-.rec-img-wrap { position:relative; aspect-ratio:2/3; border-radius:var(--radius-sm); overflow:hidden; background:var(--bg-card); }
-.rec-img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s; }
-.rec-card:hover .rec-img { transform:scale(1.08); }
-.rec-overlay { position:absolute; inset:0; background:linear-gradient(180deg,transparent 40%,rgba(10,10,15,0.9) 100%); opacity:0; transition:opacity 0.3s; }
-.rec-card:hover .rec-overlay { opacity:1; }
-.rec-title { padding:8px 4px; font-size:0.85rem; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-
-/* Slider */
-.slider-container { position:relative; }
-.slider-track-wrap { overflow:hidden; margin:0 -10px; }
-.slider-track { display:flex; gap:16px; padding:10px; transition:transform 0.5s cubic-bezier(0.4,0,0.2,1); }
-.slider-arrow { position:absolute; top:50%; transform:translateY(-50%); z-index:5; width:44px; height:44px; border-radius:50%; background:rgba(10,10,15,0.8); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text); transition:var(--transition); }
-.slider-arrow:hover { background:var(--primary); border-color:var(--primary); }
-.slider-arrow.prev { left:-12px; }
-.slider-arrow.next { right:-12px; }
-.slider-arrow.hidden { opacity:0; pointer-events:none; }
-
-/* Anime Card (reused) */
-.anime-card { flex:0 0 auto; width:clamp(140px, 18vw, 200px); cursor:pointer; transition:var(--transition); }
-.anime-card:hover { transform:translateY(-8px); }
-.anime-card-img-wrap { position:relative; aspect-ratio:2/3; border-radius:var(--radius-sm); overflow:hidden; background:var(--bg-card); box-shadow:0 4px 20px rgba(0,0,0,0.3); }
-.anime-card-img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s; }
-.anime-card:hover .anime-card-img { transform:scale(1.08); }
-.anime-card-overlay { position:absolute; inset:0; background:linear-gradient(180deg,transparent 40%,rgba(10,10,15,0.9) 100%); opacity:0; transition:opacity 0.3s; }
-.anime-card:hover .anime-card-overlay { opacity:1; }
-.anime-card-badges { position:absolute; top:8px; left:8px; display:flex; gap:6px; flex-wrap:wrap; }
-.badge { padding:3px 8px; border-radius:4px; font-size:0.7rem; font-weight:700; }
-.badge-score { background:rgba(234,179,8,0.9); color:#000; }
-.badge-hd { background:rgba(168,85,247,0.9); color:#fff; }
-.anime-card-info { padding:10px 4px; }
-.anime-card-title { font-size:0.9rem; font-weight:600; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-.anime-card-meta { font-size:0.75rem; color:var(--text-muted); margin-top:4px; }
-
-/* Trailer Modal */
-.trailer-modal { position:fixed; inset:0; z-index:3000; background:rgba(0,0,0,0.9); backdrop-filter:blur(20px); display:none; align-items:center; justify-content:center; padding:20px; }
-.trailer-modal.active { display:flex; }
-.trailer-wrap { width:100%; max-width:900px; aspect-ratio:16/9; background:var(--bg-card); border-radius:var(--radius); overflow:hidden; position:relative; }
-.trailer-wrap iframe { width:100%; height:100%; border:none; }
-.trailer-close { position:absolute; top:-50px; right:0; width:40px; height:40px; border-radius:50%; background:var(--bg-card); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text); transition:var(--transition); }
-.trailer-close:hover { background:var(--primary); border-color:var(--primary); }
-
-/* Page Loader */
-.page-loader { position:fixed; inset:0; z-index:9999; background:var(--bg); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:20px; transition:opacity 0.5s, visibility 0.5s; }
-.page-loader.hidden { opacity:0; visibility:hidden; pointer-events:none; }
-.loader-ring { width:56px; height:56px; border:3px solid var(--bg-card); border-top-color:var(--primary); border-radius:50%; animation:spin 1s linear infinite; }
-@keyframes spin { to { transform:rotate(360deg); } }
-
-/* Footer */
-.footer { padding:48px 4vw 24px; border-top:1px solid var(--border); background:linear-gradient(180deg, var(--bg) 0%, var(--bg-elevated) 100%); }
-.footer-content { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:32px; margin-bottom:32px; }
-.footer-brand img { height:36px; margin-bottom:12px; }
-.footer-brand p { color:var(--text-muted); font-size:0.9rem; }
-.footer-links h4 { font-size:0.95rem; margin-bottom:16px; }
-.footer-links a { display:block; color:var(--text-muted); text-decoration:none; font-size:0.85rem; padding:6px 0; transition:var(--transition); }
-.footer-links a:hover { color:var(--primary-light); }
-.footer-bottom { text-align:center; padding-top:24px; border-top:1px solid var(--border); color:var(--text-muted); font-size:0.8rem; line-height:1.8; }
-
-/* Responsive */
-@media (max-width:1024px) {
-  .desktop-nav { display:none; }
-  .anime-banner { height:auto; min-height:unset; padding-top:80px; }
-  .anime-banner-content { flex-direction:column; align-items:center; text-align:center; padding-bottom:32px; }
-  .anime-poster-wrap { width:200px; }
-  .anime-actions { justify-content:center; }
-  .anime-meta-row { justify-content:center; }
-  .anime-genres { justify-content:center; }
-}
-@media (max-width:768px) {
-  .header { padding:0 16px; height:60px; }
-  .anime-title { font-size:1.6rem; }
-  .tabs { gap:4px; }
-  .tab-btn { padding:10px 14px; font-size:0.85rem; }
-  .info-grid { grid-template-columns:1fr; }
-  .episodes-grid { grid-template-columns:repeat(auto-fill, minmax(80px, 1fr)); }
-  .rec-grid { grid-template-columns:repeat(auto-fill, minmax(130px, 1fr)); gap:12px; }
-  .search-grid { grid-template-columns:repeat(auto-fill, minmax(130px, 1fr)); }
-}
 </style>
-<base target="_blank">
-</head>
-<body>
+````
 
-<div class="page-loader" id="pageLoader"><div class="loader-ring"></div></div>
+ALL JavaScript MUST stay INSIDE each HTML file:
 
-<header class="header" id="header">
-  <div class="header-left">
-    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-    <a href="index.html"><img class="logo-img" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube"></a>
-    <nav class="desktop-nav">
-      <a href="index.html">Home</a>
-      <a href="search.html?q=trending">Trending</a>
-      <a href="schedule.html">Schedule</a>
-      <a href="donate.html">Donate</a>
-    </nav>
-  </div>
-  <div class="header-right">
-    <button class="search-btn" id="searchBtn" aria-label="Search">
-      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-    </button>
-  </div>
-</header>
-
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-logo"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube"></div>
-  <a href="index.html"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
-  <a href="search.html?q=trending"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Trending</a>
-  <a href="schedule.html"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Schedule</a>
-  <div class="sidebar-divider"></div>
-  <a href="search.html"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>Search</a>
-  <a href="donate.html"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Donate</a>
-</aside>
-
-<div class="search-overlay" id="searchOverlay">
-  <div class="search-header">
-    <div class="search-input-wrap">
-      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-      <input type="text" id="searchInput" placeholder="Search anime..." autocomplete="off">
-    </div>
-    <button class="search-close" id="searchClose"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
-  </div>
-  <div class="search-filters">
-    <select class="filter-select" id="filterGenre"><option value="">All Genres</option></select>
-    <select class="filter-select" id="filterSeason"><option value="">All Seasons</option><option value="WINTER">Winter</option><option value="SPRING">Spring</option><option value="SUMMER">Summer</option><option value="FALL">Fall</option></select>
-    <select class="filter-select" id="filterYear"><option value="">All Years</option></select>
-    <select class="filter-select" id="filterFormat"><option value="">All Formats</option><option value="TV">TV</option><option value="MOVIE">Movie</option><option value="OVA">OVA</option><option value="ONA">ONA</option><option value="SPECIAL">Special</option></select>
-    <select class="filter-select" id="filterStatus"><option value="">All Status</option><option value="RELEASING">Airing</option><option value="FINISHED">Completed</option><option value="NOT_YET_RELEASED">Upcoming</option></select>
-    <select class="filter-select" id="filterSort"><option value="POPULARITY_DESC">Popular</option><option value="SCORE_DESC">Top Rated</option><option value="TRENDING_DESC">Trending</option></select>
-  </div>
-  <div class="search-results" id="searchResults"><div class="search-empty"><p>Type to search...</p></div></div>
-</div>
-
-<!-- Trailer Modal -->
-<div class="trailer-modal" id="trailerModal">
-  <div style="width:100%;max-width:900px;position:relative;">
-    <button class="trailer-close" id="trailerClose"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
-    <div class="trailer-wrap" id="trailerWrap"></div>
-  </div>
-</div>
-
-<!-- Anime Banner -->
-<div class="anime-banner" id="animeBanner">
-  <div class="anime-banner-bg" id="bannerBg"></div>
-  <div class="anime-banner-overlay"></div>
-  <div class="anime-banner-content" id="bannerContent">
-    <div class="anime-poster-wrap" id="posterWrap">
-      <img class="anime-poster" id="animePoster" src="" alt="">
-      <span class="anime-poster-badge" id="posterBadge"></span>
-    </div>
-    <div class="anime-info" id="animeInfo"></div>
-  </div>
-</div>
-
-<!-- Content -->
-<div class="anime-content">
-  <div class="tabs" id="tabs">
-    <button class="tab-btn active" data-tab="overview">Overview</button>
-    <button class="tab-btn" data-tab="episodes">Episodes</button>
-    <button class="tab-btn" data-tab="characters">Characters</button>
-    <button class="tab-btn" data-tab="relations">Relations</button>
-    <button class="tab-btn" data-tab="recommendations">Recommendations</button>
-  </div>
-
-  <div class="tab-panel active" id="panel-overview">
-    <div class="overview-grid">
-      <div class="overview-main">
-        <div class="section-block">
-          <h3>Synopsis</h3>
-          <div class="synopsis" id="synopsis"></div>
-        </div>
-        <div class="section-block">
-          <h3>Trailer</h3>
-          <div id="trailerSection"></div>
-        </div>
-      </div>
-      <div class="overview-side">
-        <div class="section-block">
-          <h3>Information</h3>
-          <div class="info-grid" id="infoGrid"></div>
-        </div>
-        <div class="section-block">
-          <h3>Tags</h3>
-          <div id="tagsSection" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
-        </div>
-        <div class="section-block">
-          <h3>Studios</h3>
-          <div id="studiosSection"></div>
-        </div>
-        <div class="section-block">
-          <h3>Staff</h3>
-          <div id="staffSection"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="tab-panel" id="panel-episodes">
-    <div class="section-block">
-      <h3>Episodes</h3>
-      <div class="episodes-grid" id="episodesGrid"></div>
-    </div>
-  </div>
-
-  <div class="tab-panel" id="panel-characters">
-    <div class="section-block">
-      <h3>Characters</h3>
-      <div class="char-grid" id="charGrid"></div>
-    </div>
-  </div>
-
-  <div class="tab-panel" id="panel-relations">
-    <div class="section-block">
-      <h3>Relations</h3>
-      <div class="rec-grid" id="relationsGrid"></div>
-    </div>
-  </div>
-
-  <div class="tab-panel" id="panel-recommendations">
-    <div class="section-block">
-      <h3>Recommendations</h3>
-      <div class="rec-grid" id="recGrid"></div>
-    </div>
-  </div>
-</div>
-
-<footer class="footer">
-  <div class="footer-content">
-    <div class="footer-brand">
-      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube">
-      <p>Premium anime streaming experience.</p>
-    </div>
-    <div class="footer-links">
-      <h4>Navigation</h4>
-      <a href="index.html">Home</a>
-      <a href="search.html?q=trending">Trending</a>
-      <a href="schedule.html">Schedule</a>
-      <a href="donate.html">Donate</a>
-    </div>
-    <div class="footer-links">
-      <h4>Legal</h4>
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Service</a>
-      <a href="#">DMCA</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>This site does not store any files on its server. All contents are provided by non-affiliated third parties.</p>
-    <p style="margin-top:8px;">&copy; 2024 NamiTube. All rights reserved.</p>
-  </div>
-</footer>
-
+```html
 <script>
-const API_URL = 'https://graphql.anilist.co';
-const $ = (s, el=document) => el.querySelector(s);
-const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
-const LS_PREFIX = 'nt_';
-const CACHE_TTL = 1000*60*30;
-
-function getParam(name) { return new URLSearchParams(location.search).get(name); }
-function cacheGet(k){ try{ const i=localStorage.getItem(LS_PREFIX+k); if(!i)return null; const p=JSON.parse(i); if(Date.now()-p.ts>CACHE_TTL){localStorage.removeItem(LS_PREFIX+k);return null;} return p.data; }catch(e){return null;} }
-function cacheSet(k,d){ try{localStorage.setItem(LS_PREFIX+k,JSON.stringify({ts:Date.now(),data:d}));}catch(e){} }
-function escapeHtml(s){ if(!s)return''; return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-
-async function gqlQuery(query, vars={}, retries=2) {
-  const ctrl = new AbortController();
-  const to = setTimeout(()=>ctrl.abort(), 10000);
-  try {
-    const res = await fetch(API_URL, {method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify({query,variables:vars}), signal:ctrl.signal});
-    clearTimeout(to);
-    if(!res.ok) throw new Error('HTTP '+res.status);
-    const json = await res.json();
-    if(json.errors) throw new Error(json.errors[0].message);
-    return json.data;
-  } catch(e){ clearTimeout(to); if(retries>0){await new Promise(r=>setTimeout(r,800));return gqlQuery(query,vars,retries-1);} throw e; }
-}
-
-const ANIME_QUERY = `query($id:Int){
-  Media(id:$id,type:ANIME){
-    id title{english romaji native} coverImage{large extraLarge} bannerImage
-    description averageScore popularity favourites status format episodes duration season seasonYear startDate{year month day} endDate{year month day}
-    genres tags{name rank isGeneralSpoiler} studios{nodes{name}} staff{edges{role node{name{full} image{medium}}} pageInfo{perPage:6}}
-    characters{edges{role node{name{full} image{medium}}} pageInfo{perPage:12}}
-    relations{edges{relationType node{id type title{english romaji} coverImage{large} format status}}}
-    recommendations{nodes{mediaRecommendation{id type title{english romaji} coverImage{large} averageScore format status}} pageInfo{perPage:12}}
-    trailer{id site} nextAiringEpisode{episode timeUntilAiring} rankings{rank type context}
-  }
-}`;
-
-let currentAnime = null;
-
-function renderBanner(anime) {
-  currentAnime = anime;
-  const title = anime.title?.english || anime.title?.romaji || 'Untitled';
-  const alt = anime.title?.romaji || '';
-  const banner = anime.bannerImage || anime.coverImage?.extraLarge || '';
-  const poster = anime.coverImage?.large || '';
-  const score = anime.averageScore ? (anime.averageScore/10).toFixed(1) : null;
-
-  $('#bannerBg').style.backgroundImage = `url('${escapeHtml(banner)}')`;
-  $('#animePoster').src = poster;
-  $('#animePoster').alt = title;
-  $('#posterBadge').textContent = score ? score + ' ★' : '';
-  $('#posterBadge').style.display = score ? 'block' : 'none';
-
-  const statusClass = anime.status==='RELEASING'?'status-airing':anime.status==='FINISHED'?'status-finished':'status-upcoming';
-  const statusText = anime.status==='RELEASING'?'Airing':anime.status==='FINISHED'?'Completed':'Upcoming';
-
-  $('#animeInfo').innerHTML = `
-    <h1 class="anime-title">${escapeHtml(title)}</h1>
-    ${alt && alt!==title?`<div class="anime-alt-title">${escapeHtml(alt)}</div>`:''}
-    <div class="anime-meta-row">
-      ${score?`<span class="anime-score"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> ${score}</span>`:''}
-      <span class="anime-status ${statusClass}">${statusText}</span>
-      ${anime.format?`<span style="color:var(--text-muted);font-size:0.9rem;">${escapeHtml(anime.format)}</span>`:''}
-      ${anime.episodes?`<span style="color:var(--text-muted);font-size:0.9rem;">${anime.episodes} Episodes</span>`:''}
-      ${anime.duration?`<span style="color:var(--text-muted);font-size:0.9rem;">${anime.duration} min</span>`:''}
-      ${anime.seasonYear?`<span style="color:var(--text-muted);font-size:0.9rem;">${escapeHtml(anime.season||'')} ${anime.seasonYear}</span>`:''}
-    </div>
-    <div class="anime-genres">${(anime.genres||[]).map(g=>`<span class="anime-genre" onclick="event.stopPropagation();location.href='search.html?genre=${encodeURIComponent(g)}'">${escapeHtml(g)}</span>`).join('')}</div>
-    <div class="anime-actions">
-      <a class="btn-watch" href="watch.html?id=${anime.id}&ep=1">
-        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        Watch Now
-      </a>
-      ${anime.trailer?.id?`<button class="btn-trailer" id="btnTrailer"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Trailer</button>`:''}
-    </div>
-  `;
-
-  if(anime.trailer?.id) {
-    $('#btnTrailer').onclick = ()=>{
-      const site = anime.trailer.site;
-      const id = anime.trailer.id;
-      let url = '';
-      if(site==='youtube') url = `https://www.youtube.com/embed/${id}?autoplay=1`;
-      else if(site==='dailymotion') url = `https://www.dailymotion.com/embed/video/${id}`;
-      $('#trailerWrap').innerHTML = `<iframe src="${url}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-      $('#trailerModal').classList.add('active');
-    };
-  }
-}
-
-function renderOverview(anime) {
-  const desc = anime.description ? anime.description.replace(/<br\/>/g,'
-').replace(/<[^>]+>/g,'') : 'No synopsis available.';
-  $('#synopsis').innerHTML = desc.split('
-').filter(p=>p.trim()).map(p=>`<p>${escapeHtml(p)}</p>`).join('');
-
-  if(anime.trailer?.id) {
-    const site = anime.trailer.site;
-    const id = anime.trailer.id;
-    let thumb = '';
-    if(site==='youtube') thumb = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
-    $('#trailerSection').innerHTML = `
-      <div style="position:relative;aspect-ratio:16/9;border-radius:var(--radius);overflow:hidden;cursor:pointer;background:var(--bg-card);" onclick="$('#trailerModal').classList.add('active');$('#trailerWrap').innerHTML='<iframe src=&quot;${site==='youtube'?`https://www.youtube.com/embed/${id}?autoplay=1`:''}&quot; allowfullscreen></iframe>';">
-        <img src="${thumb}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.4);">
-          <div style="width:64px;height:64px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(168,85,247,0.5);">
-            <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-        </div>
-      </div>
-    `;
-  } else {
-    $('#trailerSection').innerHTML = '<p style="color:var(--text-muted)">No trailer available.</p>';
-  }
-
-  // Info grid
-  const info = [
-    ['Type', anime.format || 'Unknown'],
-    ['Status', anime.status==='RELEASING'?'Airing':anime.status==='FINISHED'?'Completed':'Upcoming'],
-    ['Episodes', anime.episodes || 'Unknown'],
-    ['Duration', anime.duration ? anime.duration+' min' : 'Unknown'],
-    ['Start Date', anime.startDate?.year ? `${anime.startDate.year}-${String(anime.startDate.month||1).padStart(2,'0')}-${String(anime.startDate.day||1).padStart(2,'0')}` : 'Unknown'],
-    ['End Date', anime.endDate?.year ? `${anime.endDate.year}-${String(anime.endDate.month||1).padStart(2,'0')}-${String(anime.endDate.day||1).padStart(2,'0')}` : 'Unknown'],
-    ['Season', anime.season ? `${escapeHtml(anime.season)} ${anime.seasonYear||''}` : 'Unknown'],
-    ['Popularity', anime.popularity?.toLocaleString() || 'Unknown'],
-    ['Favorites', anime.favourites?.toLocaleString() || 'Unknown'],
-    ['Score', anime.averageScore ? (anime.averageScore/10).toFixed(1)+'/10' : 'Unknown'],
-  ];
-  if(anime.rankings?.length) {
-    const top = anime.rankings.find(r=>r.type==='RATED') || anime.rankings[0];
-    if(top) info.push(['Rank', `#${top.rank} ${top.context||''}`]);
-  }
-  $('#infoGrid').innerHTML = info.map(([label,val])=>`
-    <div class="info-item">
-      <div class="info-label">${escapeHtml(label)}</div>
-      <div class="info-value">${escapeHtml(val)}</div>
-    </div>
-  `).join('');
-
-  // Tags
-  const tags = (anime.tags||[]).filter(t=>!t.isGeneralSpoiler).slice(0,20);
-  $('#tagsSection').innerHTML = tags.length ? tags.map(t=>`<span class="anime-genre">${escapeHtml(t.name)}</span>`).join('') : '<span style="color:var(--text-muted)">No tags</span>';
-
-  // Studios
-  const studios = (anime.studios?.nodes||[]).slice(0,6);
-  $('#studiosSection').innerHTML = studios.length ? studios.map(s=>`<div style="padding:8px 0;color:var(--text);font-weight:500;">${escapeHtml(s.name)}</div>`).join('') : '<span style="color:var(--text-muted)">No studio info</span>';
-
-  // Staff
-  const staff = (anime.staff?.edges||[]).slice(0,6);
-  $('#staffSection').innerHTML = staff.length ? staff.map(s=>`
-    <div style="display:flex;align-items:center;gap:12px;padding:8px 0;">
-      <img src="${s.node.image?.medium||''}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;background:var(--bg-card);" onerror="this.style.display='none'">
-      <div><div style="font-size:0.85rem;font-weight:600;">${escapeHtml(s.node.name?.full||'')}</div><div style="font-size:0.75rem;color:var(--text-muted);">${escapeHtml(s.role||'')}</div></div>
-    </div>
-  `).join('') : '<span style="color:var(--text-muted)">No staff info</span>';
-}
-
-function renderEpisodes(anime) {
-  const eps = anime.episodes || 1;
-  const grid = $('#episodesGrid');
-  grid.innerHTML = '';
-  for(let i=1; i<=Math.min(eps, 100); i++) {
-    const card = document.createElement('a');
-    card.className = 'episode-card';
-    card.href = `watch.html?id=${anime.id}&ep=${i}`;
-    card.innerHTML = `<div class="episode-num">${i}</div><div class="episode-label">Episode</div>`;
-    grid.appendChild(card);
-  }
-  if(eps>100) {
-    const more = document.createElement('div');
-    more.style.cssText = 'grid-column:1/-1;text-align:center;padding:16px;color:var(--text-muted);';
-    more.textContent = `+ ${eps-100} more episodes`;
-    grid.appendChild(more);
-  }
-}
-
-function renderCharacters(anime) {
-  const chars = (anime.characters?.edges||[]).slice(0,24);
-  $('#charGrid').innerHTML = chars.length ? chars.map(c=>`
-    <div class="char-card">
-      <img class="char-img" src="${c.node.image?.medium||''}" alt="${escapeHtml(c.node.name?.full||'')}" onerror="this.style.background='var(--bg-card)'">
-      <div class="char-info">
-        <div class="char-name">${escapeHtml(c.node.name?.full||'')}</div>
-        <div class="char-role">${escapeHtml(c.role||'')}</div>
-      </div>
-    </div>
-  `).join('') : '<p style="color:var(--text-muted)">No character data available.</p>';
-}
-
-function createRecCard(media) {
-  if(!media) return '';
-  const title = media.title?.english || media.title?.romaji || 'Untitled';
-  const img = media.coverImage?.large || '';
-  return `
-    <div class="rec-card" onclick="location.href='anime.html?id=${media.id}'">
-      <div class="rec-img-wrap">
-        <img class="rec-img" src="${img}" alt="${escapeHtml(title)}" loading="lazy" onerror="this.style.display='none'">
-        <div class="rec-overlay"></div>
-      </div>
-      <div class="rec-title">${escapeHtml(title)}</div>
-    </div>
-  `;
-}
-
-function renderRelations(anime) {
-  const rels = (anime.relations?.edges||[]).filter(r=>r.node?.type==='ANIME').slice(0,12);
-  $('#relationsGrid').innerHTML = rels.length ? rels.map(r=>createRecCard(r.node)).join('') : '<p style="color:var(--text-muted)">No relations available.</p>';
-}
-
-function renderRecommendations(anime) {
-  const recs = (anime.recommendations?.nodes||[]).map(n=>n.mediaRecommendation).filter(Boolean).slice(0,12);
-  $('#recGrid').innerHTML = recs.length ? recs.map(createRecCard).join('') : '<p style="color:var(--text-muted)">No recommendations available.</p>';
-}
-
-// Tabs
-$$('.tab-btn').forEach(btn=>{
-  btn.onclick = ()=>{
-    $$('.tab-btn').forEach(b=>b.classList.remove('active'));
-    $$('.tab-panel').forEach(p=>p.classList.remove('active'));
-    btn.classList.add('active');
-    $(`#panel-${btn.dataset.tab}`).classList.add('active');
-  };
-});
-
-// Search overlay
-$('#searchBtn').onclick = ()=>{ $('#searchOverlay').classList.add('active'); $('#searchInput').focus(); };
-$('#searchClose').onclick = ()=>{ $('#searchOverlay').classList.remove('active'); };
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') $('#searchOverlay').classList.remove('active'); });
-
-// Sidebar
-$('#hamburger').onclick = ()=>{ $('#sidebar').classList.add('active'); $('#sidebarOverlay').classList.add('active'); $('#hamburger').classList.add('active'); };
-$('#sidebarOverlay').onclick = ()=>{ $('#sidebar').classList.remove('active'); $('#sidebarOverlay').classList.remove('active'); $('#hamburger').classList.remove('active'); };
-
-// Header scroll
-window.addEventListener('scroll', ()=>{ $('#header').classList.toggle('scrolled', window.scrollY>50); },{passive:true});
-
-// Trailer close
-$('#trailerClose').onclick = ()=>{ $('#trailerModal').classList.remove('active'); $('#trailerWrap').innerHTML=''; };
-$('#trailerModal').onclick = (e)=>{ if(e.target===$('#trailerModal')){ $('#trailerModal').classList.remove('active'); $('#trailerWrap').innerHTML=''; } };
-
-// Search
-let searchController = null;
-function debounce(fn,ms){ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args),ms); }; }
-
-async function doSearch() {
-  const q = $('#searchInput').value.trim();
-  const genre = $('#filterGenre').value;
-  const season = $('#filterSeason').value;
-  const year = $('#filterYear').value;
-  const format = $('#filterFormat').value;
-  const status = $('#filterStatus').value;
-  const sort = $('#filterSort').value;
-  const results = $('#searchResults');
-  if(!q && !genre && !season && !year && !format && !status){ results.innerHTML='<div class="search-empty"><p>Type to search...</p></div>'; return; }
-  results.innerHTML='<div class="search-grid">'+Array(12).fill('<div class="search-skeleton"></div>').join('')+'</div>';
-  if(searchController) searchController.abort(); searchController=new AbortController();
-  const vars={page:1,perPage:24,search:q||undefined,sort:sort||'POPULARITY_DESC'};
-  if(genre) vars.genre=genre; if(season) vars.season=season; if(year) vars.seasonYear=parseInt(year);
-  if(format) vars.format=format; if(status) vars.status=status;
-  const query=`query($page:Int,$perPage:Int,$search:String,$sort:[MediaSort],$genre:String,$season:MediaSeason,$seasonYear:Int,$format:MediaFormat,$status:MediaStatus){Page(page:$page,perPage:$perPage){media(type:ANIME,search:$search,sort:$sort,genre:$genre,season:$season,seasonYear:$seasonYear,format:$format,status:$status){id title{english romaji} coverImage{large medium} averageScore genres format episodes status seasonYear}}}`;
-  try {
-    const data=await gqlQuery(query,vars);
-    const media=data?.Page?.media||[];
-    if(!media.length){ results.innerHTML='<div class="search-empty"><p>No results found.</p></div>'; return; }
-    results.innerHTML='<div class="search-grid">'+media.map(m=>`
-      <div class="anime-card" onclick="location.href='anime.html?id=${m.id}'" style="width:100%;">
-        <div class="anime-card-img-wrap"><img class="anime-card-img" src="${m.coverImage?.large||''}" alt="" loading="lazy"><div class="anime-card-overlay"></div><div class="anime-card-badges">${m.averageScore?`<span class="badge badge-score">${(m.averageScore/10).toFixed(1)}</span>`:''}<span class="badge badge-hd">HD</span></div></div>
-        <div class="anime-card-info"><div class="anime-card-title">${escapeHtml(m.title?.english||m.title?.romaji||'Untitled')}</div><div class="anime-card-meta">${m.seasonYear||''}</div></div>
-      </div>
-    `).join('')+'</div>';
-  } catch(e){ results.innerHTML='<div class="search-empty"><p>Error loading results.</p></div>'; }
-}
-
-$('#searchInput').addEventListener('input', debounce(doSearch,400));
-$$('.filter-select').forEach(s=>s.addEventListener('change', doSearch));
-
-// Populate filters
-const yearSel=$('#filterYear'); const curYear=new Date().getFullYear();
-for(let y=curYear; y>=1980; y--){ const o=document.createElement('option'); o.value=y; o.textContent=y; yearSel.appendChild(o); }
-
-async function init() {
-  const id = parseInt(getParam('id'));
-  if(!id){ $('#animeInfo').innerHTML='<div style="padding:40px;text-align:center;color:var(--text-muted)">No anime ID provided.</div>'; $('#pageLoader').classList.add('hidden'); return; }
-
-  const cached = cacheGet('anime_'+id);
-  if(cached) {
-    renderBanner(cached); renderOverview(cached); renderEpisodes(cached); renderCharacters(cached); renderRelations(cached); renderRecommendations(cached);
-    $('#pageLoader').classList.add('hidden');
-  }
-
-  try {
-    const data = await gqlQuery(ANIME_QUERY, {id});
-    const anime = data?.Media;
-    if(!anime) throw new Error('Anime not found');
-    cacheSet('anime_'+id, anime);
-    renderBanner(anime); renderOverview(anime); renderEpisodes(anime); renderCharacters(anime); renderRelations(anime); renderRecommendations(anime);
-    document.title = `${anime.title?.english||anime.title?.romaji||'Anime'} - NamiTube`;
-  } catch(e) {
-    $('#animeInfo').innerHTML = `<div style="padding:40px;text-align:center;color:var(--text-muted)">Failed to load anime. <a href="index.html" style="color:var(--primary-light)">Go Home</a></div>`;
-  }
-
-  // Populate genre filter
-  try {
-    const gData = await gqlQuery(`query{GenreCollection}`);
-    (gData?.GenreCollection||[]).forEach(g=>{ const o=document.createElement('option'); o.value=g; o.textContent=g; $('#filterGenre').appendChild(o); });
-  } catch(e){}
-
-  $('#pageLoader').classList.add('hidden');
-}
-
-if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
-else init();
 </script>
-</body>
-</html>
+```
+
+DO NOT create:
+
+* style.css
+* script.js
+* external assets
+* framework configs
+
+==================================================
+
+## DEPLOYMENT TARGETS
+
+==================================================
+
+The project MUST work directly on:
+
+* GitHub Pages
+* Cloudflare Pages
+
+WITHOUT build steps.
+
+The AI MUST provide FULL deployment setup guide including:
+
+### GitHub Pages
+
+* Repository creation
+* Git commands
+* Push instructions
+* GitHub Pages setup
+* Deployment steps
+* Update/redeploy process
+
+### Cloudflare Pages
+
+* GitHub connection
+* Build settings
+* Deploy settings
+* Domain connection
+* DNS setup
+* Redeployment steps
+
+==================================================
+
+## DESIGN REQUIREMENTS
+
+==================================================
+
+The website MUST feel:
+
+* Premium
+* Cinematic
+* Netflix-quality
+* Ultra modern
+* Smooth animated
+* Dark luxury themed
+* Glassmorphism styled
+* Purple neon aesthetic
+
+Theme style:
+
+* Deep black background
+* Purple glow accents
+* Blur effects
+* Floating glass cards
+* Smooth gradients
+* Rounded corners
+* Modern typography
+* Cinematic overlays
+
+The UI MUST feel like a REAL streaming platform.
+
+==================================================
+
+## RESPONSIVE REQUIREMENTS
+
+==================================================
+
+The ENTIRE website MUST be FULLY responsive.
+
+Support:
+
+* Mobile
+* Tablet
+* Small laptops
+* Desktop
+* Ultrawide monitors
+
+The website MUST permanently fix:
+
+* horizontal overflow
+* viewport clipping
+* broken scaling
+* flex overflow
+* grid overflow
+* iframe overflow
+* image overflow
+* slider overflow
+* sidebar overlap
+* mobile layout breaking
+* landscape mode issues
+* touch interaction issues
+* small laptop layout issues
+
+ALWAYS include:
+
+```css
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+```
+
+Use:
+
+* clamp()
+* minmax()
+* auto-fit
+* auto-fill
+* fluid typography
+* responsive grids
+* flex-wrap
+* aspect-ratio
+* media queries
+
+NO horizontal scrolling.
+NO layout breaking.
+NO overlapping UI.
+
+==================================================
+
+## HEADER + NAVIGATION
+
+==================================================
+
+Create a PREMIUM STICKY HEADER.
+
+LEFT:
+
+* Hamburger menu
+* Mobile sidebar trigger
+
+CENTER:
+
+* Premium logo/banner
+
+RIGHT:
+
+* Search button
+
+Desktop:
+
+* Cinematic horizontal navbar
+
+Mobile:
+
+* Animated sidebar drawer
+* Smooth overlay
+* Touch optimized
+
+The search button MUST:
+
+* never overlap
+* always stay accessible
+* work perfectly on mobile
+* support keyboard accessibility
+* support touch interactions
+
+==================================================
+
+## HEADER MENUBAR
+
+==================================================
+
+The header MUST include:
+
+* Home
+* Trending
+* Schedule
+* Donate
+
+NO extra pages.
+NO account system.
+NO login/signup.
+NO profile system.
+NO bookmarks.
+NO favorites.
+
+==================================================
+
+## SEARCH SYSTEM
+
+==================================================
+
+Create a FULLSCREEN Netflix-style search overlay.
+
+Features:
+
+* Live anime search
+* Instant suggestions
+* Debounced API requests
+* Blur background
+* ESC close
+* Keyboard support
+* Mobile optimized
+* Touch optimized
+* Smooth animations
+* Overflow-safe layout
+
+Search MUST support:
+
+* Genre filter
+* Season filter
+* Year filter
+* Type filter
+* Sort options
+
+The search overlay MUST:
+
+* never overflow viewport
+* prevent horizontal scrolling
+* support safe-area insets
+* scale correctly on landscape devices
+
+==================================================
+
+## API REQUIREMENTS
+
+==================================================
+
+Use ONLY Jikan API:
+
+[https://docs.api.jikan.moe/](https://docs.api.jikan.moe/)
+
+ALL anime data MUST dynamically fetch from Jikan API.
+
+Fetch:
+
+* Trending anime
+* Top anime
+* Top airing
+* Upcoming anime
+* Completed anime
+* Latest movies
+* Recently updated
+* Genres
+* Recommendations
+* Relations
+* Episodes
+* Characters
+* Studios
+* Ratings
+* Synopsis
+* Schedule data
+
+NO hardcoded anime content.
+
+==================================================
+
+## HOMEPAGE
+
+==================================================
+
+Create a cinematic homepage.
+
+==================================================
+
+## HERO SLIDER
+
+==================================================
+
+Create a FULLY CUSTOM cinematic hero slider.
+
+Requirements:
+
+* Minimum 10 anime slides
+* Trending anime
+* Large cinematic banners
+* Overlay gradients
+* Animated text reveal
+* Auto slide
+* Infinite looping
+* Mouse drag
+* Touch swipe
+* Pagination dots
+* Navigation arrows
+* Smooth fade transitions
+* Lazy image loading
+* Stable initialization
+* No duplicate slider bugs
+
+Each slide MUST include:
+
+* Banner
+* Title
+* Genres
+* Score
+* Synopsis
+* Watch button
+* Details button
+
+The hero slider MUST:
+
+* never disappear
+* survive refresh
+* work on slow internet
+* work on mobile
+* initialize only after data loads
+
+==================================================
+
+## HOMEPAGE WIDGETS
+
+==================================================
+
+Create these homepage widgets:
+
+1. Recently Updated
+2. Trending Now
+3. Top Airing
+4. Top Rated
+5. Latest Movies
+6. Completed
+7. Upcoming
+
+IMPORTANT:
+
+Each widget MUST:
+
+* be a horizontal anime slider
+* contain minimum 12 anime cards
+* support drag scroll
+* support touch swipe
+* support mouse wheel scrolling
+* include navigation arrows
+* support smooth transitions
+* feel infinite
+* work perfectly on mobile
+
+Anime cards MUST include:
+
+* Poster
+* Score badge
+* Episode badge
+* HD badge
+* Type badge
+* Hover animation
+* Gradient overlay
+
+==================================================
+
+## UNIVERSAL SLIDER ENGINE
+
+==================================================
+
+Create ONE reusable slider system.
+
+The slider engine MUST:
+
+* initialize only after data loads
+* prevent duplicate initialization
+* survive refresh
+* support mobile
+* dynamically resize
+* prevent overflow
+* prevent animation conflicts
+* prevent transition overlap
+* support ResizeObserver
+* safely reinitialize after resize
+
+==================================================
+
+## WATCH PAGE
+
+==================================================
+
+watch.html MUST include:
+
+* Embedded player
+* Fullscreen
+* Theater mode
+* Episode switching
+* Auto next episode
+* Keyboard shortcuts
+* Related anime
+* Episode selector
+* Server selector
+* Sub/Dub switching
+* Responsive player layout
+
+The player MUST feel premium like HiAnime.
+
+==================================================
+
+## VIDEO STREAMING SYSTEM
+
+==================================================
+
+PRIMARY SERVER:
+
+Vidnest
+
+Format:
+
+[https://vidnest.fun/anime/[ANILIST_ID]/[EPISODE]/[SUB_OR_DUB](https://vidnest.fun/anime/[ANILIST_ID]/[EPISODE]/[SUB_OR_DUB)]
+
+EXAMPLES:
+
+[https://vidnest.fun/anime/21/1/sub](https://vidnest.fun/anime/21/1/sub)
+[https://vidnest.fun/anime/21/1/dub](https://vidnest.fun/anime/21/1/dub)
+
+==================================================
+
+FALLBACK SERVER:
+
+Megaplay
+
+Formats:
+
+[https://megaplay.buzz/stream/mal/[MAL_ID]/[EPISODE]/sub](https://megaplay.buzz/stream/mal/[MAL_ID]/[EPISODE]/sub)
+
+[https://megaplay.buzz/stream/mal/[MAL_ID]/[EPISODE]/dub](https://megaplay.buzz/stream/mal/[MAL_ID]/[EPISODE]/dub)
+
+==================================================
+
+IMPORTANT STREAMING REQUIREMENTS
+
+The system MUST support:
+
+* AniList ID
+* MAL ID
+* Automatic MAL → AniList conversion
+* Automatic AniList → MAL conversion
+* Multi-server switching
+* Auto fallback system
+* Broken stream recovery
+* Safe iframe loading
+* Loading timeout handling
+* Retry mechanism
+* Stream fail fallback rendering
+* Sub/Dub switching
+* Episode switching
+* Refresh-safe playback
+* Mobile fullscreen support
+* Safe responsive iframe scaling
+
+The player MUST:
+
+* NEVER render blank
+* NEVER overflow
+* NEVER freeze
+* survive refresh
+* recover from iframe errors
+* work on slow internet
+* support mobile landscape mode
+
+Use iframe embedding ONLY.
+
+==================================================
+
+## ANIME DETAILS PAGE
+
+==================================================
+
+anime.html MUST include:
+
+* Cinematic banner
+* Poster
+* Trailer
+* Synopsis
+* Genres
+* Studios
+* Recommendations
+* Characters
+* Relations
+* Episodes
+* Score
+* Status
+* Watch buttons
+
+The anime details section MUST be FULLY responsive.
+
+Fix ALL:
+
+* horizontal overflow
+* text alignment breaking
+* image overflow
+* mobile layout issues
+* tablet layout issues
+
+==================================================
+
+## SEARCH PAGE
+
+==================================================
+
+search.html MUST include:
+
+* Live search
+* Anime grid
+* Infinite loading
+* Filter system
+* Genre filter
+* Year filter
+* Season filter
+* Type filter
+* Sort options
+* Responsive layout
+
+==================================================
+
+## SCHEDULE PAGE
+
+==================================================
+
+schedule.html MUST include:
+
+* Monday-Sunday tabs
+* Dynamic Jikan schedule API
+* Responsive tabs
+* Mobile optimized scrolling
+* Smooth transitions
+
+==================================================
+
+## DONATE PAGE
+
+==================================================
+
+donate.html MUST include:
+
+* Premium glassmorphism layout
+* Donation cards
+* Support message
+* Animated UI
+* Responsive design
+* QR/payment placeholder sections
+* Social support links
+* Cinematic styling
+
+==================================================
+
+## CRITICAL STABILITY REQUIREMENTS
+
+==================================================
+
+You MUST permanently fix ALL issues including:
+
+* API failures
+* Empty API responses
+* Widget loading failures
+* Hero slider disappearing
+* Broken refresh behavior
+* Async race conditions
+* Infinite slider glitches
+* Duplicate initialization
+* Event listener duplication
+* Memory leaks
+* Mobile overflow
+* Broken responsiveness
+* Horizontal scrolling bugs
+* Header overlap
+* Search overlay overflow
+* Anime details overflow
+* Broken tabs
+* Sidebar overlap
+* Small laptop layout breaking
+* Landscape mode issues
+* Touch interaction bugs
+* Search suggestions clipping
+* Card overflow
+* Broken sliders on refresh
+* Slider arrows breaking
+* Slow loading UI glitches
+* Image scaling bugs
+* Fixed-width responsive issues
+* Keyboard accessibility issues
+
+The website MUST NEVER:
+
+* overflow horizontally
+* break on mobile
+* show blank widgets
+* show broken sliders
+* freeze loading
+* render empty sections
+* overlap UI elements
+
+==================================================
+
+## MANDATORY ENGINEERING SYSTEM
+
+==================================================
+
+Implement ALL:
+
+* async/await architecture
+* Promise.allSettled()
+* retry fetch system
+* timeout handling
+* fallback rendering
+* skeleton loaders
+* safe DOM rendering
+* null protection
+* debounced requests
+* localStorage cache
+* lazy loading
+* lazy initialization
+* ResizeObserver
+* orientationchange recalculation
+* overflow prevention
+* dynamic sizing
+* slider reinitialization
+* safe transition locking
+* request cancellation
+* mobile-safe resizing
+* safe viewport calculations
+* scroll snapping fixes
+* memory leak prevention
+
+==================================================
+
+## FOOTER
+
+==================================================
+
+Footer MUST ONLY contain:
+
+* Copyright
+* Credits
+* Minimal social icons
+* Disclaimer text
+
+Add this EXACT disclaimer text:
+
+"This site does not store any files on its server. All contents are provided by non-affiliated third parties."
+
+NO giant footer.
+NO unnecessary footer links.
+NO cluttered layout.
+
+==================================================
+
+## SEO + PERFORMANCE
+
+==================================================
+
+Optimize for:
+
+* Fast loading
+* Lazy loading
+* Accessibility
+* Semantic HTML
+* OpenGraph tags
+* SEO tags
+
+==================================================
+
+## FINAL REQUIREMENTS
+
+==================================================
+
+The ENTIRE project MUST feel like:
+
+* a REAL anime streaming platform
+* premium frontend engineering
+* Netflix-quality production
+* cinematic UI/UX
+* stable production architecture
+
+NO:
+
+* unfinished systems
+* fake placeholder sections
+* broken responsiveness
+* overflow glitches
+* inconsistent layouts
+* low-quality design
+* duplicate systems
+* broken mobile UI
+
+Generate FULL COMPLETE CODE for:
+
+* index.html
+* anime.html
+* watch.html
+* search.html
+* schedule.html
+* donate.html
+
+The final result MUST be deployable immediately with production-level quality.
+
+```
+```
