@@ -1,1408 +1,386 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Info · NamiTube</title>
-    <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHE6pMgjbJ6YDLaMAtDUZCs6Zhkvxl0_fQnb0c0ZCmJOYRB_4N8dQ0ZWosBq_sZPK2wFel2E43Z2meo25JL3i7IZYkJ35FZ7lZ_BZfwlWofAKGhF1gWpFsxofeGUr87Peu6s7xtgvJMnrbtNnd4vJPtB7uG3L_wJ9tT8PKRCh-PXSxlyY9Ufn8OAzDY_Y/s320/NamiTube%20Original%20Favicon.png" type="image/png" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <style>
-        /* ----- RESET & BASE ----- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #050505;
-            color: #fff;
-            overflow-x: hidden;
-        }
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        img {
-            display: block;
-            max-width: 100%;
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #8b5cf6;
-            border-radius: 12px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a855f7;
-        }
-        .container {
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Information - NamiTube</title>
+  <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHE6pMgjbJ6YDLaMAtDUZCs6Zhkvxl0_fQnb0c0ZCmJOYRB_4N8dQ0ZWosBq_sZPK2wFel2E43Z2meo25JL3i7IZYkJ35FZ7lZ_BZfwlWofAKGhF1gWpFsxofeGUr87Peu6s7xtgvJMnrbtNnd4vJPtB7uG3L_wJ9tT8PKRCh-PXSxlyY9Ufn8OAzDY_Y/s320/NamiTube%20Original%20Favicon.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #050505;
+      --bg-card: rgba(18, 0, 24, 0.65);
+      --primary: #8b5cf6;
+      --primary-glow: rgba(168, 85, 247, 0.6);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
+    a { color: inherit; text-decoration: none; }
 
-        /* ----- HEADER ----- */
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 999;
-            background: rgba(5, 5, 5, .85);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border-bottom: 1px solid rgba(139, 92, 246, .2);
-            padding: 10px 0;
-        }
-        .header-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 0 24px;
-            gap: 16px;
-        }
-        .hamburger {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 26px;
-            cursor: pointer;
-            padding: 6px 10px;
-            border-radius: 8px;
-            transition: .2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .hamburger:hover {
-            background: rgba(139, 92, 246, .2);
-            color: #a855f7;
-        }
-        .header-logo {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-width: 0;
-        }
-        .header-logo a {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .header-logo img {
-            max-height: 52px;
-            width: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 0 30px rgba(139, 92, 246, .35));
-            border-radius: 4px;
-            transition: filter .3s;
-        }
-        .header-logo img:hover {
-            filter: drop-shadow(0 0 50px rgba(139, 92, 246, .6));
-        }
-        .header-search {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 22px;
-            cursor: pointer;
-            padding: 6px 10px;
-            border-radius: 8px;
-            transition: .2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .header-search:hover {
-            background: rgba(139, 92, 246, .2);
-            color: #a855f7;
-        }
+    /* Core Nav Block */
+    .navbar {
+      position: sticky; top: 0; z-index: 1000; background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(139, 92, 246, 0.15); display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 2rem; height: 70px;
+    }
+    .nav-banner { height: 48px; object-fit: contain; filter: drop-shadow(0 0 8px var(--primary-glow)); }
+    .desktop-menu { display: flex; gap: 2rem; font-weight: 500; font-size: 0.95rem; }
+    .desktop-menu a { position: relative; padding: 0.25rem 0; transition: var(--transition); }
+    .desktop-menu a:hover { color: var(--primary); }
+    .menu-btn, .search-btn { background: none; border: none; color: var(--text-main); font-size: 1.4rem; cursor: pointer; }
 
-        /* ----- DRAWER ----- */
-        .drawer-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .7);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: .35s;
-        }
-        .drawer-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .drawer {
-            position: fixed;
-            top: 0;
-            left: -320px;
-            width: 300px;
-            height: 100vh;
-            background: #0a0a0f;
-            border-right: 1px solid rgba(139, 92, 246, .25);
-            z-index: 1001;
-            padding: 30px 20px;
-            transition: left .35s cubic-bezier(.22, 1, .36, 1);
-            overflow-y: auto;
-            box-shadow: 4px 0 40px rgba(0, 0, 0, .6);
-        }
-        .drawer.open {
-            left: 0;
-        }
-        .drawer-close {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 28px;
-            cursor: pointer;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            width: 100%;
-            padding: 4px 0;
-            transition: .2s;
-        }
-        .drawer-close:hover {
-            color: #a855f7;
-        }
-        .drawer-logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .drawer-logo a {
-            display: inline-block;
-        }
-        .drawer-logo img {
-            max-height: 44px;
-            width: auto;
-            margin: 0 auto;
-            filter: drop-shadow(0 0 20px rgba(139, 92, 246, .3));
-        }
-        .drawer-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .drawer-nav a {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 14px 18px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 500;
-            color: #ccc;
-            transition: .25s;
-            background: transparent;
-        }
-        .drawer-nav a i {
-            width: 24px;
-            text-align: center;
-            font-size: 18px;
-            color: #8b5cf6;
-            transition: .25s;
-        }
-        .drawer-nav a:hover {
-            background: rgba(139, 92, 246, .12);
-            color: #fff;
-            padding-left: 24px;
-        }
-        .drawer-nav a:hover i {
-            color: #a855f7;
-            transform: scale(1.1);
-        }
+    /* Info Page Large Header Backdrop */
+    .backdrop-container {
+      position: relative; height: 55vh; width: 100%; background-size: cover; background-position: center;
+      display: flex; align-items: flex-end; border-bottom: 2px solid rgba(139, 92, 246, 0.15);
+    }
+    .backdrop-container::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(0deg, var(--bg-dark) 0%, rgba(5,5,5,0.7) 60%, rgba(5,5,5,0.2) 100%);
+    }
 
-        /* ----- SEARCH OVERLAY ----- */
-        .search-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(5, 5, 5, .92);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 24px;
-            opacity: 0;
-            visibility: hidden;
-            transition: .4s;
-        }
-        .search-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .search-close {
-            align-self: flex-end;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 32px;
-            cursor: pointer;
-            transition: .2s;
-            padding: 8px;
-        }
-        .search-close:hover {
-            color: #a855f7;
-            transform: rotate(90deg);
-        }
-        .search-input-wrap {
-            width: 100%;
-            max-width: 680px;
-            margin-top: 20px;
-            position: relative;
-        }
-        .search-input-wrap input {
-            width: 100%;
-            padding: 18px 22px;
-            font-size: 20px;
-            border: 2px solid rgba(139, 92, 246, .3);
-            border-radius: 60px;
-            background: rgba(255, 255, 255, .05);
-            color: #fff;
-            outline: none;
-            transition: .3s;
-            font-weight: 400;
-        }
-        .search-input-wrap input:focus {
-            border-color: #8b5cf6;
-            box-shadow: 0 0 40px rgba(139, 92, 246, .15);
-        }
-        .search-input-wrap input::placeholder {
-            color: rgba(255, 255, 255, .4);
-        }
-        .search-results {
-            width: 100%;
-            max-width: 680px;
-            margin-top: 28px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 18px;
-            max-height: 60vh;
-            overflow-y: auto;
-            padding: 4px;
-        }
-        .search-results .result-card {
-            background: rgba(255, 255, 255, .04);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: .3s;
-            cursor: pointer;
-            border: 1px solid rgba(139, 92, 246, .08);
-        }
-        .search-results .result-card:hover {
-            transform: scale(1.04);
-            border-color: #8b5cf6;
-            box-shadow: 0 0 30px rgba(139, 92, 246, .15);
-        }
-        .search-results .result-card img {
-            width: 100%;
-            aspect-ratio: 2/3;
-            object-fit: cover;
-        }
-        .search-results .result-card .info {
-            padding: 10px 12px 14px;
-        }
-        .search-results .result-card .info h4 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .search-results .result-card .info span {
-            font-size: 12px;
-            color: #aaa;
-        }
-        .search-no-results {
-            color: #888;
-            font-size: 18px;
-            text-align: center;
-            padding: 40px 0;
-            grid-column: 1 / -1;
-        }
+    /* Primary Profile Grid */
+    .detail-grid { position: relative; z-index: 10; width: 100%; max-width: 1400px; margin: -100px auto 3rem auto; padding: 0 4rem; display: grid; grid-template-columns: 280px 1fr; gap: 3rem; }
+    .poster-block { display: flex; flex-direction: column; gap: 1.5rem; }
+    .info-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 16px; border: 2px solid rgba(139, 92, 246, 0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+    .watchlist-btn {
+      width: 100%; padding: 1rem; border-radius: 8px; font-weight: 600; cursor: pointer; border: 1px solid var(--primary);
+      background: rgba(139, 92, 246, 0.1); color: #fff; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .watchlist-btn:hover { background: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
+    .watchlist-btn.active { background: #10b981; border-color: #10b981; }
 
-        /* ----- FOOTER ----- */
-        footer {
-            background: #08080c;
-            border-top: 1px solid rgba(139, 92, 246, .15);
-            padding: 40px 24px 30px;
-            margin-top: 60px;
-        }
-        .footer-inner {
-            max-width: 1440px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .footer-banner {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 24px;
-        }
-        .footer-banner a {
-            display: inline-block;
-        }
-        .footer-banner img {
-            max-height: 48px;
-            width: auto;
-            filter: drop-shadow(0 0 30px rgba(139, 92, 246, .25));
-            border-radius: 4px;
-            transition: filter .3s;
-        }
-        .footer-banner img:hover {
-            filter: drop-shadow(0 0 50px rgba(139, 92, 246, .6));
-        }
-        .footer-socials {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .footer-socials a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, .04);
-            color: #bbb;
-            font-size: 20px;
-            transition: .3s;
-            border: 1px solid rgba(139, 92, 246, .06);
-        }
-        .footer-socials a:hover {
-            background: rgba(139, 92, 246, .15);
-            color: #a855f7;
-            transform: scale(1.12);
-            box-shadow: 0 0 30px rgba(139, 92, 246, .2);
-            border-color: #8b5cf6;
-        }
-        .footer-disclaimer {
-            max-width: 720px;
-            margin: 16px auto 12px;
-            font-size: 13px;
-            color: #666;
-            line-height: 1.7;
-            padding: 0 12px;
-        }
-        .footer-copy {
-            font-size: 14px;
-            color: #555;
-        }
-        .footer-copy span {
-            color: #8b5cf6;
-        }
+    /* Metadata Block */
+    .info-main { display: flex; flex-direction: column; gap: 1.5rem; padding-top: 100px; }
+    .info-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; line-height: 1.1; }
+    .info-tagline { font-style: italic; color: var(--text-muted); font-size: 1.1rem; }
+    .metadata-strip { display: flex; flex-wrap: wrap; gap: 1.5rem; font-size: 0.95rem; border-bottom: 1px solid rgba(139,92,246,0.15); padding-bottom: 1.5rem; }
+    .metadata-strip span { display: flex; align-items: center; gap: 0.4rem; }
+    .meta-star { color: #f59e0b; }
+    .info-overview { font-size: 1.1rem; line-height: 1.7; color: #d1d5db; }
+    
+    /* Interactive Season Dashboard */
+    .tv-seasons-block { background: rgba(18, 0, 24, 0.4); border: 1px solid rgba(139,92,246,0.15); border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
+    .seasons-header { display: flex; justify-content: space-between; align-items: center; }
+    .seasons-header select { background: rgba(5,5,5,0.8); border: 1px solid var(--primary); color: #fff; padding: 0.75rem 1.5rem; border-radius: 8px; outline: none; font-size: 1rem; }
+    .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; }
+    .episode-card {
+      background: rgba(18, 0, 24, 0.6); border: 1px solid rgba(139,92,246,0.1); border-radius: 12px;
+      overflow: hidden; cursor: pointer; transition: var(--transition); display: flex; flex-direction: column;
+    }
+    .episode-card:hover { border-color: var(--primary); box-shadow: 0 5px 15px rgba(139,92,246,0.25); transform: translateY(-3px); }
+    .episode-thumbnail { position: relative; aspect-ratio: 16/10; overflow: hidden; }
+    .episode-thumbnail img { width: 100%; height: 100%; object-fit: cover; }
+    .episode-play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: var(--transition); }
+    .episode-card:hover .episode-play-overlay { opacity: 1; }
+    .episode-play-overlay i { font-size: 2rem; color: #fff; filter: drop-shadow(0 0 8px var(--primary-glow)); }
+    .episode-info { padding: 1rem; display: flex; flex-direction: column; gap: 0.25rem; }
+    .episode-info h4 { font-size: 0.95rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .episode-info p { font-size: 0.8rem; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-        /* ----- RESPONSIVE ----- */
-        @media (max-width: 768px) {
-            .header-inner {
-                padding: 0 14px;
-                gap: 8px;
-            }
-            .header-logo img {
-                max-height: 38px;
-            }
-            .hamburger {
-                font-size: 22px;
-                padding: 4px 8px;
-            }
-            .header-search {
-                font-size: 18px;
-                padding: 4px 8px;
-            }
-            .drawer {
-                width: 280px;
-                left: -290px;
-                padding: 24px 16px;
-            }
-            .drawer-nav a {
-                font-size: 15px;
-                padding: 12px 14px;
-            }
-            .search-input-wrap input {
-                font-size: 17px;
-                padding: 14px 18px;
-            }
-            .search-results {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-                gap: 12px;
-            }
-            .footer-socials {
-                gap: 16px;
-            }
-            .footer-socials a {
-                width: 40px;
-                height: 40px;
-                font-size: 17px;
-            }
-            .footer-banner img {
-                max-height: 36px;
-            }
-            .container {
-                padding: 0 14px;
-            }
-        }
-        @media (max-width: 480px) {
-            .header-logo img {
-                max-height: 30px;
-            }
-            .search-results {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-                gap: 10px;
-            }
-            .drawer {
-                width: 260px;
-                left: -270px;
-            }
-        }
-        @media (min-width: 1600px) {
-            .container {
-                padding: 0 40px;
-            }
-            .header-inner {
-                padding: 0 40px;
-            }
-        }
+    /* Cast / Recommendation Slider */
+    .slider-section { margin-top: 3rem; }
+    .slider-section h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 1.25rem; }
+    .slider-container { display: flex; gap: 1.25rem; overflow-x: auto; padding-bottom: 0.5rem; }
+    .cast-card { min-width: 130px; max-width: 130px; text-align: center; display: flex; flex-direction: column; gap: 0.5rem; }
+    .cast-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 50%; border: 2px solid rgba(139,92,246,0.2); }
+    .cast-card h5 { font-size: 0.9rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cast-card span { font-size: 0.75rem; color: var(--text-muted); }
 
-        /* ----- INFO SPECIFIC ----- */
-        .backdrop-section {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16/7;
-            min-height: 320px;
-            background: #0a0a0f;
-            overflow: hidden;
-            border-radius: 0 0 24px 24px;
-            box-shadow: 0 8px 60px rgba(0, 0, 0, .7);
-            margin-bottom: 30px;
-        }
-        .backdrop-section img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: brightness(.35);
-        }
-        .backdrop-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 30px 40px 40px;
-            background: linear-gradient(transparent, rgba(5, 5, 5, .95));
-            display: flex;
-            align-items: flex-end;
-            gap: 24px;
-            flex-wrap: wrap;
-        }
-        .backdrop-overlay .poster {
-            width: 160px;
-            aspect-ratio: 2/3;
-            border-radius: 16px;
-            border: 2px solid rgba(139, 92, 246, .3);
-            box-shadow: 0 8px 40px rgba(0, 0, 0, .6), 0 0 60px rgba(139, 92, 246, .1);
-            object-fit: cover;
-            background: #0a0a0f;
-            flex-shrink: 0;
-            /* bright poster */
-            filter: brightness(1.05) contrast(1.05);
-            transition: filter .3s, box-shadow .3s;
-        }
-        .backdrop-overlay .poster:hover {
-            filter: brightness(1.1) contrast(1.1);
-            box-shadow: 0 8px 50px rgba(0, 0, 0, .7), 0 0 80px rgba(139, 92, 246, .25);
-        }
-        .backdrop-overlay .info {
-            flex: 1;
-            min-width: 200px;
-        }
-        .backdrop-overlay .info h1 {
-            font-size: clamp(28px, 5vw, 52px);
-            font-weight: 700;
-            margin-bottom: 4px;
-            text-shadow: 0 4px 30px rgba(0, 0, 0, .6);
-        }
-        .backdrop-overlay .info .original {
-            color: #999;
-            font-size: 16px;
-            margin-bottom: 6px;
-        }
-        .backdrop-overlay .info .tagline {
-            color: #a855f7;
-            font-size: 16px;
-            font-style: italic;
-            margin-bottom: 10px;
-        }
-        .backdrop-overlay .info .meta-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px 20px;
-            align-items: center;
-            font-size: 14px;
-            color: #ccc;
-        }
-        .backdrop-overlay .info .meta-row i {
-            color: #8b5cf6;
-            margin-right: 4px;
-        }
-        .backdrop-overlay .info .meta-row .rating {
-            color: #fbbf24;
-        }
-        .backdrop-overlay .info .actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 16px;
-        }
-        .backdrop-overlay .info .actions a,
-        .backdrop-overlay .info .actions button {
-            padding: 10px 28px;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 14px;
-            border: none;
-            cursor: pointer;
-            transition: .3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .backdrop-overlay .info .actions .watch {
-            background: #8b5cf6;
-            color: #fff;
-            box-shadow: 0 0 40px rgba(139, 92, 246, .25);
-        }
-        .backdrop-overlay .info .actions .watch:hover {
-            transform: scale(1.04);
-            box-shadow: 0 0 60px rgba(139, 92, 246, .35);
-        }
-        .backdrop-overlay .info .actions .trailer-btn {
-            background: rgba(255, 255, 255, .06);
-            color: #fff;
-            border: 1px solid rgba(139, 92, 246, .15);
-        }
-        .backdrop-overlay .info .actions .trailer-btn:hover {
-            background: rgba(139, 92, 246, .12);
-        }
-        .backdrop-overlay .info .actions .share {
-            background: rgba(255, 255, 255, .06);
-            color: #fff;
-            border: 1px solid rgba(139, 92, 246, .15);
-        }
-        .backdrop-overlay .info .actions .share:hover {
-            background: rgba(139, 92, 246, .12);
-        }
-        .backdrop-overlay .info .actions .back {
-            background: rgba(255, 255, 255, .06);
-            color: #fff;
-            border: 1px solid rgba(139, 92, 246, .15);
-        }
-        .backdrop-overlay .info .actions .back:hover {
-            background: rgba(139, 92, 246, .12);
-        }
+    .footer {
+      background: #040206; border-top: 1px solid rgba(139, 92, 246, 0.15);
+      padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+      margin-top: auto; text-align: center;
+    }
+    .footer-banner { height: 50px; object-fit: contain; }
 
-        .info-details {
-            padding: 0 0 30px;
-        }
-        .info-details .overview {
-            font-size: 16px;
-            line-height: 1.8;
-            color: #ccc;
-            max-width: 800px;
-            margin-bottom: 24px;
-        }
-        .info-details .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 16px 30px;
-            margin-bottom: 30px;
-        }
-        .info-details .grid-2 .item {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .info-details .grid-2 .item .label {
-            font-size: 12px;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: .5px;
-        }
-        .info-details .grid-2 .item .value {
-            font-size: 15px;
-            color: #eee;
-        }
-        .info-details .grid-2 .item .value i {
-            color: #8b5cf6;
-            margin-right: 4px;
-        }
-
-        .section-title {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .section-title i {
-            color: #8b5cf6;
-        }
-
-        .cast-slider {
-            display: flex;
-            gap: 16px;
-            overflow-x: auto;
-            padding: 8px 4px 16px;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            margin-bottom: 30px;
-        }
-        .cast-slider .cast-card {
-            flex: 0 0 auto;
-            width: 140px;
-            background: rgba(255, 255, 255, .03);
-            border-radius: 14px;
-            overflow: hidden;
-            border: 1px solid rgba(139, 92, 246, .06);
-            scroll-snap-align: start;
-            transition: .3s;
-        }
-        .cast-slider .cast-card:hover {
-            transform: scale(1.04);
-            border-color: #8b5cf6;
-        }
-        .cast-slider .cast-card img {
-            width: 100%;
-            aspect-ratio: 2/3;
-            object-fit: cover;
-            background: #0a0a0f;
-        }
-        .cast-slider .cast-card .info {
-            padding: 10px 12px 14px;
-            text-align: center;
-        }
-        .cast-slider .cast-card .info h5 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-        .cast-slider .cast-card .info span {
-            font-size: 12px;
-            color: #999;
-        }
-
-        .recommend-slider {
-            display: flex;
-            gap: 16px;
-            overflow-x: auto;
-            padding: 8px 4px 16px;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            margin-bottom: 30px;
-        }
-        .recommend-slider .rec-card {
-            flex: 0 0 auto;
-            width: 160px;
-            background: rgba(255, 255, 255, .03);
-            border-radius: 14px;
-            overflow: hidden;
-            border: 1px solid rgba(139, 92, 246, .06);
-            scroll-snap-align: start;
-            transition: .3s;
-            cursor: pointer;
-        }
-        .recommend-slider .rec-card:hover {
-            transform: scale(1.04);
-            border-color: #8b5cf6;
-        }
-        .recommend-slider .rec-card img {
-            width: 100%;
-            aspect-ratio: 2/3;
-            object-fit: cover;
-            background: #0a0a0f;
-        }
-        .recommend-slider .rec-card .info {
-            padding: 10px 12px 14px;
-        }
-        .recommend-slider .rec-card .info h5 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .recommend-slider .rec-card .info span {
-            font-size: 12px;
-            color: #999;
-        }
-
-        /* TV seasons */
-        .tv-section {
-            margin-top: 20px;
-            border-top: 1px solid rgba(139, 92, 246, .06);
-            padding-top: 24px;
-        }
-        .season-selector {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-        .season-selector button {
-            background: rgba(255, 255, 255, .04);
-            border: 1px solid rgba(139, 92, 246, .12);
-            color: #aaa;
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: .25s;
-        }
-        .season-selector button.active {
-            background: #8b5cf6;
-            color: #fff;
-            border-color: #8b5cf6;
-            box-shadow: 0 0 25px rgba(139, 92, 246, .15);
-        }
-        .season-selector button:hover:not(.active) {
-            background: rgba(139, 92, 246, .08);
-            color: #fff;
-        }
-        .episode-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 12px;
-            max-height: 400px;
-            overflow-y: auto;
-            padding: 4px 2px 12px;
-        }
-        .episode-list .episode {
-            background: rgba(255, 255, 255, .03);
-            border-radius: 12px;
-            padding: 12px 16px;
-            border: 1px solid rgba(139, 92, 246, .06);
-            transition: .2s;
-            cursor: pointer;
-        }
-        .episode-list .episode:hover {
-            background: rgba(139, 92, 246, .06);
-            border-color: #8b5cf6;
-        }
-        .episode-list .episode .ep-title {
-            font-weight: 600;
-            font-size: 14px;
-        }
-        .episode-list .episode .ep-meta {
-            font-size: 12px;
-            color: #888;
-            display: flex;
-            gap: 12px;
-            margin-top: 4px;
-        }
-        .episode-list .episode .ep-meta i {
-            color: #8b5cf6;
-        }
-
-        /* ----- TRAILER OVERLAY ----- */
-        .trailer-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .92);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 3000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 24px;
-            opacity: 0;
-            visibility: hidden;
-            transition: .4s;
-        }
-        .trailer-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .trailer-overlay .trailer-close {
-            position: absolute;
-            top: 20px;
-            right: 28px;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 36px;
-            cursor: pointer;
-            transition: .3s;
-            padding: 8px;
-        }
-        .trailer-overlay .trailer-close:hover {
-            color: #a855f7;
-            transform: rotate(90deg);
-        }
-        .trailer-overlay .trailer-wrap {
-            width: 100%;
-            max-width: 960px;
-            aspect-ratio: 16/9;
-            background: #0a0a0f;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 0 80px rgba(139, 92, 246, .15);
-            border: 1px solid rgba(139, 92, 246, .1);
-        }
-        .trailer-overlay .trailer-wrap iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .trailer-overlay .no-trailer {
-            text-align: center;
-            color: #888;
-            font-size: 18px;
-            padding: 40px;
-        }
-        .trailer-overlay .no-trailer i {
-            font-size: 48px;
-            color: #8b5cf6;
-            display: block;
-            margin-bottom: 16px;
-        }
-
-        .loading-placeholder {
-            padding: 40px;
-            text-align: center;
-            color: #666;
-            font-size: 18px;
-        }
-        .loading-placeholder i {
-            font-size: 30px;
-            color: #8b5cf6;
-            display: block;
-            margin-bottom: 12px;
-        }
-
-        @media (max-width: 600px) {
-            .backdrop-overlay {
-                padding: 20px;
-                gap: 16px;
-            }
-            .backdrop-overlay .poster {
-                width: 100px;
-            }
-            .backdrop-overlay .info .actions {
-                gap: 8px;
-            }
-            .backdrop-overlay .info .actions a,
-            .backdrop-overlay .info .actions button {
-                padding: 8px 16px;
-                font-size: 12px;
-            }
-            .cast-slider .cast-card {
-                width: 110px;
-            }
-            .recommend-slider .rec-card {
-                width: 130px;
-            }
-            .episode-list {
-                grid-template-columns: 1fr;
-            }
-            .trailer-overlay .trailer-close {
-                top: 12px;
-                right: 16px;
-                font-size: 28px;
-            }
-            .trailer-overlay {
-                padding: 20px 12px;
-            }
-        }
-    </style>
+    @media (max-width: 1024px) {
+      .detail-grid { padding: 0 2rem; }
+    }
+    @media (max-width: 768px) {
+      .navbar { padding: 0.75rem 1rem; }
+      .detail-grid { grid-template-columns: 1fr; margin-top: -150px; padding: 0 1rem; gap: 1.5rem; }
+      .poster-block { width: 200px; margin: 0 auto; }
+      .info-main { padding-top: 0; text-align: center; }
+      .metadata-strip { justify-content: center; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
-    <header>
-        <div class="header-inner">
-            <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="header-logo">
-                <a href="https://www.namitube.eu.org/">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
-                </a>
-            </div>
-            <button class="header-search" id="searchBtn" aria-label="Search">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-    </header>
+  <!-- Core Sticky Header block -->
+  <header class="navbar">
+    <div class="nav-left">
+      <button class="menu-btn" onclick="window.history.back()" aria-label="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
+    </div>
+    <div class="nav-center">
+      <a href="index.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube Original logo banner" class="nav-banner">
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="search-btn" onclick="window.location.href='discover.html'" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+  </header>
 
-    <!-- ===== DRAWER ===== -->
-    <div class="drawer-overlay" id="drawerOverlay"></div>
-    <div class="drawer" id="drawer">
-        <button class="drawer-close" id="drawerClose"><i class="fas fa-times"></i></button>
-        <div class="drawer-logo">
-            <a href="https://www.namitube.eu.org/">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
-            </a>
-        </div>
-        <nav class="drawer-nav">
-            <a href="https://www.namitube.eu.org/"><i class="fas fa-house"></i> Home</a>
-            <a href="discover.html"><i class="fas fa-compass"></i> Discover</a>
-            <a href="donate.html"><i class="fas fa-hand-holding-heart"></i> Donate</a>
-            <a href="creator.html"><i class="fas fa-star"></i> Creator</a>
-        </nav>
+  <!-- Large Backdrop Visual -->
+  <section class="backdrop-container" id="info-backdrop"></section>
+
+  <!-- Detailed Dashboard Content Work Grid -->
+  <main class="detail-grid">
+    <div class="poster-block">
+      <img src="https://via.placeholder.com/342x513?text=NamiTube" alt="Poster Display" class="info-poster" id="info-poster">
+      <button class="watchlist-btn" id="watchlist-toggle"><i class="fa-regular fa-bookmark"></i> Add to Watchlist</button>
+      <button class="watchlist-btn" id="watch-now-btn" style="background:var(--primary); font-size:1.1rem; border:none;"><i class="fa-solid fa-play"></i> Watch Now</button>
     </div>
 
-    <!-- ===== SEARCH OVERLAY ===== -->
-    <div class="search-overlay" id="searchOverlay">
-        <button class="search-close" id="searchClose"><i class="fas fa-times"></i></button>
-        <div class="search-input-wrap">
-            <input type="text" id="searchInput" placeholder="Search animation &amp; anime..." autofocus />
+    <div class="info-main">
+      <h1 class="info-title" id="info-title">Loading Title...</h1>
+      <p class="info-tagline" id="info-tagline"></p>
+      
+      <div class="metadata-strip" id="info-metadata">
+        <!-- Script Loaded Metadata -->
+      </div>
+
+      <p class="info-overview" id="info-overview">Fetching media overview...</p>
+
+      <!-- TV Interactive Seasons UI (Default hidden for movies) -->
+      <div class="tv-seasons-block" id="tv-seasons-container" style="display: none;">
+        <div class="seasons-header">
+          <h3>Episodes</h3>
+          <select id="season-selector"></select>
         </div>
-        <div class="search-results" id="searchResults"></div>
+        <div class="episodes-grid" id="episodes-grid"></div>
+      </div>
+
+      <!-- Casting Section Carousel -->
+      <div class="slider-section" id="cast-section">
+        <h3>Primary Character Voices</h3>
+        <div class="slider-container" id="cast-container"></div>
+      </div>
+
+      <!-- Filtered Recommended Content Carousel -->
+      <div class="slider-section" id="rec-section">
+        <h3>You May Also Like</h3>
+        <div class="slider-container" id="rec-container"></div>
+      </div>
     </div>
+  </main>
 
-    <!-- ===== TRAILER OVERLAY ===== -->
-    <div class="trailer-overlay" id="trailerOverlay">
-        <button class="trailer-close" id="trailerClose"><i class="fas fa-times"></i></button>
-        <div class="trailer-wrap" id="trailerWrap">
-            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#666;font-size:18px;">
-                <i class="fas fa-spinner fa-spin" style="font-size:32px;color:#8b5cf6;margin-right:12px;"></i> Loading...
-            </div>
-        </div>
+  <footer class="footer">
+    <div class="footer-banner-container">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube Footer Logo" class="footer-banner">
     </div>
+    <p class="copyright">
+      &copy; 2026 NamiTube. All Rights Reserved. Powered by TMDB API.
+    </p>
+  </footer>
 
-    <!-- ===== MAIN ===== -->
-    <main>
-        <div class="container">
-            <!-- Backdrop + poster + actions -->
-            <div id="backdropSection" class="backdrop-section">
-                <div style="width:100%;height:100%;background:#0a0a0f;display:flex;align-items:center;justify-content:center;">
-                    <i class="fas fa-spinner fa-spin" style="font-size:40px;color:#8b5cf6;"></i>
-                </div>
+  <script>
+    const TMDB_API_KEY = "e10da2e2cbb23ea7ebfb64c3a188b64a";
+    const TMDB_BASE_URL = "https://api.themoviedb.org/3";
+
+    // Route Parser Engine
+    const params = new URLSearchParams(window.location.search);
+    const mediaId = params.get('id');
+    const mediaType = params.get('type') || 'movie';
+
+    let globalItem = null;
+
+    async function loadMediaDetails() {
+      if (!mediaId) { window.location.href = "index.html"; return; }
+      
+      try {
+        const details = await fetch(`${TMDB_BASE_URL}/${mediaType}/${mediaId}?api_key=${TMDB_API_KEY}&append_to_response=credits,recommendations`);
+        const item = await details.json();
+        globalItem = item;
+
+        // Populate core design blocks
+        document.getElementById('info-backdrop').style.backgroundImage = `url('https://image.tmdb.org/t/p/original${item.backdrop_path}')`;
+        document.getElementById('info-poster').src = item.poster_path ? `https://image.tmdb.org/t/p/w342${item.poster_path}` : 'https://via.placeholder.com/342x513?text=No+Poster';
+        document.getElementById('info-title').textContent = item.title || item.name || 'Untitled';
+        document.getElementById('info-tagline').textContent = item.tagline || "";
+        document.getElementById('info-overview').textContent = item.overview || "This incredible animation project detail list is curated right here on NamiTube.";
+
+        // Set Watch now link parameter
+        const watchBtn = document.getElementById('watch-now-btn');
+        if (mediaType === 'tv') {
+          watchBtn.setAttribute('onclick', `window.location.href='watch.html?id=${mediaId}&type=tv&season=1&episode=1'`);
+        } else {
+          watchBtn.setAttribute('onclick', `window.location.href='watch.html?id=${mediaId}&type=movie'`);
+        }
+
+        // Render Metadata line block
+        const releaseYear = item.release_date || item.first_air_date ? new Date(item.release_date || item.first_air_date).getFullYear() : 'N/A';
+        const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
+        const genresList = item.genres ? item.genres.map(g => g.name).slice(0, 3).join(', ') : 'Animation';
+        const runTime = mediaType === 'movie' ? `${item.runtime || 'N/A'} mins` : `${item.number_of_seasons || 'N/A'} Seasons`;
+
+        document.getElementById('info-metadata').innerHTML = `
+          <span><i class="fa-solid fa-star meta-star"></i> ${rating}</span>
+          <span><i class="fa-solid fa-clock"></i> ${runTime}</span>
+          <span><i class="fa-solid fa-calendar"></i> ${releaseYear}</span>
+          <span><i class="fa-solid fa-folder-open"></i> ${genresList}</span>
+        `;
+
+        // Local Storage Watchlist Toggle setup
+        setupWatchlist(item);
+
+        // Conditional implementation of Season Dashboard blocks
+        if (mediaType === 'tv') {
+          document.getElementById('tv-seasons-container').style.display = 'block';
+          populateSeasonDropdown(item.seasons);
+        }
+
+        // Populate dynamic lists
+        populateCredits(item.credits);
+        populateRecommendations(item.recommendations);
+        addToWatchedHistory(item);
+
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    // Season Dropdown selector logic execution
+    function populateSeasonDropdown(seasons) {
+      const selector = document.getElementById('season-selector');
+      // Filter specials season 0 if users don't need specials, keeping it clean
+      const validSeasons = seasons.filter(s => s.season_number > 0);
+      
+      selector.innerHTML = validSeasons.map(s => `<option value="${s.season_number}">${s.name}</option>`).join('');
+      selector.addEventListener('change', (e) => loadEpisodes(e.target.value));
+      
+      if (validSeasons.length > 0) loadEpisodes(validSeasons[0].season_number);
+    }
+
+    async function loadEpisodes(seasonNumber) {
+      const container = document.getElementById('episodes-grid');
+      container.innerHTML = Array(4).fill().map(() => `<div class="episode-card skeleton" style="height: 150px;"></div>`).join('');
+      
+      try {
+        const res = await fetch(`${TMDB_BASE_URL}/tv/${mediaId}/season/${seasonNumber}?api_key=${TMDB_API_KEY}`);
+        const data = await res.json();
+        
+        container.innerHTML = data.episodes.map(ep => {
+          const thumb = ep.still_path ? `https://image.tmdb.org/t/p/w300${ep.still_path}` : 'https://via.placeholder.com/300x180?text=NamiTube';
+          return `
+            <div class="episode-card" onclick="window.location.href='watch.html?id=${mediaId}&type=tv&season=${seasonNumber}&episode=${ep.episode_number}'">
+              <div class="episode-thumbnail">
+                <img src="${thumb}" alt="${ep.name}" loading="lazy">
+                <div class="episode-play-overlay"><i class="fa-solid fa-play"></i></div>
+              </div>
+              <div class="episode-info">
+                <h4>E${ep.episode_number} &bull; ${ep.name || 'Episode Name'}</h4>
+                <p>${ep.overview || 'Watch this incredible episode on NamiTube servers.'}</p>
+              </div>
             </div>
+          `;
+        }).join('');
+      } catch (err) {
+        container.innerHTML = '<p style="grid-column:1/-1;">Error loading season details.</p>';
+      }
+    }
 
-            <!-- Details -->
-            <div class="info-details" id="infoDetails">
-                <div class="loading-placeholder">
-                    <i class="fas fa-film"></i>
-                    Loading details...
-                </div>
+    // Populate Dynamic Casting visual circles
+    function populateCredits(credits) {
+      const container = document.getElementById('cast-container');
+      if (!credits || !credits.cast || credits.cast.length === 0) {
+        document.getElementById('cast-section').style.display = 'none';
+        return;
+      }
+      container.innerHTML = credits.cast.slice(0, 10).map(c => {
+        const img = c.profile_path ? `https://image.tmdb.org/t/p/w185${c.profile_path}` : 'https://via.placeholder.com/185x185?text=Cast';
+        return `
+          <div class="cast-card">
+            <img src="${img}" alt="${c.name}" loading="lazy">
+            <h5>${c.name}</h5>
+            <span>${c.character}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Populate TMDB Recommendation system with rigor validation on Animation genre ID 16
+    function populateRecommendations(recommendations) {
+      const container = document.getElementById('rec-container');
+      if (!recommendations || !recommendations.results) {
+        document.getElementById('rec-section').style.display = 'none';
+        return;
+      }
+      const filtered = recommendations.results.filter(item => item.genre_ids && item.genre_ids.includes(16)).slice(0, 10);
+      
+      if (filtered.length === 0) {
+        document.getElementById('rec-section').style.display = 'none';
+        return;
+      }
+
+      container.innerHTML = filtered.map(item => {
+        const title = item.title || item.name || 'Untitled';
+        const poster = item.poster_path ? `https://image.tmdb.org/t/p/w185${item.poster_path}` : 'https://via.placeholder.com/185x278?text=No+Poster';
+        return `
+          <div class="media-card" style="min-width: 130px; max-width: 130px;" onclick="window.location.href='info.html?id=${item.id}&type=${mediaType}'">
+            <img src="${poster}" alt="${title}" loading="lazy">
+            <div class="card-info" style="padding:0.5rem;">
+              <span class="card-title" style="font-size:0.8rem;">${title}</span>
             </div>
-        </div>
-    </main>
+          </div>
+        `;
+      }).join('');
+    }
 
-    <!-- ===== FOOTER ===== -->
-    <footer>
-        <div class="footer-inner">
-            <div class="footer-banner">
-                <a href="https://www.namitube.eu.org/">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
-                </a>
-            </div>
-            <div class="footer-socials">
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
-                <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
-                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-            </div>
-            <div class="footer-disclaimer">
-                This website does not host any video content on its servers. All media content is embedded from third-party providers. We do not store or upload any videos. All trademarks, logos, and content belong to their respective owners.
-            </div>
-            <div class="footer-copy">
-                &copy; 2026 <span>NamiTube</span>. All Rights Reserved.<br />
-                Powered by TMDB API
-            </div>
-        </div>
-    </footer>
+    // Storage watch engine tracking
+    function setupWatchlist(item) {
+      const btn = document.getElementById('watchlist-toggle');
+      let watchlist = JSON.parse(localStorage.getItem('namitube_watchlist') || '[]');
+      
+      let isAdded = watchlist.some(x => x.id === item.id.toString());
+      updateButtonState(isAdded);
 
-    <script>
-        // ============================================================
-        //  CONFIG
-        // ============================================================
-        const TMDB_API_KEY = "e10da2e2cbb23ea7ebfb64c3a188b64a";
-        const TMDB_BASE = "https://api.themoviedb.org/3";
-        const TMDB_IMG = "https://image.tmdb.org/t/p";
-        const GENRE_ID = 16;
-
-        // ============================================================
-        //  HELPERS
-        // ============================================================
-        function posterUrl(path, size = 'w500') {
-            return path ? `${TMDB_IMG}/${size}${path}` : 'https://via.placeholder.com/500x750/1a1a2e/8b5cf6?text=No+Poster';
+      btn.addEventListener('click', () => {
+        watchlist = JSON.parse(localStorage.getItem('namitube_watchlist') || '[]');
+        if (isAdded) {
+          watchlist = watchlist.filter(x => x.id !== item.id.toString());
+        } else {
+          watchlist.push({
+            id: item.id.toString(),
+            type: mediaType,
+            title: item.title || item.name,
+            poster: item.poster_path ? `https://image.tmdb.org/t/p/w185${item.poster_path}` : 'https://via.placeholder.com/185x278?text=NamiTube'
+          });
         }
+        localStorage.setItem('namitube_watchlist', JSON.stringify(watchlist));
+        isAdded = !isAdded;
+        updateButtonState(isAdded);
+      });
 
-        function backdropUrl(path, size = 'w1280') {
-            return path ? `${TMDB_IMG}/${size}${path}` : 'https://via.placeholder.com/1280x720/1a1a2e/8b5cf6?text=No+Backdrop';
+      function updateButtonState(added) {
+        if (added) {
+          btn.innerHTML = `<i class="fa-solid fa-check"></i> On Watchlist`;
+          btn.classList.add('active');
+        } else {
+          btn.innerHTML = `<i class="fa-regular fa-bookmark"></i> Add to Watchlist`;
+          btn.classList.remove('active');
         }
+      }
+    }
 
-        function yearFromDate(date) {
-            return date ? date.slice(0, 4) : 'N/A';
-        }
+    function addToWatchedHistory(item) {
+      let history = JSON.parse(localStorage.getItem('namitube_watched') || '[]');
+      history = history.filter(x => x.id !== item.id.toString());
+      history.unshift({
+        id: item.id.toString(),
+        type: mediaType,
+        title: item.title || item.name,
+        poster: item.poster_path ? `https://image.tmdb.org/t/p/w185${item.poster_path}` : 'https://via.placeholder.com/185x278?text=NamiTube'
+      });
+      localStorage.setItem('namitube_watched', JSON.stringify(history.slice(0, 15)));
+    }
 
-        function truncate(text, max = 200) {
-            if (!text) return '';
-            return text.length > max ? text.slice(0, max) + '…' : text;
-        }
-
-        function getParams() {
-            const url = new URL(window.location.href);
-            const id = url.searchParams.get('id');
-            const type = url.searchParams.get('type') || 'movie';
-            return { id, type };
-        }
-
-        // ============================================================
-        //  DRAWER & SEARCH (reused from index)
-        // ============================================================
-        const hamburger = document.getElementById('hamburgerBtn');
-        const drawer = document.getElementById('drawer');
-        const overlay = document.getElementById('drawerOverlay');
-        const closeBtn = document.getElementById('drawerClose');
-
-        function openDrawer() { drawer.classList.add('open');
-            overlay.classList.add('active'); }
-
-        function closeDrawer() { drawer.classList.remove('open');
-            overlay.classList.remove('active'); }
-        hamburger.addEventListener('click', openDrawer);
-        closeBtn.addEventListener('click', closeDrawer);
-        overlay.addEventListener('click', closeDrawer);
-
-        const searchBtn = document.getElementById('searchBtn');
-        const searchOverlay = document.getElementById('searchOverlay');
-        const searchClose = document.getElementById('searchClose');
-        const searchInput = document.getElementById('searchInput');
-        const searchResults = document.getElementById('searchResults');
-        let searchTimeout = null;
-
-        function openSearch() { searchOverlay.classList.add('active');
-            setTimeout(() => searchInput.focus(), 200); }
-
-        function closeSearch() { searchOverlay.classList.remove('active');
-            searchResults.innerHTML = '';
-            searchInput.value = ''; }
-        searchBtn.addEventListener('click', openSearch);
-        searchClose.addEventListener('click', closeSearch);
-
-        searchInput.addEventListener('input', function() {
-            clearTimeout(searchTimeout);
-            const q = this.value.trim();
-            if (q.length < 2) { searchResults.innerHTML = ''; return; }
-            searchTimeout = setTimeout(() => performSearch(q), 400);
-        });
-
-        async function performSearch(query) {
-            try {
-                const url =
-                    `${TMDB_BASE}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&with_genres=${GENRE_ID}`;
-                const res = await fetch(url);
-                const data = await res.json();
-                let results = data.results || [];
-                results = results.filter(item =>
-                    (item.media_type === 'movie' || item.media_type === 'tv') &&
-                    item.genre_ids && item.genre_ids.includes(GENRE_ID)
-                );
-                if (!results.length) {
-                    searchResults.innerHTML = '<div class="search-no-results">No animation results found.</div>';
-                    return;
-                }
-                let html = '';
-                results.slice(0, 20).forEach(item => {
-                    const id = item.id;
-                    const type = item.media_type;
-                    const title = item.title || item.name || 'Untitled';
-                    const poster = `${TMDB_IMG}/w200${item.poster_path}`;
-                    const year = (item.release_date || item.first_air_date || '').slice(0, 4);
-                    const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
-                    html += `
-                        <div class="result-card" onclick="location.href='info.html?id=${id}&type=${type}'">
-                            <img src="${poster}" alt="${title}" loading="lazy" />
-                            <div class="info"><h4>${title}</h4><span>${year} · ${rating} ⭐</span></div>
-                        </div>
-                    `;
-                });
-                searchResults.innerHTML = html;
-            } catch (e) { searchResults.innerHTML = '<div class="search-no-results">Error loading results.</div>'; }
-        }
-
-        // ============================================================
-        //  TRAILER OVERLAY
-        // ============================================================
-        const trailerOverlay = document.getElementById('trailerOverlay');
-        const trailerClose = document.getElementById('trailerClose');
-        const trailerWrap = document.getElementById('trailerWrap');
-
-        function openTrailer(videoKey) {
-            trailerWrap.innerHTML = `
-                <iframe src="https://www.youtube.com/embed/${videoKey}?autoplay=1" allowfullscreen loading="lazy"></iframe>
-            `;
-            trailerOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeTrailer() {
-            trailerOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-            setTimeout(() => {
-                trailerWrap.innerHTML = `
-                    <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#666;font-size:18px;">
-                        <i class="fas fa-spinner fa-spin" style="font-size:32px;color:#8b5cf6;margin-right:12px;"></i> Loading...
-                    </div>
-                `;
-            }, 400);
-        }
-
-        trailerClose.addEventListener('click', closeTrailer);
-        trailerOverlay.addEventListener('click', function(e) {
-            if (e.target === this) closeTrailer();
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && trailerOverlay.classList.contains('active')) closeTrailer();
-        });
-
-        // ============================================================
-        //  INFO LOADER
-        // ============================================================
-        async function loadInfo() {
-            const { id, type } = getParams();
-            if (!id) {
-                document.getElementById('backdropSection').innerHTML =
-                    '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#666;font-size:20px;">No ID provided</div>';
-                document.getElementById('infoDetails').innerHTML = '';
-                return;
-            }
-
-            try {
-                const data = await fetch(`${TMDB_BASE}/${type}/${id}?api_key=${TMDB_API_KEY}&append_to_response=credits,recommendations,videos,seasons`).then(r =>
-                    r.json());
-
-                // ----- BACKDROP SECTION -----
-                const backdrop = backdropUrl(data.backdrop_path);
-                const poster = posterUrl(data.poster_path);
-                const title = data.title || data.name || 'Untitled';
-                const original = data.original_title || data.original_name || '';
-                const tagline = data.tagline || '';
-                const rating = data.vote_average ? data.vote_average.toFixed(1) : 'N/A';
-                const votes = data.vote_count || 0;
-                const year = yearFromDate(data.release_date || data.first_air_date);
-                const runtime = data.runtime || data.episode_run_time?.[0] || 0;
-
-                // Find trailer
-                const videos = data.videos?.results || [];
-                const trailer = videos.find(v => v.type === 'Trailer' && v.site === 'YouTube');
-                const trailerKey = trailer ? trailer.key : null;
-
-                const backdropHtml = `
-                    <img src="${backdrop}" alt="${title}" loading="lazy" />
-                    <div class="backdrop-overlay">
-                        <img class="poster" src="${poster}" alt="${title}" loading="lazy" />
-                        <div class="info">
-                            <h1>${title}</h1>
-                            ${original ? `<div class="original">${original}</div>` : ''}
-                            ${tagline ? `<div class="tagline">“${tagline}”</div>` : ''}
-                            <div class="meta-row">
-                                <span><i class="fas fa-calendar"></i> ${year}</span>
-                                <span class="rating"><i class="fas fa-star" style="color:#fbbf24;"></i> ${rating} (${votes} votes)</span>
-                                ${runtime ? `<span><i class="fas fa-clock"></i> ${runtime} min</span>` : ''}
-                                <span><i class="fas fa-tag"></i> ${type === 'movie' ? 'Movie' : 'TV Series'}</span>
-                                <span><i class="fas fa-globe"></i> ${data.status || 'N/A'}</span>
-                            </div>
-                            <div class="actions">
-                                <a href="watch.html?id=${id}&type=${type}" class="watch"><i class="fas fa-play"></i> Watch Now</a>
-                                ${trailerKey ? `<button class="trailer-btn" id="trailerBtn"><i class="fas fa-video"></i> Trailer</button>` : ''}
-                                <button class="share" onclick="navigator.share ? navigator.share({title:'${title}',url:window.location.href}) : alert('Share this page!')"><i class="fas fa-share-alt"></i> Share</button>
-                                <button class="back" onclick="history.back()"><i class="fas fa-arrow-left"></i> Back</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('backdropSection').innerHTML = backdropHtml;
-
-                // Attach trailer button event
-                const trailerBtn = document.getElementById('trailerBtn');
-                if (trailerBtn && trailerKey) {
-                    trailerBtn.addEventListener('click', () => openTrailer(trailerKey));
-                }
-
-                // ----- DETAILS -----
-                const genres = (data.genres || []).map(g => g.name).join(', ');
-                const languages = (data.spoken_languages || []).map(l => l.name || l.english_name).filter(Boolean).join(', ');
-                const companies = (data.production_companies || []).map(c => c.name).join(', ');
-                const countries = (data.production_countries || []).map(c => c.name).join(', ');
-                const overview = data.overview || 'No overview available.';
-
-                let detailsHtml = `
-                    <div class="overview">${overview}</div>
-                    <div class="grid-2">
-                        ${genres ? `<div class="item"><span class="label">Genres</span><span class="value">${genres}</span></div>` : ''}
-                        ${languages ? `<div class="item"><span class="label">Languages</span><span class="value">${languages}</span></div>` : ''}
-                        ${companies ? `<div class="item"><span class="label">Production</span><span class="value">${companies}</span></div>` : ''}
-                        ${countries ? `<div class="item"><span class="label">Countries</span><span class="value">${countries}</span></div>` : ''}
-                    </div>
-                `;
-
-                // ----- CAST -----
-                const cast = data.credits?.cast || [];
-                if (cast.length) {
-                    let castHtml = '<div class="section-title"><i class="fas fa-users"></i> Cast</div><div class="cast-slider">';
-                    cast.slice(0, 20).forEach(person => {
-                        const profile = person.profile_path ? `${TMDB_IMG}/w200${person.profile_path}` :
-                            'https://via.placeholder.com/200x300/1a1a2e/8b5cf6?text=No+Photo';
-                        castHtml += `
-                            <div class="cast-card">
-                                <img src="${profile}" alt="${person.name}" loading="lazy" />
-                                <div class="info">
-                                    <h5>${person.name}</h5>
-                                    <span>${person.character || ''}</span>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    castHtml += '</div>';
-                    detailsHtml += castHtml;
-                }
-
-                // ----- RECOMMENDATIONS -----
-                const recs = data.recommendations?.results || [];
-                if (recs.length) {
-                    let recHtml = '<div class="section-title"><i class="fas fa-thumbs-up"></i> Recommendations</div><div class="recommend-slider">';
-                    recs.filter(r => r.genre_ids && r.genre_ids.includes(GENRE_ID)).slice(0, 20).forEach(r => {
-                        const rPoster = posterUrl(r.poster_path);
-                        const rTitle = r.title || r.name || 'Untitled';
-                        const rYear = yearFromDate(r.release_date || r.first_air_date);
-                        const rType = r.media_type || (r.title ? 'movie' : 'tv');
-                        recHtml += `
-                            <div class="rec-card" onclick="location.href='info.html?id=${r.id}&type=${rType}'">
-                                <img src="${rPoster}" alt="${rTitle}" loading="lazy" />
-                                <div class="info">
-                                    <h5>${rTitle}</h5>
-                                    <span>${rYear}</span>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    recHtml += '</div>';
-                    detailsHtml += recHtml;
-                }
-
-                // ----- TV SEASONS & EPISODES -----
-                if (type === 'tv' && data.seasons) {
-                    const seasons = data.seasons.filter(s => s.season_number > 0);
-                    if (seasons.length) {
-                        let tvHtml = `
-                            <div class="tv-section">
-                                <div class="section-title"><i class="fas fa-list"></i> Seasons & Episodes</div>
-                                <div class="season-selector" id="seasonSelector">
-                        `;
-                        seasons.forEach(s => {
-                            tvHtml +=
-                                `<button data-season="${s.season_number}" data-id="${s.id}">Season ${s.season_number}</button>`;
-                        });
-                        tvHtml += `
-                                </div>
-                                <div class="episode-list" id="episodeList"></div>
-                            </div>
-                        `;
-                        detailsHtml += tvHtml;
-                    }
-                }
-
-                document.getElementById('infoDetails').innerHTML = detailsHtml;
-
-                // ----- TV SEASON/EPISODE LOGIC -----
-                if (type === 'tv' && data.seasons) {
-                    const seasonBtns = document.querySelectorAll('#seasonSelector button');
-                    const episodeContainer = document.getElementById('episodeList');
-
-                    async function loadEpisodes(seasonNum) {
-                        if (!episodeContainer) return;
-                        episodeContainer.innerHTML = '<div style="color:#666;padding:20px;text-align:center;"><i class="fas fa-spinner fa-spin"></i> Loading episodes...</div>';
-                        try {
-                            const epData = await fetch(
-                                `${TMDB_BASE}/tv/${id}/season/${seasonNum}?api_key=${TMDB_API_KEY}`).then(r => r.json());
-                            const episodes = epData.episodes || [];
-                            if (!episodes.length) {
-                                episodeContainer.innerHTML =
-                                    '<div style="color:#888;padding:20px;text-align:center;">No episodes found.</div>';
-                                return;
-                            }
-                            let html = '';
-                            episodes.forEach(ep => {
-                                const epNum = ep.episode_number;
-                                const epTitle = ep.name || 'Episode ' + epNum;
-                                const epAir = ep.air_date || 'N/A';
-                                const epOverview = truncate(ep.overview || 'No description', 100);
-                                html += `
-                                    <div class="episode" onclick="location.href='watch.html?id=${id}&type=tv&season=${seasonNum}&episode=${epNum}'">
-                                        <div class="ep-title">${epNum}. ${epTitle}</div>
-                                        <div class="ep-meta">
-                                            <span><i class="fas fa-calendar"></i> ${epAir}</span>
-                                            <span><i class="fas fa-clock"></i> ${ep.runtime || 'N/A'} min</span>
-                                        </div>
-                                        <div style="font-size:13px;color:#aaa;margin-top:4px;">${epOverview}</div>
-                                    </div>
-                                `;
-                            });
-                            episodeContainer.innerHTML = html;
-                        } catch (e) {
-                            episodeContainer.innerHTML =
-                                '<div style="color:#888;padding:20px;text-align:center;">Error loading episodes.</div>';
-                            console.error(e);
-                        }
-                    }
-
-                    if (seasonBtns.length) {
-                        seasonBtns.forEach(btn => btn.classList.remove('active'));
-                        seasonBtns[0].classList.add('active');
-                        loadEpisodes(parseInt(seasonBtns[0].dataset.season));
-                        seasonBtns.forEach(btn => {
-                            btn.addEventListener('click', function() {
-                                seasonBtns.forEach(b => b.classList.remove('active'));
-                                this.classList.add('active');
-                                loadEpisodes(parseInt(this.dataset.season));
-                            });
-                        });
-                    }
-                }
-
-            } catch (e) {
-                console.error('Info load error:', e);
-                document.getElementById('backdropSection').innerHTML =
-                    '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#666;font-size:20px;">Error loading content</div>';
-                document.getElementById('infoDetails').innerHTML = '';
-            }
-        }
-
-        // ============================================================
-        //  INIT
-        // ============================================================
-        document.addEventListener('DOMContentLoaded', loadInfo);
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (searchOverlay.classList.contains('active')) closeSearch();
-                if (drawer.classList.contains('open')) closeDrawer();
-            }
-        });
-    </script>
+    window.addEventListener('DOMContentLoaded', loadMediaDetails);
+  </script>
 </body>
 </html>
