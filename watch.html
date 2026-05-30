@@ -1,549 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Watch · NamiTube</title>
-    <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHE6pMgjbJ6YDLaMAtDUZCs6Zhkvxl0_fQnb0c0ZCmJOYRB_4N8dQ0ZWosBq_sZPK2wFel2E43Z2meo25JL3i7IZYkJ35FZ7lZ_BZfwlWofAKGhF1gWpFsxofeGUr87Peu6s7xtgvJMnrbtNnd4vJPtB7uG3L_wJ9tT8PKRCh-PXSxlyY9Ufn8OAzDY_Y/s320/NamiTube%20Original%20Favicon.png" type="image/png" />
-    <link rel="preconnect" href="https://api.themoviedb.org">
-    <link rel="preconnect" href="https://image.tmdb.org">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <style>
-        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-        :root{
-            --bg:#050505;--surface:#0a0a0a;--surface-glass:rgba(15,15,20,0.85);
-            --primary:#8b5cf6;--primary-glow:rgba(139,92,246,0.4);--accent:#a855f7;
-            --accent-glow:rgba(168,85,247,0.3);--text:#f8fafc;--text-muted:#94a3b8;
-            --border:rgba(255,255,255,0.08);--radius:16px;--radius-sm:8px;
-            --shadow:0 8px 32px rgba(0,0,0,0.6);--shadow-glow:0 0 40px var(--primary-glow);
-            --transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
-        }
-        html{scroll-behavior:smooth}
-        body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-        a{color:inherit;text-decoration:none}
-        img{max-width:100%;display:block}
-        button{border:none;background:none;cursor:pointer;font-family:inherit;color:inherit}
-        ul{list-style:none}
-        ::-webkit-scrollbar{width:6px;height:6px}
-        ::-webkit-scrollbar-track{background:transparent}
-        ::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watch Animation - NamiTube</title>
+  <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHE6pMgjbJ6YDLaMAtDUZCs6Zhkvxl0_fQnb0c0ZCmJOYRB_4N8dQ0ZWosBq_sZPK2wFel2E43Z2meo25JL3i7IZYkJ35FZ7lZ_BZfwlWofAKGhF1gWpFsxofeGUr87Peu6s7xtgvJMnrbtNnd4vJPtB7uG3L_wJ9tT8PKRCh-PXSxlyY9Ufn8OAzDY_Y/s320/NamiTube%20Original%20Favicon.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #050505;
+      --bg-card: rgba(18, 0, 24, 0.65);
+      --primary: #8b5cf6;
+      --primary-glow: rgba(168, 85, 247, 0.6);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+    a { color: inherit; text-decoration: none; }
 
-        @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes spin{to{transform:rotate(360deg)}}
-        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
-        .fade-in{animation:fadeIn 0.6s ease forwards}
+    /* Nav Block */
+    .navbar {
+      position: sticky; top: 0; z-index: 1000; background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(139, 92, 246, 0.15); display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 2rem; height: 70px;
+    }
+    .nav-banner { height: 48px; object-fit: contain; }
+    .menu-btn { background: none; border: none; color: var(--text-main); font-size: 1.4rem; cursor: pointer; }
 
-        /* Header */
-        .header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(5,5,5,0.95);backdrop-filter:blur(20px);padding:0 4%;height:60px;display:flex;align-items:center;justify-content:space-between;transition:var(--transition);border-bottom:1px solid var(--border)}
-        .header-left,.header-right{display:flex;align-items:center;gap:16px}
-        .header-logo{display:flex;align-items:center;justify-content:center;min-width:0}
-        .header-logo a{display:flex;align-items:center}
-        .header-logo img{max-height:36px;width:auto;object-fit:contain;filter:drop-shadow(0 0 30px rgba(139,92,246,.35));border-radius:4px;transition:filter .3s}
-        .header-logo img:hover{filter:drop-shadow(0 0 50px rgba(139,92,246,.6))}
-        .back-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:var(--transition);flex-shrink:0}
-        .back-btn:hover{background:rgba(139,92,246,0.2);border-color:var(--primary)}
-        .back-btn svg{width:18px;height:18px;stroke:var(--text);fill:none;stroke-width:2}
-        .header-title{font-size:1rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:400px;color:var(--text-muted)}
-        @media(max-width:768px){.header-title{max-width:160px;font-size:0.85rem}}
+    /* Video Player Layout container blocks */
+    .player-section { width: 100%; max-width: 1400px; margin: 2rem auto; padding: 0 4rem; display: grid; grid-template-columns: 1fr 350px; gap: 2rem; }
+    .player-main { display: flex; flex-direction: column; gap: 1.5rem; }
+    
+    .iframe-wrapper { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 16px; overflow: hidden; border: 1px solid rgba(139,92,246,0.3); box-shadow: 0 10px 30px rgba(139,92,246,0.15); }
+    .iframe-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
 
-        /* Player Container */
-        .player-section{padding:80px 4% 20px;max-width:1600px;margin:0 auto}
-        .player-wrapper{position:relative;width:100%;background:var(--surface);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);transition:var(--transition)}
-        .player-wrapper.theater{position:fixed;inset:0;z-index:9999;border-radius:0;border:none;max-width:none;padding:0}
-        .player-wrapper.theater .player-iframe{height:100vh}
-        .player-iframe{width:100%;aspect-ratio:16/9;border:none;display:block;background:#000}
-        .player-loader{position:absolute;inset:0;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;transition:opacity 0.3s}
-        .player-loader.hidden{opacity:0;pointer-events:none}
-        .player-loader .loader-ring{width:48px;height:48px;border:3px solid rgba(139,92,246,0.2);border-top-color:var(--primary);border-radius:50%;animation:spin 1s linear infinite}
-        .player-loader p{margin-top:12px;font-size:0.85rem;color:var(--text-muted)}
+    /* Server switcher blocks */
+    .server-panel { display: flex; flex-wrap: wrap; gap: 0.75rem; background: rgba(18, 0, 24, 0.5); padding: 1rem; border-radius: 12px; border: 1px solid rgba(139,92,246,0.15); }
+    .server-title { font-weight: 600; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; width: 100%; margin-bottom: 0.25rem; }
+    .server-btn {
+      background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); padding: 0.6rem 1.25rem;
+      border-radius: 6px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: var(--transition);
+    }
+    .server-btn:hover { background: rgba(139,92,246,0.15); border-color: var(--primary); }
+    .server-btn.active { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
 
-        /* Player Controls Bar */
-        .player-controls{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--surface-glass);border-top:1px solid var(--border);backdrop-filter:blur(20px);flex-wrap:wrap}
-        .ctrl-btn{padding:8px 16px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:0.85rem;font-weight:600;display:flex;align-items:center;gap:6px;transition:var(--transition)}
-        .ctrl-btn:hover{background:rgba(139,92,246,0.2);border-color:var(--primary)}
-        .ctrl-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
-        .ctrl-btn.active{background:var(--primary);border-color:var(--primary);box-shadow:0 0 15px var(--primary-glow)}
-        .server-group{display:flex;gap:8px;flex-wrap:wrap}
-        .server-btn{padding:8px 16px;border-radius:var(--radius-sm);font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;transition:var(--transition);border:1px solid var(--border);background:rgba(255,255,255,0.05)}
-        .server-btn:hover{background:rgba(139,92,246,0.2);border-color:var(--primary)}
-        .server-btn.active{background:var(--primary);border-color:var(--primary);box-shadow:0 0 15px var(--primary-glow)}
+    /* Episode Selector Sidebar panel */
+    .episodes-sidebar { background: rgba(18,0,24,0.45); border: 1px solid rgba(139,92,246,0.15); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; max-height: 650px; overflow-y: auto; }
+    .sidebar-title { font-size: 1.2rem; font-weight: 700; border-bottom: 1px solid rgba(139,92,246,0.15); padding-bottom: 0.75rem; display: flex; align-items: center; justify-content: space-between; }
+    .sidebar-title select { background: rgba(5,5,5,0.8); border: 1px solid var(--primary); color: #fff; padding: 0.4rem 0.75rem; border-radius: 6px; outline: none; font-size: 0.85rem; }
+    .sidebar-episodes-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .sidebar-ep-card {
+      display: flex; gap: 0.75rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 8px; padding: 0.5rem; cursor: pointer; transition: var(--transition);
+    }
+    .sidebar-ep-card:hover { background: rgba(139,92,246,0.1); border-color: var(--primary); }
+    .sidebar-ep-card.active { background: rgba(139,92,246,0.2); border-color: var(--primary); box-shadow: inset 0 0 8px rgba(139,92,246,0.3); }
+    .sidebar-ep-thumb { width: 100px; aspect-ratio: 16/10; object-fit: cover; border-radius: 4px; }
+    .sidebar-ep-info { display: flex; flex-direction: column; justify-content: center; gap: 0.15rem; }
+    .sidebar-ep-info h5 { font-size: 0.85rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px; }
+    .sidebar-ep-info p { font-size: 0.75rem; color: var(--text-muted); }
 
-        /* Episode Controls */
-        .episode-bar{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--surface-glass);border-top:1px solid var(--border);backdrop-filter:blur(20px);flex-wrap:wrap}
-        .ep-btn{padding:8px 14px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:0.85rem;font-weight:600;display:flex;align-items:center;gap:6px;transition:var(--transition)}
-        .ep-btn:hover:not(:disabled){background:rgba(139,92,246,0.2);border-color:var(--primary)}
-        .ep-btn:disabled{opacity:0.3;cursor:not-allowed}
-        .ep-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
-        .ep-select{padding:8px 12px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:0.85rem;outline:none;cursor:pointer;transition:var(--transition)}
-        .ep-select:focus{border-color:var(--primary);box-shadow:0 0 15px var(--primary-glow)}
-        .ep-select option{background:var(--surface);color:var(--text)}
-        .ep-label{font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px}
+    /* Metadata details */
+    .show-details { background: rgba(18, 0, 24, 0.3); border: 1px solid rgba(139,92,246,0.1); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .show-details h2 { font-size: 1.75rem; font-weight: 800; }
+    .show-details h4 { font-size: 1.1rem; color: var(--primary); }
+    .show-details p { font-size: 1rem; color: #d1d5db; line-height: 1.6; }
 
-        /* Info Section */
-        .watch-info{padding:30px 4%;max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr 320px;gap:30px}
-        .watch-main{min-width:0}
-        .watch-sidebar{min-width:0}
-        .info-title{font-size:1.8rem;font-weight:800;margin-bottom:12px}
-        .info-meta{display:flex;align-items:center;gap:16px;margin-bottom:16px;font-size:0.9rem;color:var(--text-muted);flex-wrap:wrap}
-        .info-rating{display:flex;align-items:center;gap:4px;color:#fbbf24;font-weight:700}
-        .info-rating svg{width:18px;height:18px;fill:#fbbf24}
-        .info-overview{font-size:1rem;color:var(--text-muted);line-height:1.7;margin-bottom:24px}
-        .info-genres{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
-        .info-genre{padding:6px 14px;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);border-radius:20px;font-size:0.8rem;color:var(--primary)}
+    /* Previous/Next buttons panel */
+    .controls-strip { display: flex; justify-content: space-between; align-items: center; }
+    .ctrl-btn {
+      background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: var(--transition);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .ctrl-btn:hover:not(:disabled) { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
+    .ctrl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        /* Cast Sidebar */
-        .cast-sidebar-title{font-size:1.1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px}
-        .cast-sidebar-title::before{content:'';width:3px;height:20px;background:linear-gradient(to bottom,var(--primary),var(--accent));border-radius:2px}
-        .cast-item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:var(--radius-sm);transition:var(--transition);cursor:pointer}
-        .cast-item:hover{background:rgba(139,92,246,0.1)}
-        .cast-item img{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--border);background:#1a1a2e}
-        .cast-item:hover img{border-color:var(--primary)}
-        .cast-item-name{font-size:0.9rem;font-weight:600}
-        .cast-item-role{font-size:0.75rem;color:var(--text-muted)}
+    .footer {
+      background: #040206; border-top: 1px solid rgba(139, 92, 246, 0.15);
+      padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+      margin-top: auto; text-align: center;
+    }
+    .footer-banner { height: 50px; object-fit: contain; }
 
-        /* Related */
-        .related-section{padding:20px 4% 40px;max-width:1400px;margin:0 auto}
-        .related-title{font-size:1.2rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px}
-        .related-title::before{content:'';width:3px;height:20px;background:linear-gradient(to bottom,var(--primary),var(--accent));border-radius:2px}
-        .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
-        .rel-card{border-radius:var(--radius-sm);overflow:hidden;cursor:pointer;transition:var(--transition);background:var(--surface)}
-        .rel-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-glow)}
-        .rel-card img{width:100%;aspect-ratio:2/3;object-fit:cover}
-        .rel-info{padding:10px}
-        .rel-title{font-size:0.85rem;font-weight:600;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
-        .rel-year{font-size:0.75rem;color:var(--text-muted);margin-top:2px}
-
-        /* Keyboard hint */
-        .kbd-hint{position:fixed;bottom:20px;right:20px;background:var(--surface-glass);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;backdrop-filter:blur(20px);font-size:0.75rem;color:var(--text-muted);z-index:100;opacity:0;transition:opacity 0.3s}
-        .kbd-hint.visible{opacity:1}
-        .kbd-hint kbd{background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;font-family:inherit;font-size:0.7rem}
-
-        /* ----- FOOTER (NamiTube style) ----- */
-        footer {
-            background: #08080c;
-            border-top: 1px solid rgba(139, 92, 246, .15);
-            padding: 40px 24px 30px;
-            margin-top: 60px;
-        }
-        .footer-inner {
-            max-width: 1440px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .footer-banner {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 24px;
-        }
-        .footer-banner a {
-            display: inline-block;
-        }
-        .footer-banner img {
-            max-height: 48px;
-            width: auto;
-            filter: drop-shadow(0 0 30px rgba(139, 92, 246, .25));
-            border-radius: 4px;
-            transition: filter .3s;
-        }
-        .footer-banner img:hover {
-            filter: drop-shadow(0 0 50px rgba(139, 92, 246, .6));
-        }
-        .footer-socials {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .footer-socials a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, .04);
-            color: #bbb;
-            font-size: 20px;
-            transition: .3s;
-            border: 1px solid rgba(139, 92, 246, .06);
-        }
-        .footer-socials a:hover {
-            background: rgba(139, 92, 246, .15);
-            color: #a855f7;
-            transform: scale(1.12);
-            box-shadow: 0 0 30px rgba(139, 92, 246, .2);
-            border-color: #8b5cf6;
-        }
-        .footer-disclaimer {
-            max-width: 720px;
-            margin: 16px auto 12px;
-            font-size: 13px;
-            color: #666;
-            line-height: 1.7;
-            padding: 0 12px;
-        }
-        .footer-copy {
-            font-size: 14px;
-            color: #555;
-        }
-        .footer-copy span {
-            color: #8b5cf6;
-        }
-
-        @media(max-width:768px){
-            .watch-info{grid-template-columns:1fr}
-            .player-controls,.episode-bar{gap:8px;padding:10px}
-            .ctrl-btn,.ep-btn,.server-btn{padding:6px 10px;font-size:0.75rem}
-            .related-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
-            .info-title{font-size:1.4rem}
-            .footer-socials{gap:16px}
-            .footer-socials a{width:40px;height:40px;font-size:17px}
-            .footer-banner img{max-height:36px}
-        }
-        @media(max-width:480px){
-            .header-logo img{max-height:30px}
-            .header-title{max-width:120px;font-size:0.75rem}
-            .related-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
-            .footer-banner img{max-height:30px}
-        }
-        @media(min-width:1600px){
-            .player-section,.watch-info,.related-section,.footer-inner{padding-left:40px;padding-right:40px}
-        }
-    </style>
+    @media (max-width: 1024px) {
+      .player-section { grid-template-columns: 1fr; padding: 0 2rem; }
+    }
+    @media (max-width: 768px) {
+      .navbar { padding: 0.75rem 1rem; }
+      .player-section { padding: 0 1rem; }
+    }
+  </style>
 </head>
 <body>
-    <header class="header" id="header">
-        <div class="header-left">
-            <button class="back-btn" onclick="window.history.back()" aria-label="Back">
-                <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-            </button>
-            <div class="header-logo">
-                <a href="https://www.namitube.eu.org/">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
-                </a>
-            </div>
-        </div>
-        <div class="header-right">
-            <span class="header-title" id="headerTitle">Loading...</span>
-            <button class="ctrl-btn" onclick="toggleTheater()" id="theaterBtn" aria-label="Theater mode">
-                <svg viewBox="0 0 24 24" style="stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
-            </button>
-        </div>
-    </header>
 
-    <section class="player-section">
-        <div class="player-wrapper" id="playerWrapper">
-            <div class="player-loader" id="playerLoader">
-                <div class="loader-ring"></div>
-                <p>Loading player...</p>
-            </div>
-            <iframe class="player-iframe" id="playerFrame" src="" allowfullscreen allow="autoplay; fullscreen; encrypted-media; picture-in-picture"> </iframe>
-        </div>
-        <div class="player-controls">
-            <div class="server-group">
-                <button class="server-btn active" id="srvVidRock" onclick="switchServer('vidrock')">VidRock</button>
-                <button class="server-btn" id="srvVidSrc" onclick="switchServer('vidsrc')">VidSrc</button>
-                <button class="server-btn" id="srvVidEasy" onclick="switchServer('videasy')">VidEasy</button>
-                <button class="server-btn" id="srvVidStorm" onclick="switchServer('vidstorm')">VidStorm</button>
-                <button class="server-btn" id="srvVidAPI" onclick="switchServer('vidapi')">VidAPI</button>
-            </div>
-        </div>
-        <div class="episode-bar" id="episodeBar" style="display:none">
-            <span class="ep-label">Season</span>
-            <select class="ep-select" id="seasonSelect" onchange="changeSeason(this.value)"></select>
-            <span class="ep-label">Episode</span>
-            <select class="ep-select" id="episodeSelect" onchange="changeEpisode(this.value)"></select>
-            <button class="ep-btn" id="prevEp" onclick="prevEpisode()">
-                <svg viewBox="0 0 24 24" style="stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="15 18 9 12 15 6"/></svg>Prev
-            </button>
-            <button class="ep-btn" id="nextEp" onclick="nextEpisode()">
-                Next<svg viewBox="0 0 24 24" style="stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-        </div>
-    </section>
+  <!-- Core Sticky Header block -->
+  <header class="navbar">
+    <div class="nav-left">
+      <button class="menu-btn" onclick="window.history.back()" aria-label="Go Back"><i class="fa-solid fa-arrow-left"></i></button>
+    </div>
+    <div class="nav-center">
+      <a href="index.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube Original logo banner" class="nav-banner">
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="menu-btn" onclick="window.location.href='index.html'" aria-label="Home"><i class="fa-solid fa-house"></i></button>
+    </div>
+  </header>
 
-    <div class="watch-info" id="watchInfo">
-        <div class="watch-main">
-            <h1 class="info-title" id="infoTitle">Loading...</h1>
-            <div class="info-meta" id="infoMeta"></div>
-            <div class="info-genres" id="infoGenres"></div>
-            <p class="info-overview" id="infoOverview">Loading description...</p>
-        </div>
-        <div class="watch-sidebar">
-            <div class="cast-sidebar-title">Top Cast</div>
-            <div id="castList"></div>
-        </div>
+  <!-- Complete Video Streaming Workspace -->
+  <main class="player-section">
+    <div class="player-main">
+      <div class="iframe-wrapper">
+        <iframe id="stream-player" allowfullscreen src="" referrerpolicy="no-referrer"></iframe>
+      </div>
+
+      <div class="controls-strip">
+        <button class="ctrl-btn" id="prev-ep-btn"><i class="fa-solid fa-backward"></i> Previous</button>
+        <button class="ctrl-btn" id="next-ep-btn">Next <i class="fa-solid fa-forward"></i></button>
+      </div>
+
+      <!-- Live Stream Server Swapper -->
+      <div class="server-panel">
+        <div class="server-title">Switch Mirror Servers</div>
+        <button class="server-btn active" data-server="vidsrc">Server VidSrc</button>
+        <button class="server-btn" data-server="vidlink">Server VidLink</button>
+        <button class="server-btn" data-server="videasy">Server VidEasy</button>
+        <button class="server-btn" data-server="multiembed">Server MultiEmbed</button>
+      </div>
+
+      <!-- Show Info Section Below Player -->
+      <div class="show-details">
+        <h2 id="show-title">Fetching Title...</h2>
+        <h4 id="show-current-ep"></h4>
+        <p id="show-overview">Overview loading...</p>
+      </div>
     </div>
 
-    <section class="related-section" id="relatedSection">
-        <div class="related-title">You May Also Like</div>
-        <div class="related-grid" id="relatedGrid"></div>
-    </section>
-
-    <div class="kbd-hint" id="kbdHint">
-        <kbd>F</kbd> Fullscreen &nbsp; <kbd>T</kbd> Theater &nbsp; <kbd>←</kbd> Prev Ep &nbsp; <kbd>→</kbd> Next Ep &nbsp; <kbd>Esc</kbd> Exit
+    <!-- Episode Guide Sidebar (Hidden on Movies) -->
+    <div class="episodes-sidebar" id="episodes-sidebar-container" style="display: none;">
+      <div class="sidebar-title">
+        <span>Episode Index</span>
+        <select id="sidebar-season-selector"></select>
+      </div>
+      <div class="sidebar-episodes-list" id="sidebar-episodes-list"></div>
     </div>
+  </main>
 
-    <!-- ===== FOOTER (NamiTube style) ===== -->
-    <footer>
-        <div class="footer-inner">
-            <div class="footer-banner">
-                <a href="https://www.namitube.eu.org/">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
-                </a>
+  <footer class="footer">
+    <div class="footer-banner-container">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube Footer Logo" class="footer-banner">
+    </div>
+    <p class="disclaimer">
+      This website does not host any video content on its servers. All media content is embedded from third-party providers. We do not store or upload any videos. All trademarks, logos, and content belong to their respective owners.
+    </p>
+    <p class="copyright">
+      &copy; 2026 NamiTube. All Rights Reserved. Powered by TMDB API.
+    </p>
+  </footer>
+
+  <script>
+    const TMDB_API_KEY = "e10da2e2cbb23ea7ebfb64c3a188b64a";
+    const TMDB_BASE_URL = "https://api.themoviedb.org/3";
+
+    // Parse player routes
+    const params = new URLSearchParams(window.location.search);
+    const mediaId = params.get('id');
+    const mediaType = params.get('type') || 'movie';
+    
+    let activeSeason = parseInt(params.get('season')) || 1;
+    let activeEpisode = parseInt(params.get('episode')) || 1;
+    let currentServer = "vidsrc";
+    let mediaData = null;
+    let episodesList = [];
+
+    // Core Stream Routing Engine switcher
+    function getStreamUrl() {
+      if (mediaType === 'movie') {
+        switch (currentServer) {
+          case 'vidsrc': return `https://vidsrc.to/embed/movie/${mediaId}`;
+          case 'vidlink': return `https://vidlink.pro/embed/movie/${mediaId}`;
+          case 'videasy': return `https://videasy.net/embed/movie/${mediaId}`;
+          case 'multiembed': return `https://multiembed.mov/?video_id=${mediaId}`;
+          default: return `https://vidsrc.to/embed/movie/${mediaId}`;
+        }
+      } else {
+        switch (currentServer) {
+          case 'vidsrc': return `https://vidsrc.to/embed/tv/${mediaId}/${activeSeason}/${activeEpisode}`;
+          case 'vidlink': return `https://vidlink.pro/embed/tv/${mediaId}/${activeSeason}/${activeEpisode}`;
+          case 'videasy': return `https://videasy.net/embed/tv/${mediaId}/${activeSeason}/${activeEpisode}`;
+          case 'multiembed': return `https://multiembed.mov/?video_id=${mediaId}&s=${activeSeason}&e=${activeEpisode}`;
+          default: return `https://vidsrc.to/embed/tv/${mediaId}/${activeSeason}/${activeEpisode}`;
+        }
+      }
+    }
+
+    function updatePlayer() {
+      document.getElementById('stream-player').src = getStreamUrl();
+      if (mediaType === 'tv') {
+        document.getElementById('show-current-ep').textContent = `Season ${activeSeason} - Episode ${activeEpisode}`;
+        saveProgress();
+      } else {
+        document.getElementById('show-current-ep').style.display = 'none';
+      }
+      toggleControlsState();
+    }
+
+    // Server Buttons click listener
+    document.querySelectorAll('.server-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelector('.server-btn.active').classList.remove('active');
+        e.target.classList.add('active');
+        currentServer = e.target.dataset.server;
+        updatePlayer();
+      });
+    });
+
+    // Load active series/movie detail profiles
+    async function initPlayerWorkspace() {
+      if (!mediaId) { window.location.href = "index.html"; return; }
+      
+      try {
+        const details = await fetch(`${TMDB_BASE_URL}/${mediaType}/${mediaId}?api_key=${TMDB_API_KEY}`);
+        mediaData = await details.json();
+
+        document.getElementById('show-title').textContent = mediaData.title || mediaData.name || 'Untitled';
+        document.getElementById('show-overview').textContent = mediaData.overview || "Stream this spectacular animation masterpiece directly on NamiTube.";
+
+        if (mediaType === 'tv') {
+          document.getElementById('episodes-sidebar-container').style.display = 'block';
+          populateSeasonDropdown(mediaData.seasons);
+        } else {
+          // Hide navigation controls for movies
+          document.querySelector('.controls-strip').style.display = 'none';
+        }
+
+        updatePlayer();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    // Series episodes list logic
+    function populateSeasonDropdown(seasons) {
+      const selector = document.getElementById('sidebar-season-selector');
+      const validSeasons = seasons.filter(s => s.season_number > 0);
+      
+      selector.innerHTML = validSeasons.map(s => `<option value="${s.season_number}">Season ${s.season_number}</option>`).join('');
+      selector.value = activeSeason;
+      
+      selector.addEventListener('change', (e) => {
+        activeSeason = parseInt(e.target.value);
+        activeEpisode = 1; // Reset to Ep 1 on Season Switch
+        loadSeasonEpisodes();
+      });
+
+      loadSeasonEpisodes();
+    }
+
+    async function loadSeasonEpisodes() {
+      const container = document.getElementById('sidebar-episodes-list');
+      container.innerHTML = Array(3).fill().map(() => `<div class="sidebar-ep-card skeleton" style="height: 60px;"></div>`).join('');
+      
+      try {
+        const res = await fetch(`${TMDB_BASE_URL}/tv/${mediaId}/season/${activeSeason}?api_key=${TMDB_API_KEY}`);
+        const data = await res.json();
+        episodesList = data.episodes;
+
+        container.innerHTML = episodesList.map(ep => {
+          const thumb = ep.still_path ? `https://image.tmdb.org/t/p/w200${ep.still_path}` : 'https://via.placeholder.com/200x120?text=NamiTube';
+          const isActive = ep.episode_number === activeEpisode;
+          return `
+            <div class="sidebar-ep-card ${isActive ? 'active' : ''}" onclick="playEpisode(${ep.episode_number})">
+              <img src="${thumb}" alt="${ep.name}" class="sidebar-ep-thumb" loading="lazy">
+              <div class="sidebar-ep-info">
+                <h5>E${ep.episode_number} - ${ep.name}</h5>
+                <p>Episode Details</p>
+              </div>
             </div>
-            <div class="footer-socials">
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
-                <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
-                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-            </div>
-            <div class="footer-disclaimer">
-                This website does not host any video content on its servers. All media content is embedded from third-party providers. We do not store or upload any videos. All trademarks, logos, and content belong to their respective owners.
-            </div>
-            <div class="footer-copy">
-                &copy; 2026 <span>NamiTube</span>. All Rights Reserved.<br />
-                Powered by TMDB API
-            </div>
-        </div>
-    </footer>
+          `;
+        }).join('');
 
-    <script>
-        const TMDB_API_KEY = "e10da2e2cbb23ea7ebfb64c3a188b64a";
-        const TMDB_BASE = "https://api.themoviedb.org/3";
-        const IMG_BASE = "https://image.tmdb.org/t/p/";
-        const RETRIES = 3, TIMEOUT = 8000;
-        const GENRE_ID = 16; // animation
+        toggleControlsState();
+      } catch (err) {
+        container.innerHTML = '<p>Error loading episodes.</p>';
+      }
+    }
 
-        async function fetchTMDB(endpoint, retries = RETRIES) {
-            const url = `${TMDB_BASE}${endpoint}${endpoint.includes('?')?'&':'?'}api_key=${TMDB_API_KEY}`;
-            for (let i = 0; i < retries; i++) {
-                try {
-                    const controller = new AbortController();
-                    const id = setTimeout(() => controller.abort(), TIMEOUT);
-                    const res = await fetch(url, { signal: controller.signal, headers: { 'Accept': 'application/json' } });
-                    clearTimeout(id);
-                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                    return await res.json();
-                } catch (e) { if (i === retries - 1) throw e; await new Promise(r => setTimeout(r, 1000 * (i + 1))); }
-            }
-        }
+    function playEpisode(epNum) {
+      activeEpisode = epNum;
+      document.querySelectorAll('.sidebar-ep-card').forEach((card, idx) => {
+        card.classList.toggle('active', (idx + 1) === epNum);
+      });
+      updatePlayer();
+    }
 
-        function img(path, size = 'w500') {
-            return path ? `${IMG_BASE}${size}${path}` : 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="450"><rect fill="%231a1a2e" width="300" height="450"/><text fill="%23444" x="50%" y="50%" text-anchor="middle" font-size="14">No Image</text></svg>';
-        }
+    // Interactive button strip triggers
+    const prevBtn = document.getElementById('prev-ep-btn');
+    const nextBtn = document.getElementById('next-ep-btn');
 
-        const params = new URLSearchParams(window.location.search);
-        const mediaId = params.get('id');
-        const mediaType = params.get('type') || 'movie';
-        const isTV = mediaType === 'tv';
-        let currentSeason = parseInt(params.get('s')) || 1;
-        let currentEpisode = parseInt(params.get('e')) || 1;
-        let currentServer = 'vidrock'; // default to VidRock as requested
-        let tvData = null;
-        let seasonData = null;
+    prevBtn.addEventListener('click', () => {
+      if (activeEpisode > 1) playEpisode(activeEpisode - 1);
+    });
+    nextBtn.addEventListener('click', () => {
+      if (activeEpisode < episodesList.length) playEpisode(activeEpisode + 1);
+    });
 
-        function getEmbedUrl() {
-            const server = currentServer;
-            if (isTV) {
-                switch(server) {
-                    case 'vidrock': return `https://vidrock.ru/tv/${mediaId}/${currentSeason}/${currentEpisode}`;
-                    case 'vidsrc': return `https://vidsrc.to/embed/tv/${mediaId}/${currentSeason}/${currentEpisode}`;
-                    case 'videasy': return `https://player.videasy.net/tv/${mediaId}/${currentSeason}/${currentEpisode}`;
-                    case 'vidstorm': return `https://vidstorm.ru/tv/${mediaId}/${currentSeason}/${currentEpisode}`;
-                    case 'vidapi': return `https://vidapi.xyz/embed/tv/${mediaId}/${currentSeason}/${currentEpisode}`;
-                    default: return `https://vidsrc.to/embed/tv/${mediaId}/${currentSeason}/${currentEpisode}`;
-                }
-            } else {
-                switch(server) {
-                    case 'vidrock': return `https://vidrock.ru/movie/${mediaId}`;
-                    case 'vidsrc': return `https://vidsrc.to/embed/movie/${mediaId}`;
-                    case 'videasy': return `https://player.videasy.net/movie/${mediaId}`;
-                    case 'vidstorm': return `https://vidstorm.ru/embed/movie/${mediaId}`;
-                    case 'vidapi': return `https://vidapi.xyz/embed/movie/${mediaId}`;
-                    default: return `https://vidsrc.to/embed/movie/${mediaId}`;
-                }
-            }
-        }
+    function toggleControlsState() {
+      if (mediaType === 'movie') return;
+      prevBtn.disabled = (activeEpisode === 1);
+      nextBtn.disabled = (episodesList.length > 0 && activeEpisode === episodesList.length);
+    }
 
-        function loadPlayer() {
-            document.getElementById('playerLoader').classList.remove('hidden');
-            const frame = document.getElementById('playerFrame');
-            frame.src = 'about:blank';
-            setTimeout(() => {
-                frame.src = getEmbedUrl();
-                frame.onload = () => document.getElementById('playerLoader').classList.add('hidden');
-                setTimeout(() => document.getElementById('playerLoader').classList.add('hidden'), 3000);
-            }, 100);
-        }
+    // LocalStorage continue progress system
+    function saveProgress() {
+      if (!mediaData) return;
+      let progress = JSON.parse(localStorage.getItem('namitube_continue') || '[]');
+      progress = progress.filter(x => x.id !== mediaId);
+      progress.unshift({
+        id: mediaId,
+        type: mediaType,
+        title: mediaData.name || mediaData.title,
+        season: activeSeason,
+        episode: activeEpisode,
+        poster: mediaData.poster_path ? `https://image.tmdb.org/t/p/w185${mediaData.poster_path}` : 'https://via.placeholder.com/185x278?text=NamiTube'
+      });
+      localStorage.setItem('namitube_continue', JSON.stringify(progress.slice(0, 10)));
+    }
 
-        function switchServer(server) {
-            currentServer = server;
-            document.querySelectorAll('.server-btn').forEach(btn => btn.classList.remove('active'));
-            const idMap = { 'vidrock': 'srvVidRock', 'vidsrc': 'srvVidSrc', 'videasy': 'srvVidEasy', 'vidstorm': 'srvVidStorm', 'vidapi': 'srvVidAPI' };
-            if (idMap[server]) document.getElementById(idMap[server]).classList.add('active');
-            loadPlayer();
-        }
-
-        function toggleTheater() {
-            document.getElementById('playerWrapper').classList.toggle('theater');
-            document.getElementById('theaterBtn').classList.toggle('active');
-        }
-
-        function updateUrl() {
-            const url = new URL(window.location.href);
-            url.searchParams.set('s', currentSeason);
-            url.searchParams.set('e', currentEpisode);
-            window.history.replaceState({}, '', url);
-        }
-
-        function changeSeason(s) {
-            currentSeason = parseInt(s);
-            currentEpisode = 1;
-            updateEpisodeSelect();
-            updateUrl();
-            loadPlayer();
-        }
-
-        function changeEpisode(e) {
-            currentEpisode = parseInt(e);
-            updateUrl();
-            loadPlayer();
-        }
-
-        function prevEpisode() { if (currentEpisode > 1) { currentEpisode--;
-                document.getElementById('episodeSelect').value = currentEpisode;
-                updateUrl();
-                loadPlayer(); } }
-
-        function nextEpisode() { const max = seasonData ? seasonData.episodes.length : 99; if (currentEpisode < max) { currentEpisode++;
-                document.getElementById('episodeSelect').value = currentEpisode;
-                updateUrl();
-                loadPlayer(); } }
-
-        function updateEpisodeSelect() {
-            if (!seasonData || !seasonData.episodes) return;
-            const epSelect = document.getElementById('episodeSelect');
-            epSelect.innerHTML = seasonData.episodes.map((ep, i) =>
-                `<option value="${ep.episode_number}" ${ep.episode_number===currentEpisode?'selected':''}>E${ep.episode_number}: ${ep.name}</option>`
-            ).join('');
-            document.getElementById('prevEp').disabled = currentEpisode <= 1;
-            document.getElementById('nextEp').disabled = currentEpisode >= seasonData.episodes.length;
-        }
-
-        async function initWatch() {
-            if (!mediaId) { document.getElementById('infoTitle').textContent = 'No media ID'; return; }
-            try {
-                const endpoint = isTV ? `/tv/${mediaId}` : `/movie/${mediaId}`;
-                const [details, credits, similar] = await Promise.allSettled([
-                    fetchTMDB(endpoint),
-                    fetchTMDB(`${endpoint}/credits`),
-                    fetchTMDB(`${endpoint}/similar`)
-                ]);
-                const d = details.value || {};
-                const c = credits.value || {};
-                const s = similar.value || {};
-                tvData = d;
-
-                document.getElementById('headerTitle').textContent = d.title || d.name || 'Untitled';
-                document.getElementById('infoTitle').textContent = d.title || d.name || 'Untitled';
-                document.title = `Watch ${d.title||d.name||'Movie'} - NamiTube`;
-
-                const date = isTV ? d.first_air_date : d.release_date;
-                const runtime = isTV ? (d.episode_run_time && d.episode_run_time[0] ? `${d.episode_run_time[0]} min/ep` :
-                    `${d.number_of_seasons||0} Seasons`) : `${d.runtime||0} min`;
-                document.getElementById('infoMeta').innerHTML = `
-                <span class="info-rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${(d.vote_average||0).toFixed(1)}</span>
-                <span>${date?date.slice(0,4):'N/A'}</span>
-                <span>${runtime}</span>
-                <span>${d.status||'N/A'}</span>
-              `;
-                document.getElementById('infoGenres').innerHTML = (d.genres || []).map(g =>
-                    `<span class="info-genre">${g.name}</span>`).join('');
-                document.getElementById('infoOverview').textContent = d.overview || 'No description available.';
-
-                // Cast sidebar
-                const cast = (c.cast || []).slice(0, 8);
-                document.getElementById('castList').innerHTML = cast.map(p => `
-                <div class="cast-item">
-                    <img src="${img(p.profile_path,'w185')}" alt="${p.name}" loading="lazy">
-                    <div><div class="cast-item-name">${p.name}</div><div class="cast-item-role">${p.character}</div></div>
-                </div>
-              `).join('');
-
-                // Related — filter to animation only (genre 16)
-                const allRelated = s.results || [];
-                const rel = allRelated
-                    .filter(item => item.genre_ids && item.genre_ids.includes(GENRE_ID))
-                    .slice(0, 8);
-                document.getElementById('relatedGrid').innerHTML = rel.map(item => `
-                <div class="rel-card" onclick="goTo('${item.media_type||mediaType}',${item.id})">
-                    <img src="${img(item.poster_path,'w342')}" alt="${item.title||item.name}" loading="lazy">
-                    <div class="rel-info"><div class="rel-title">${item.title||item.name}</div><div class="rel-year">${(item.release_date||item.first_air_date||'').slice(0,4)||'N/A'}</div></div>
-                </div>
-              `).join('') || '<div style="color:#666;padding:20px 0;grid-column:1/-1;text-align:center;">No animation recommendations found.</div>';
-
-                // TV Season/Episode setup
-                if (isTV) {
-                    document.getElementById('episodeBar').style.display = 'flex';
-                    const seasons = (d.seasons || []).filter(se => se.season_number > 0);
-                    const seasonSelect = document.getElementById('seasonSelect');
-                    seasonSelect.innerHTML = seasons.map(se =>
-                        `<option value="${se.season_number}" ${se.season_number===currentSeason?'selected':''}>S${se.season_number}: ${se.name}</option>`
-                    ).join('');
-
-                    try {
-                        seasonData = await fetchTMDB(`/tv/${mediaId}/season/${currentSeason}`);
-                        updateEpisodeSelect();
-                    } catch (e) { console.error('Season load error:', e); }
-                }
-
-                loadPlayer();
-            } catch (e) {
-                document.getElementById('infoTitle').textContent = 'Error loading content';
-                console.error(e);
-            }
-        }
-
-        function goTo(type, id) {
-            window.location.href = `watch.html?id=${id}&type=${type}`;
-        }
-
-        // Keyboard shortcuts
-        document.addEventListener('keydown', e => {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
-            switch (e.key.toLowerCase()) {
-                case 'f':
-                    e.preventDefault();
-                    document.getElementById('playerFrame').requestFullscreen();
-                    break;
-                case 't':
-                    e.preventDefault();
-                    toggleTheater();
-                    break;
-                case 'arrowleft':
-                    if (isTV) { e.preventDefault();
-                        prevEpisode(); }
-                    break;
-                case 'arrowright':
-                    if (isTV) { e.preventDefault();
-                        nextEpisode(); }
-                    break;
-                case 'escape':
-                    document.getElementById('playerWrapper').classList.remove('theater');
-                    document.getElementById('theaterBtn').classList.remove('active');
-                    break;
-            }
-        });
-
-        // Show keyboard hints
-        setTimeout(() => document.getElementById('kbdHint').classList.add('visible'), 2000);
-        setTimeout(() => document.getElementById('kbdHint').classList.remove('visible'), 8000);
-
-        document.addEventListener('DOMContentLoaded', initWatch);
-    </script>
+    window.addEventListener('DOMContentLoaded', initPlayerWorkspace);
+  </script>
 </body>
 </html>
