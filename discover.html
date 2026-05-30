@@ -1,1079 +1,433 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Discover · NamiTube</title>
-    <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHE6pMgjbJ6YDLaMAtDUZCs6Zhkvxl0_fQnb0c0ZCmJOYRB_4N8dQ0ZWosBq_sZPK2wFel2E43Z2meo25JL3i7IZYkJ35FZ7lZ_BZfwlWofAKGhF1gWpFsxofeGUr87Peu6s7xtgvJMnrbtNnd4vJPtB7uG3L_wJ9tT8PKRCh-PXSxlyY9Ufn8OAzDY_Y/s320/NamiTube%20Original%20Favicon.png" type="image/png" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <style>
-        /* ----- same base as index ----- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #050505;
-            color: #fff;
-            overflow-x: hidden;
-        }
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        img {
-            display: block;
-            max-width: 100%;
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #8b5cf6;
-            border-radius: 12px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a855f7;
-        }
-        .container {
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-        .glow-text {
-            text-shadow: 0 0 40px rgba(139, 92, 246, .3);
-        }
-        .glow-border {
-            box-shadow: 0 0 30px rgba(139, 92, 246, .15);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discover - NamiTube</title>
+  <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHE6pMgjbJ6YDLaMAtDUZCs6Zhkvxl0_fQnb0c0ZCmJOYRB_4N8dQ0ZWosBq_sZPK2wFel2E43Z2meo25JL3i7IZYkJ35FZ7lZ_BZfwlWofAKGhF1gWpFsxofeGUr87Peu6s7xtgvJMnrbtNnd4vJPtB7uG3L_wJ9tT8PKRCh-PXSxlyY9Ufn8OAzDY_Y/s320/NamiTube%20Original%20Favicon.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #050505;
+      --bg-card: rgba(18, 0, 24, 0.65);
+      --bg-card-hover: rgba(139, 92, 246, 0.15);
+      --primary: #8b5cf6;
+      --primary-glow: rgba(168, 85, 247, 0.6);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-family: 'Inter', -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background-color: var(--bg-dark); color: var(--text-main); font-family: var(--font-family);
+      overflow-x: hidden; max-width: 100%; min-height: 100vh; display: flex; flex-direction: column;
+    }
+    a { color: inherit; text-decoration: none; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #050505; }
+    ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
 
-        /* ----- HEADER (exact same as index) ----- */
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 999;
-            background: rgba(5, 5, 5, .85);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border-bottom: 1px solid rgba(139, 92, 246, .2);
-            padding: 10px 0;
-        }
-        .header-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 0 24px;
-            gap: 16px;
-        }
-        .hamburger {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 26px;
-            cursor: pointer;
-            padding: 6px 10px;
-            border-radius: 8px;
-            transition: .2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .hamburger:hover {
-            background: rgba(139, 92, 246, .2);
-            color: #a855f7;
-        }
-        .header-logo {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-width: 0;
-        }
-        .header-logo a {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .header-logo img {
-            max-height: 52px;
-            width: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 0 30px rgba(139, 92, 246, .35));
-            border-radius: 4px;
-            transition: filter .3s;
-        }
-        .header-logo img:hover {
-            filter: drop-shadow(0 0 50px rgba(139, 92, 246, .6));
-        }
-        .header-search {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 22px;
-            cursor: pointer;
-            padding: 6px 10px;
-            border-radius: 8px;
-            transition: .2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .header-search:hover {
-            background: rgba(139, 92, 246, .2);
-            color: #a855f7;
-        }
+    /* Core Nav Elements */
+    .navbar {
+      position: sticky; top: 0; z-index: 1000; background: rgba(5, 5, 5, 0.85);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(139, 92, 246, 0.15); display: flex;
+      align-items: center; justify-content: space-between; padding: 0.75rem 2rem; height: 70px;
+    }
+    .nav-left, .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-banner { height: 48px; object-fit: contain; filter: drop-shadow(0 0 8px var(--primary-glow)); }
+    .menu-btn, .search-btn, .close-search, .close-sidebar {
+      background: none; border: none; color: var(--text-main); font-size: 1.4rem;
+      cursor: pointer; transition: var(--transition); display: flex; align-items: center;
+      justify-content: center; width: 40px; height: 40px; border-radius: 50%;
+    }
+    .menu-btn:hover, .search-btn:hover, .close-search:hover, .close-sidebar:hover {
+      color: var(--primary); background: rgba(139, 92, 246, 0.1); box-shadow: 0 0 15px var(--primary-glow);
+    }
+    .desktop-menu { display: flex; gap: 2rem; font-weight: 500; font-size: 0.95rem; }
+    .desktop-menu a { position: relative; padding: 0.25rem 0; transition: var(--transition); }
+    .desktop-menu a::after {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+      background: var(--primary); transition: var(--transition); box-shadow: 0 0 8px var(--primary-glow);
+    }
+    .desktop-menu a:hover { color: var(--primary); }
+    .desktop-menu a:hover::after { width: 100%; }
 
-        /* ----- DRAWER (same) ----- */
-        .drawer-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .7);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: .35s;
-        }
-        .drawer-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .drawer {
-            position: fixed;
-            top: 0;
-            left: -320px;
-            width: 300px;
-            height: 100vh;
-            background: #0a0a0f;
-            border-right: 1px solid rgba(139, 92, 246, .25);
-            z-index: 1001;
-            padding: 30px 20px;
-            transition: left .35s cubic-bezier(.22, 1, .36, 1);
-            overflow-y: auto;
-            box-shadow: 4px 0 40px rgba(0, 0, 0, .6);
-        }
-        .drawer.open {
-            left: 0;
-        }
-        .drawer-close {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 28px;
-            cursor: pointer;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            width: 100%;
-            padding: 4px 0;
-            transition: .2s;
-        }
-        .drawer-close:hover {
-            color: #a855f7;
-        }
-        .drawer-logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .drawer-logo a {
-            display: inline-block;
-        }
-        .drawer-logo img {
-            max-height: 44px;
-            width: auto;
-            margin: 0 auto;
-            filter: drop-shadow(0 0 20px rgba(139, 92, 246, .3));
-        }
-        .drawer-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .drawer-nav a {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 14px 18px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 500;
-            color: #ccc;
-            transition: .25s;
-            background: transparent;
-        }
-        .drawer-nav a i {
-            width: 24px;
-            text-align: center;
-            font-size: 18px;
-            color: #8b5cf6;
-            transition: .25s;
-        }
-        .drawer-nav a:hover {
-            background: rgba(139, 92, 246, .12);
-            color: #fff;
-            padding-left: 24px;
-        }
-        .drawer-nav a:hover i {
-            color: #a855f7;
-            transform: scale(1.1);
-        }
+    /* Nav Sidebar */
+    .sidebar {
+      position: fixed; top: 0; left: -280px; width: 280px; height: 100vh;
+      background: rgba(18, 0, 24, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      z-index: 1100; border-right: 1px solid rgba(139, 92, 246, 0.2); padding: 2rem;
+      display: flex; flex-direction: column; gap: 2rem; transition: var(--transition);
+    }
+    .sidebar.active { left: 0; box-shadow: 10px 0 30px rgba(139, 92, 246, 0.15); }
+    .sidebar-header { display: flex; justify-content: space-between; align-items: center; }
+    .sidebar-header h3 { font-size: 1.5rem; font-weight: 700; background: linear-gradient(to right, #ffffff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .sidebar-links { display: flex; flex-direction: column; gap: 1.5rem; }
+    .sidebar-links a { font-size: 1.1rem; display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem; border-radius: 8px; transition: var(--transition); }
+    .sidebar-links a:hover { background: rgba(139, 92, 246, 0.15); color: var(--primary); transform: translateX(5px); }
+    .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 1050; opacity: 0; pointer-events: none; transition: var(--transition); }
+    .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
 
-        /* ----- SEARCH OVERLAY (same) ----- */
-        .search-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(5, 5, 5, .92);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 24px;
-            opacity: 0;
-            visibility: hidden;
-            transition: .4s;
-        }
-        .search-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .search-close {
-            align-self: flex-end;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 32px;
-            cursor: pointer;
-            transition: .2s;
-            padding: 8px;
-        }
-        .search-close:hover {
-            color: #a855f7;
-            transform: rotate(90deg);
-        }
-        .search-input-wrap {
-            width: 100%;
-            max-width: 680px;
-            margin-top: 20px;
-            position: relative;
-        }
-        .search-input-wrap input {
-            width: 100%;
-            padding: 18px 22px;
-            font-size: 20px;
-            border: 2px solid rgba(139, 92, 246, .3);
-            border-radius: 60px;
-            background: rgba(255, 255, 255, .05);
-            color: #fff;
-            outline: none;
-            transition: .3s;
-            font-weight: 400;
-        }
-        .search-input-wrap input:focus {
-            border-color: #8b5cf6;
-            box-shadow: 0 0 40px rgba(139, 92, 246, .15);
-        }
-        .search-input-wrap input::placeholder {
-            color: rgba(255, 255, 255, .4);
-        }
-        .search-results {
-            width: 100%;
-            max-width: 680px;
-            margin-top: 28px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 18px;
-            max-height: 60vh;
-            overflow-y: auto;
-            padding: 4px;
-        }
-        .search-results .result-card {
-            background: rgba(255, 255, 255, .04);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: .3s;
-            cursor: pointer;
-            border: 1px solid rgba(139, 92, 246, .08);
-        }
-        .search-results .result-card:hover {
-            transform: scale(1.04);
-            border-color: #8b5cf6;
-            box-shadow: 0 0 30px rgba(139, 92, 246, .15);
-        }
-        .search-results .result-card img {
-            width: 100%;
-            aspect-ratio: 2/3;
-            object-fit: cover;
-        }
-        .search-results .result-card .info {
-            padding: 10px 12px 14px;
-        }
-        .search-results .result-card .info h4 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .search-results .result-card .info span {
-            font-size: 12px;
-            color: #aaa;
-        }
-        .search-no-results {
-            color: #888;
-            font-size: 18px;
-            text-align: center;
-            padding: 40px 0;
-            grid-column: 1 / -1;
-        }
+    /* Core Discover Interface Layout */
+    .discover-container { padding: 2rem 4rem; flex: 1; display: flex; flex-direction: column; gap: 2rem; }
+    .page-title { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, #fff 0%, var(--primary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    
+    /* Filtering Dashboard block */
+    .filter-panel {
+      background: rgba(18, 0, 24, 0.45); border: 1px solid rgba(139,92,246,0.15);
+      border-radius: 16px; padding: 1.5rem; backdrop-filter: blur(10px);
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem;
+    }
+    .filter-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .filter-group label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .filter-group select, .filter-group input {
+      background: rgba(5,5,5,0.8); border: 1px solid rgba(139,92,246,0.25);
+      color: #fff; padding: 0.75rem 1rem; border-radius: 8px; outline: none; font-size: 0.95rem;
+      transition: var(--transition);
+    }
+    .filter-group select:focus, .filter-group input:focus { border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
 
-        /* ----- FOOTER (same) ----- */
-        footer {
-            background: #08080c;
-            border-top: 1px solid rgba(139, 92, 246, .15);
-            padding: 40px 24px 30px;
-            margin-top: 60px;
-        }
-        .footer-inner {
-            max-width: 1440px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .footer-banner {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 24px;
-        }
-        .footer-banner a {
-            display: inline-block;
-        }
-        .footer-banner img {
-            max-height: 48px;
-            width: auto;
-            filter: drop-shadow(0 0 30px rgba(139, 92, 246, .25));
-            border-radius: 4px;
-            transition: filter .3s;
-        }
-        .footer-banner img:hover {
-            filter: drop-shadow(0 0 50px rgba(139, 92, 246, .6));
-        }
-        .footer-socials {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .footer-socials a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, .04);
-            color: #bbb;
-            font-size: 20px;
-            transition: .3s;
-            border: 1px solid rgba(139, 92, 246, .06);
-        }
-        .footer-socials a:hover {
-            background: rgba(139, 92, 246, .15);
-            color: #a855f7;
-            transform: scale(1.12);
-            box-shadow: 0 0 30px rgba(139, 92, 246, .2);
-            border-color: #8b5cf6;
-        }
-        .footer-disclaimer {
-            max-width: 720px;
-            margin: 16px auto 12px;
-            font-size: 13px;
-            color: #666;
-            line-height: 1.7;
-            padding: 0 12px;
-        }
-        .footer-copy {
-            font-size: 14px;
-            color: #555;
-        }
-        .footer-copy span {
-            color: #8b5cf6;
-        }
+    /* Search Input Overlay container inside Discover */
+    .local-search-group { grid-column: 1 / -1; }
+    .local-search-input-wrapper { position: relative; width: 100%; }
+    .local-search-input-wrapper i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+    .local-search-input-wrapper input { width: 100%; padding-left: 2.75rem !important; }
 
-        /* ----- RESPONSIVE ----- */
-        @media (max-width: 768px) {
-            .header-inner {
-                padding: 0 14px;
-                gap: 8px;
-            }
-            .header-logo img {
-                max-height: 38px;
-            }
-            .hamburger {
-                font-size: 22px;
-                padding: 4px 8px;
-            }
-            .header-search {
-                font-size: 18px;
-                padding: 4px 8px;
-            }
-            .drawer {
-                width: 280px;
-                left: -290px;
-                padding: 24px 16px;
-            }
-            .drawer-nav a {
-                font-size: 15px;
-                padding: 12px 14px;
-            }
-            .search-input-wrap input {
-                font-size: 17px;
-                padding: 14px 18px;
-            }
-            .search-results {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-                gap: 12px;
-            }
-            .footer-socials {
-                gap: 16px;
-            }
-            .footer-socials a {
-                width: 40px;
-                height: 40px;
-                font-size: 17px;
-            }
-            .footer-banner img {
-                max-height: 36px;
-            }
-            .container {
-                padding: 0 14px;
-            }
-        }
-        @media (max-width: 480px) {
-            .header-logo img {
-                max-height: 30px;
-            }
-            .search-results {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-                gap: 10px;
-            }
-            .drawer {
-                width: 260px;
-                left: -270px;
-            }
-        }
-        @media (min-width: 1600px) {
-            .container {
-                padding: 0 40px;
-            }
-            .header-inner {
-                padding: 0 40px;
-            }
-        }
+    /* Catalog Content Grid */
+    .catalog-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem; min-height: 400px;
+    }
+    .media-card {
+      background: var(--bg-card); border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.08);
+      position: relative; overflow: hidden; cursor: pointer; transition: var(--transition); aspect-ratio: 2/3;
+    }
+    .media-card img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+    .media-card:hover { border-color: var(--primary); transform: translateY(-5px) scale(1.02); box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3); }
+    .media-card:hover img { transform: scale(1.05); }
+    .card-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(5,5,5,1) 30%, rgba(5,5,5,0.8) 70%, rgba(5,5,5,0));
+      padding: 1.5rem 0.75rem 0.75rem 0.75rem; display: flex; flex-direction: column; gap: 0.25rem;
+    }
+    .card-title { font-size: 0.9rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-meta { font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; justify-content: space-between; }
+    .badge { background: var(--primary); color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+    .card-rating { color: #f59e0b; font-weight: 600; display: flex; align-items: center; gap: 2px; }
 
-        /* ----- DISCOVER SPECIFIC ----- */
-        .discover-header {
-            padding: 32px 0 12px;
-            border-bottom: 1px solid rgba(139, 92, 246, .08);
-            margin-bottom: 28px;
-        }
-        .discover-header h1 {
-            font-size: clamp(28px, 4vw, 48px);
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        .discover-header h1 i {
-            color: #8b5cf6;
-        }
-        .filter-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 14px 20px;
-            align-items: center;
-            padding: 16px 0 8px;
-            border-bottom: 1px solid rgba(139, 92, 246, .06);
-            margin-bottom: 24px;
-        }
-        .filter-bar select,
-        .filter-bar input {
-            background: rgba(255, 255, 255, .04);
-            border: 1px solid rgba(139, 92, 246, .15);
-            border-radius: 40px;
-            padding: 10px 20px;
-            color: #fff;
-            font-size: 14px;
-            outline: none;
-            transition: .3s;
-            cursor: pointer;
-            min-width: 130px;
-            backdrop-filter: blur(4px);
-        }
-        .filter-bar select option {
-            background: #0a0a0f;
-            color: #fff;
-        }
-        .filter-bar select:focus,
-        .filter-bar input:focus {
-            border-color: #8b5cf6;
-            box-shadow: 0 0 30px rgba(139, 92, 246, .1);
-        }
-        .filter-bar input::placeholder {
-            color: #777;
-        }
-        .filter-bar .toggle-group {
-            display: flex;
-            gap: 0;
-            border-radius: 40px;
-            overflow: hidden;
-            border: 1px solid rgba(139, 92, 246, .15);
-            background: rgba(255, 255, 255, .03);
-        }
-        .filter-bar .toggle-group button {
-            background: transparent;
-            border: none;
-            color: #aaa;
-            padding: 10px 22px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: .25s;
-        }
-        .filter-bar .toggle-group button.active {
-            background: #8b5cf6;
-            color: #fff;
-            box-shadow: 0 0 25px rgba(139, 92, 246, .2);
-        }
-        .filter-bar .toggle-group button:hover:not(.active) {
-            color: #fff;
-            background: rgba(139, 92, 246, .08);
-        }
+    /* Infinite Scroll Sentinel indicator triggers */
+    .sentinel { height: 60px; display: flex; align-items: center; justify-content: center; margin-top: 2rem; }
+    .spinner { border: 4px solid rgba(255,255,255,0.1); border-left-color: var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-        .discover-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-            gap: 22px;
-            padding: 8px 0 30px;
-        }
-        .discover-grid .card {
-            background: rgba(255, 255, 255, .03);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: .3s;
-            border: 1px solid rgba(139, 92, 246, .06);
-            cursor: pointer;
-        }
-        .discover-grid .card:hover {
-            transform: scale(1.04);
-            border-color: #8b5cf6;
-            box-shadow: 0 0 40px rgba(139, 92, 246, .12);
-        }
-        .discover-grid .card img {
-            width: 100%;
-            aspect-ratio: 2/3;
-            object-fit: cover;
-            background: #0a0a0f;
-        }
-        .discover-grid .card .info {
-            padding: 12px 14px 16px;
-        }
-        .discover-grid .card .info h4 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .discover-grid .card .info .meta {
-            font-size: 12px;
-            color: #888;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .discover-grid .card .info .meta i {
-            color: #8b5cf6;
-            font-size: 11px;
-        }
-        .load-more {
-            display: flex;
-            justify-content: center;
-            padding: 20px 0 40px;
-        }
-        .load-more button {
-            background: rgba(139, 92, 246, .12);
-            border: 1px solid rgba(139, 92, 246, .2);
-            color: #fff;
-            padding: 14px 44px;
-            border-radius: 60px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: .3s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .load-more button:hover {
-            background: #8b5cf6;
-            box-shadow: 0 0 40px rgba(139, 92, 246, .2);
-            transform: scale(1.02);
-        }
+    /* Footer styling */
+    .footer {
+      background: #040206; border-top: 1px solid rgba(139, 92, 246, 0.15);
+      padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+      margin-top: auto; text-align: center;
+    }
+    .footer-banner-container { margin-bottom: 0.5rem; }
+    .footer-banner { height: 50px; object-fit: contain; filter: drop-shadow(0 0 8px var(--primary-glow)); }
+    .social-links { display: flex; gap: 1.5rem; }
+    .social-links a {
+      font-size: 1.5rem; color: var(--text-muted); transition: var(--transition);
+      display: flex; align-items: center; justify-content: center; width: 45px; height: 45px;
+      border-radius: 50%; background: rgba(255,255,255,0.02); border: 1px solid rgba(139, 92, 246, 0.05);
+    }
+    .social-links a:hover {
+      color: var(--primary); transform: scale(1.15) translateY(-3px);
+      box-shadow: 0 0 15px var(--primary-glow); border-color: var(--primary); background: rgba(139, 92, 246, 0.1);
+    }
+    .disclaimer { font-size: 0.8rem; color: #6b7280; max-width: 800px; line-height: 1.6; }
+    .copyright { font-size: 0.85rem; color: var(--text-muted); }
 
-        /* infinite scroll sentinel */
-        #scrollSentinel {
-            height: 20px;
-            width: 100%;
-        }
+    /* Skeleton Loading placeholder layout */
+    .skeleton { background: linear-gradient(90deg, #120018 25%, #230b30 50%, #120018 75%); background-size: 200% 100%; animation: loadingSkeleton 1.5s infinite; }
+    @keyframes loadingSkeleton { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-        @media (max-width: 600px) {
-            .discover-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-                gap: 14px;
-            }
-            .filter-bar {
-                gap: 10px;
-            }
-            .filter-bar select,
-            .filter-bar input {
-                min-width: 100px;
-                font-size: 13px;
-                padding: 8px 14px;
-            }
-            .filter-bar .toggle-group button {
-                padding: 8px 14px;
-                font-size: 13px;
-            }
-        }
-    </style>
+    @media (max-width: 768px) {
+      .discover-container { padding: 1.5rem; }
+      .navbar { padding: 0.75rem 1rem; }
+      .desktop-menu { display: none; }
+      .filter-panel { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
-    <header>
-        <div class="header-inner">
-            <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="header-logo">
-                <a href="https://www.namitube.eu.org/">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
-                </a>
-            </div>
-            <button class="header-search" id="searchBtn" aria-label="Search">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-    </header>
+  <!-- Core Sticky Header block -->
+  <header class="navbar">
+    <div class="nav-left">
+      <button class="menu-btn" aria-label="Open Navigation Menu"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <div class="nav-center">
+      <a href="index.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube Original logo banner" class="nav-banner">
+      </a>
+    </div>
+    <div class="nav-right">
+      <nav class="desktop-menu">
+        <a href="index.html">Home</a>
+        <a href="discover.html">Discover</a>
+        <a href="donate.html">Donate</a>
+        <a href="creator.html">Creator</a>
+      </nav>
+      <button class="search-btn" aria-label="Open Fullscreen Search Menu"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+  </header>
 
-    <!-- ===== DRAWER ===== -->
-    <div class="drawer-overlay" id="drawerOverlay"></div>
-    <div class="drawer" id="drawer">
-        <button class="drawer-close" id="drawerClose"><i class="fas fa-times"></i></button>
-        <div class="drawer-logo">
-            <a href="https://www.namitube.eu.org/">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
-            </a>
+  <!-- Sidebar menu -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3>Menu</h3>
+      <button class="close-sidebar"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <nav class="sidebar-links">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="discover.html"><i class="fa-solid fa-compass"></i> Discover</a>
+      <a href="donate.html"><i class="fa-solid fa-heart"></i> Donate</a>
+      <a href="creator.html"><i class="fa-solid fa-user"></i> Creator</a>
+    </nav>
+  </div>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- Discover main workspace -->
+  <main class="discover-container">
+    <h1 class="page-title">Discover Animation Catalog</h1>
+
+    <!-- Filter Dashboard elements -->
+    <div class="filter-panel">
+      <div class="filter-group local-search-group">
+        <label>Query Search</label>
+        <div class="local-search-input-wrapper">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="local-search" placeholder="Type name, keywords or studio tags..." autocomplete="off">
         </div>
-        <nav class="drawer-nav">
-            <a href="https://www.namitube.eu.org/"><i class="fas fa-house"></i> Home</a>
-            <a href="discover.html"><i class="fas fa-compass"></i> Discover</a>
-            <a href="donate.html"><i class="fas fa-hand-holding-heart"></i> Donate</a>
-            <a href="creator.html"><i class="fas fa-star"></i> Creator</a>
-        </nav>
+      </div>
+      <div class="filter-group">
+        <label>Media Format</label>
+        <select id="filter-type">
+          <option value="all">All Formats</option>
+          <option value="movie">Movies</option>
+          <option value="tv">TV Series</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Sub-Genre</label>
+        <select id="filter-genre">
+          <option value="16">All Animation</option>
+          <option value="28">Action</option>
+          <option value="12">Adventure</option>
+          <option value="35">Comedy</option>
+          <option value="14">Fantasy</option>
+          <option value="878">Sci-Fi</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Release Year</label>
+        <input type="number" id="filter-year" placeholder="e.g. 2024" min="1950" max="2026">
+      </div>
+      <div class="filter-group">
+        <label>Sorting Metric</label>
+        <select id="filter-sort">
+          <option value="popularity.desc">Most Popular</option>
+          <option value="vote_average.desc">Highest Rated</option>
+          <option value="first_air_date.desc">Recently Released</option>
+        </select>
+      </div>
     </div>
 
-    <!-- ===== SEARCH OVERLAY ===== -->
-    <div class="search-overlay" id="searchOverlay">
-        <button class="search-close" id="searchClose"><i class="fas fa-times"></i></button>
-        <div class="search-input-wrap">
-            <input type="text" id="searchInput" placeholder="Search animation &amp; anime..." autofocus />
-        </div>
-        <div class="search-results" id="searchResults"></div>
+    <!-- Active Media Display Grid -->
+    <div class="catalog-grid" id="catalog-grid"></div>
+
+    <!-- Scroll target detector sentinel -->
+    <div class="sentinel" id="sentinel">
+      <div class="spinner"></div>
     </div>
+  </main>
 
-    <!-- ===== MAIN ===== -->
-    <main>
-        <div class="container">
-            <div class="discover-header">
-                <h1><i class="fas fa-compass"></i> Discover</h1>
-                <p style="color:#888;margin-top:4px;font-size:15px;">Explore the finest animation &amp; anime, filtered just for you.</p>
-            </div>
+  <footer class="footer">
+    <div class="footer-banner-container">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube Footer Logo" class="footer-banner">
+    </div>
+    <div class="social-links">
+      <a href="#" aria-label="Facebook Link"><i class="fa-brands fa-facebook"></i></a>
+      <a href="#" aria-label="X Twitter Link"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="#" aria-label="Instagram Link"><i class="fa-brands fa-instagram"></i></a>
+      <a href="#" aria-label="Discord Link"><i class="fa-brands fa-discord"></i></a>
+      <a href="#" aria-label="Telegram Link"><i class="fa-brands fa-telegram"></i></a>
+      <a href="#" aria-label="GitHub Link"><i class="fa-brands fa-github"></i></a>
+    </div>
+    <p class="disclaimer">
+      This website does not host any video content on its servers. All media content is embedded from third-party providers. We do not store or upload any videos. All trademarks, logos, and content belong to their respective owners.
+    </p>
+    <p class="copyright">
+      &copy; 2026 NamiTube. All Rights Reserved. Powered by TMDB API.
+    </p>
+  </footer>
 
-            <!-- FILTERS -->
-            <div class="filter-bar" id="filterBar">
-                <select id="genreFilter">
-                    <option value="">All Genres</option>
-                    <option value="16">Animation</option>
-                    <option value="12">Adventure</option>
-                    <option value="14">Fantasy</option>
-                    <option value="28">Action</option>
-                    <option value="35">Comedy</option>
-                    <option value="18">Drama</option>
-                    <option value="27">Horror</option>
-                    <option value="878">Sci-Fi</option>
-                    <option value="53">Thriller</option>
-                    <option value="10749">Romance</option>
-                </select>
+  <script>
+    const TMDB_API_KEY = "e10da2e2cbb23ea7ebfb64c3a188b64a";
+    const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 
-                <select id="yearFilter">
-                    <option value="">All Years</option>
-                    <option value="2026">2026</option>
-                    <option value="2025">2025</option>
-                    <option value="2024">2024</option>
-                    <option value="2023">2023</option>
-                    <option value="2022">2022</option>
-                    <option value="2021">2021</option>
-                    <option value="2020">2020</option>
-                    <option value="2019">2019</option>
-                    <option value="2018">2018</option>
-                    <option value="2015">2015</option>
-                    <option value="2010">2010</option>
-                    <option value="2000">2000</option>
-                    <option value="1990">1990</option>
-                </select>
+    // Dynamic drawer implementation
+    const menuBtn = document.querySelector('.menu-btn');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const closeSidebarBtn = document.querySelector('.close-sidebar');
 
-                <select id="sortFilter">
-                    <option value="popularity.desc">Popularity</option>
-                    <option value="vote_average.desc">Rating</option>
-                    <option value="release_date.desc">Newest</option>
-                    <option value="release_date.asc">Oldest</option>
-                    <option value="trending">Trending</option>
-                </select>
+    function toggleSidebar(open) {
+      sidebar.classList.toggle('active', open);
+      sidebarOverlay.classList.toggle('active', open);
+    }
+    menuBtn.addEventListener('click', () => toggleSidebar(true));
+    closeSidebarBtn.addEventListener('click', () => toggleSidebar(false));
+    sidebarOverlay.addEventListener('click', () => toggleSidebar(false));
 
-                <div class="toggle-group" id="mediaToggle">
-                    <button class="active" data-type="movie">Movies</button>
-                    <button data-type="tv">TV Series</button>
-                    <button data-type="all">All</button>
-                </div>
+    // Discover Grid & Pagination States
+    let page = 1;
+    let loading = false;
+    let hasMore = true;
+    let currentQuery = "";
 
-                <input type="text" id="discoverSearch" placeholder="Search within discover..." style="flex:1;min-width:160px;" />
-            </div>
+    const catalogGrid = document.getElementById('catalog-grid');
+    const sentinel = document.getElementById('sentinel');
 
-            <!-- GRID -->
-            <div class="discover-grid" id="discoverGrid"></div>
-            <div id="scrollSentinel"></div>
-            <div class="load-more">
-                <button id="loadMoreBtn"><i class="fas fa-sync-alt"></i> Load More</button>
-            </div>
-        </div>
-    </main>
+    const filterType = document.getElementById('filter-type');
+    const filterGenre = document.getElementById('filter-genre');
+    const filterYear = document.getElementById('filter-year');
+    const filterSort = document.getElementById('filter-sort');
+    const localSearch = document.getElementById('local-search');
 
-    <!-- ===== FOOTER ===== -->
-    <footer>
-        <div class="footer-inner">
-            <div class="footer-banner">
-                <a href="https://www.namitube.eu.org/">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
-                </a>
-            </div>
-            <div class="footer-socials">
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
-                <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
-                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-            </div>
-            <div class="footer-disclaimer">
-                This website does not host any video content on its servers. All media content is embedded from third-party providers. We do not store or upload any videos. All trademarks, logos, and content belong to their respective owners.
-            </div>
-            <div class="footer-copy">
-                &copy; 2026 <span>NamiTube</span>. All Rights Reserved.<br />
-                Powered by TMDB API
-            </div>
-        </div>
-    </footer>
+    // Generate Discover list fetch logic
+    async function loadCatalog(reset = false) {
+      if (loading) return;
+      loading = true;
+      sentinel.style.visibility = 'visible';
 
-    <!-- ===== SCRIPT ===== -->
-    <script>
-        // ============================================================
-        //  CONFIG
-        // ============================================================
-        const TMDB_API_KEY = "e10da2e2cbb23ea7ebfb64c3a188b64a";
-        const TMDB_BASE = "https://api.themoviedb.org/3";
-        const TMDB_IMG = "https://image.tmdb.org/t/p";
-        const GENRE_ID = 16;
+      if (reset) {
+        page = 1;
+        catalogGrid.innerHTML = Array(12).fill().map(() => `<div class="media-card skeleton"></div>`).join('');
+        hasMore = true;
+      }
 
-        // ============================================================
-        //  DRAWER
-        // ============================================================
-        const hamburger = document.getElementById('hamburgerBtn');
-        const drawer = document.getElementById('drawer');
-        const overlay = document.getElementById('drawerOverlay');
-        const closeBtn = document.getElementById('drawerClose');
+      try {
+        let endpoint = "";
+        let params = `api_key=${TMDB_API_KEY}&page=${page}`;
 
-        function openDrawer() { drawer.classList.add('open');
-            overlay.classList.add('active'); }
+        const type = filterType.value;
+        const genre = filterGenre.value;
+        const year = filterYear.value;
+        const sort = filterSort.value;
+        const searchVal = localSearch.value.trim();
 
-        function closeDrawer() { drawer.classList.remove('open');
-            overlay.classList.remove('active'); }
-        hamburger.addEventListener('click', openDrawer);
-        closeBtn.addEventListener('click', closeDrawer);
-        overlay.addEventListener('click', closeDrawer);
+        if (searchVal) {
+          endpoint = "search/multi";
+          params += `&query=${encodeURIComponent(searchVal)}`;
+        } else {
+          endpoint = type === "all" ? "discover/tv" : `discover/${type}`;
+          // Add Genre 16 if not using custom subgenres. If custom, append custom.
+          if (genre === "16") {
+            params += `&with_genres=16`;
+          } else {
+            params += `&with_genres=16,${genre}`;
+          }
+          if (year) {
+            params += type === "movie" ? `&primary_release_year=${year}` : `&first_air_date_year=${year}`;
+          }
+          params += `&sort_by=${sort}`;
+        }
 
-        // ============================================================
-        //  SEARCH (same as index)
-        // ============================================================
-        const searchBtn = document.getElementById('searchBtn');
-        const searchOverlay = document.getElementById('searchOverlay');
-        const searchClose = document.getElementById('searchClose');
-        const searchInput = document.getElementById('searchInput');
-        const searchResults = document.getElementById('searchResults');
-        let searchTimeout = null;
-
-        function openSearch() { searchOverlay.classList.add('active');
-            setTimeout(() => searchInput.focus(), 200); }
-
-        function closeSearch() { searchOverlay.classList.remove('active');
-            searchResults.innerHTML = '';
-            searchInput.value = ''; }
-        searchBtn.addEventListener('click', openSearch);
-        searchClose.addEventListener('click', closeSearch);
-
-        searchInput.addEventListener('input', function() {
-            clearTimeout(searchTimeout);
-            const q = this.value.trim();
-            if (q.length < 2) { searchResults.innerHTML = ''; return; }
-            searchTimeout = setTimeout(() => performSearch(q), 400);
+        const res = await fetch(`${TMDB_BASE_URL}/${endpoint}?${params}`);
+        const data = await res.json();
+        
+        let results = data.results || [];
+        
+        // Ensure rigorous validation of Animation Genre ID 16 across endpoints
+        results = results.filter(item => {
+          const validMedia = (item.media_type === 'movie' || item.media_type === 'tv' || !item.media_type);
+          return validMedia && item.genre_ids && item.genre_ids.includes(16);
         });
 
-        async function performSearch(query) {
-            try {
-                const url =
-                    `${TMDB_BASE}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&with_genres=${GENRE_ID}`;
-                const res = await fetch(url);
-                const data = await res.json();
-                let results = data.results || [];
-                results = results.filter(item =>
-                    (item.media_type === 'movie' || item.media_type === 'tv') &&
-                    item.genre_ids && item.genre_ids.includes(GENRE_ID)
-                );
-                if (!results.length) {
-                    searchResults.innerHTML = '<div class="search-no-results">No animation results found.</div>';
-                    return;
-                }
-                let html = '';
-                results.slice(0, 20).forEach(item => {
-                    const id = item.id;
-                    const type = item.media_type;
-                    const title = item.title || item.name || 'Untitled';
-                    const poster = `${TMDB_IMG}/w200${item.poster_path}`;
-                    const year = (item.release_date || item.first_air_date || '').slice(0, 4);
-                    const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
-                    html += `
-                        <div class="result-card" onclick="location.href='info.html?id=${id}&type=${type}'">
-                            <img src="${poster}" alt="${title}" loading="lazy" />
-                            <div class="info"><h4>${title}</h4><span>${year} · ${rating} ⭐</span></div>
-                        </div>
-                    `;
-                });
-                searchResults.innerHTML = html;
-            } catch (e) { searchResults.innerHTML = '<div class="search-no-results">Error loading results.</div>'; }
+        if (results.length === 0) {
+          hasMore = false;
+          if (reset) catalogGrid.innerHTML = '<p class="no-results" style="grid-column:1/-1;">No matching animation titles discovered.</p>';
+        } else {
+          if (reset) catalogGrid.innerHTML = "";
+          renderCatalogItems(results);
+          page++;
         }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        loading = false;
+        sentinel.style.visibility = hasMore ? 'visible' : 'hidden';
+      }
+    }
 
-        // ============================================================
-        //  DISCOVER ENGINE
-        // ============================================================
-        const grid = document.getElementById('discoverGrid');
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const genreFilter = document.getElementById('genreFilter');
-        const yearFilter = document.getElementById('yearFilter');
-        const sortFilter = document.getElementById('sortFilter');
-        const mediaToggle = document.getElementById('mediaToggle');
-        const discoverSearch = document.getElementById('discoverSearch');
+    function renderCatalogItems(items) {
+      const fragment = document.createDocumentFragment();
+      items.forEach(item => {
+        const type = item.media_type || (filterType.value !== "all" ? filterType.value : (item.release_date ? "movie" : "tv"));
+        const title = item.title || item.name || 'Untitled';
+        const date = item.release_date || item.first_air_date || '';
+        const year = date ? new Date(date).getFullYear() : 'N/A';
+        const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
+        const poster = item.poster_path ? `https://image.tmdb.org/t/p/w342${item.poster_path}` : 'https://via.placeholder.com/342x513?text=No+Poster';
 
-        let state = {
-            page: 1,
-            type: 'movie', // 'movie' | 'tv' | 'all'
-            genre: '',
-            year: '',
-            sort: 'popularity.desc',
-            query: '',
-            loading: false,
-            hasMore: true,
-            items: []
-        };
+        const card = document.createElement('div');
+        card.className = "media-card";
+        card.setAttribute('onclick', `window.location.href='info.html?id=${item.id}&type=${type}'`);
+        card.innerHTML = `
+          <img src="${poster}" alt="${title}" loading="lazy">
+          <div class="card-info">
+            <span class="card-title">${title}</span>
+            <div class="card-meta">
+              <span class="card-rating"><i class="fa-solid fa-star"></i> ${rating}</span>
+              <span class="badge">${type}</span>
+            </div>
+          </div>
+        `;
+        fragment.appendChild(card);
+      });
+      catalogGrid.appendChild(fragment);
+    }
 
-        function getEndpoint() {
-            if (state.type === 'all') return '/discover/movie'; // we'll fetch both later
-            return state.type === 'movie' ? '/discover/movie' : '/discover/tv';
-        }
+    // Dynamic filtering execution with debounce on local query search
+    let inputDebounce = null;
+    function triggerFilterReset() {
+      loadCatalog(true);
+    }
+    
+    filterType.addEventListener('change', triggerFilterReset);
+    filterGenre.addEventListener('change', triggerFilterReset);
+    filterYear.addEventListener('input', triggerFilterReset);
+    filterSort.addEventListener('change', triggerFilterReset);
+    localSearch.addEventListener('input', () => {
+      clearTimeout(inputDebounce);
+      inputDebounce = setTimeout(triggerFilterReset, 400);
+    });
 
-        function buildParams() {
-            let params = `&with_genres=${GENRE_ID}`;
-            if (state.genre && state.genre !== '16') params += `,${state.genre}`;
-            if (state.year) params += `&primary_release_year=${state.year}`;
-            if (state.sort === 'trending') {
-                return { isTrending: true };
-            }
-            if (state.sort && state.sort !== 'trending') {
-                params += `&sort_by=${state.sort}`;
-            }
-            params += `&page=${state.page}`;
-            return { isTrending: false, params };
-        }
+    // Initialize IntersectionObserver for Infinite Scroll Mechanics
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && hasMore && !loading) {
+        loadCatalog();
+      }
+    }, { rootMargin: '200px' });
 
-        async function fetchDiscover() {
-            if (state.loading) return;
-            state.loading = true;
-            loadMoreBtn.disabled = true;
-            loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
-
-            try {
-                const { isTrending, params } = buildParams();
-                let items = [];
-
-                if (isTrending) {
-                    const url = `${TMDB_BASE}/trending/${state.type === 'all' ? 'movie' : state.type}/week?api_key=${TMDB_API_KEY}`;
-                    const res = await fetch(url);
-                    const data = await res.json();
-                    items = (data.results || []).filter(item =>
-                        item.genre_ids && item.genre_ids.includes(GENRE_ID)
-                    ).map(item => ({ ...item, media_type: item.media_type || state.type }));
-                } else if (state.type === 'all') {
-                    const [mRes, tRes] = await Promise.all([
-                        fetch(`${TMDB_BASE}/discover/movie?api_key=${TMDB_API_KEY}${params}`),
-                        fetch(`${TMDB_BASE}/discover/tv?api_key=${TMDB_API_KEY}${params}`)
-                    ]);
-                    const mData = await mRes.json();
-                    const tData = await tRes.json();
-                    const movies = (mData.results || []).map(m => ({ ...m, media_type: 'movie' }));
-                    const tv = (tData.results || []).map(t => ({ ...t, media_type: 'tv' }));
-                    items = [...movies, ...tv];
-                    if (state.sort === 'popularity.desc') {
-                        items.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
-                    } else if (state.sort === 'vote_average.desc') {
-                        items.sort((a, b) => (b.vote_average || 0) - (a.vote_average || 0));
-                    } else if (state.sort === 'release_date.desc') {
-                        items.sort((a, b) => (b.release_date || b.first_air_date || '').localeCompare(a.release_date || a
-                            .first_air_date || ''));
-                    }
-                    const start = (state.page - 1) * 20;
-                    items = items.slice(start, start + 20);
-                } else {
-                    const url = `${TMDB_BASE}${getEndpoint()}?api_key=${TMDB_API_KEY}${params}`;
-                    const res = await fetch(url);
-                    const data = await res.json();
-                    items = (data.results || []).map(item => ({ ...item, media_type: state.type }));
-                }
-
-                if (state.query) {
-                    const q = state.query.toLowerCase();
-                    items = items.filter(item =>
-                        (item.title || item.name || '').toLowerCase().includes(q)
-                    );
-                }
-
-                if (state.page === 1) state.items = [];
-                state.items = [...state.items, ...items];
-                renderGrid(items);
-                state.hasMore = items.length >= 20;
-                state.page++;
-            } catch (e) {
-                console.error('Discover error:', e);
-            } finally {
-                state.loading = false;
-                loadMoreBtn.disabled = false;
-                loadMoreBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Load More';
-            }
-        }
-
-        function renderGrid(newItems) {
-            if (state.page === 1) grid.innerHTML = '';
-            let html = '';
-            newItems.forEach(item => {
-                const id = item.id;
-                const type = item.media_type || 'movie';
-                const title = item.title || item.name || 'Untitled';
-                const poster = `${TMDB_IMG}/w300${item.poster_path}`;
-                const year = (item.release_date || item.first_air_date || '').slice(0, 4);
-                const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
-                const isMovie = type === 'movie';
-                html += `
-                    <div class="card" onclick="location.href='info.html?id=${id}&type=${type}'">
-                        <img src="${poster}" alt="${title}" loading="lazy" />
-                        <div class="info">
-                            <h4>${title}</h4>
-                            <div class="meta">
-                                <span>${year}</span>
-                                <span><i class="fas fa-star" style="color:#fbbf24;"></i> ${rating}</span>
-                                <span style="background:rgba(139,92,246,.12);padding:0 10px;border-radius:20px;font-size:10px;">${isMovie ? 'Movie' : 'TV'}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            grid.insertAdjacentHTML('beforeend', html);
-        }
-
-        function resetDiscover() {
-            state.page = 1;
-            state.items = [];
-            state.hasMore = true;
-            grid.innerHTML = '';
-            fetchDiscover();
-        }
-
-        // Event listeners for filters
-        genreFilter.addEventListener('change', resetDiscover);
-        yearFilter.addEventListener('change', resetDiscover);
-        sortFilter.addEventListener('change', resetDiscover);
-        discoverSearch.addEventListener('input', function() {
-            clearTimeout(window.discoverSearchTimeout);
-            state.query = this.value.trim();
-            window.discoverSearchTimeout = setTimeout(resetDiscover, 500);
-        });
-
-        mediaToggle.querySelectorAll('button').forEach(btn => {
-            btn.addEventListener('click', function() {
-                mediaToggle.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                const val = this.dataset.type;
-                state.type = val;
-                resetDiscover();
-            });
-        });
-
-        loadMoreBtn.addEventListener('click', fetchDiscover);
-
-        // Infinite scroll sentinel
-        const sentinel = document.getElementById('scrollSentinel');
-        const observer = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && state.hasMore && !state.loading) {
-                fetchDiscover();
-            }
-        }, { rootMargin: '200px' });
-        observer.observe(sentinel);
-
-        // ============================================================
-        //  INIT
-        // ============================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            resetDiscover();
-        });
-
-        // keyboard escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (searchOverlay.classList.contains('active')) closeSearch();
-                if (drawer.classList.contains('open')) closeDrawer();
-            }
-        });
-    </script>
+    window.addEventListener('DOMContentLoaded', () => {
+      // Dynamic routing parse parameter support for Tag links from Home
+      const params = new URLSearchParams(window.location.search);
+      const genreParam = params.get('genre');
+      if (genreParam) {
+        filterGenre.value = genreParam;
+      }
+      
+      loadCatalog(true);
+      observer.observe(sentinel);
+    });
+  </script>
 </body>
 </html>
