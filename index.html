@@ -1,1084 +1,674 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NamiTube - Premium Animation Streaming</title>
-    <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHE6pMgjbJ6YDLaMAtDUZCs6Zhkvxl0_fQnb0c0ZCmJOYRB_4N8dQ0ZWosBq_sZPK2wFel2E43Z2meo25JL3i7IZYkJ35FZ7lZ_BZfwlWofAKGhF1gWpFsxofeGUr87Peu6s7xtgvJMnrbtNnd4vJPtB7uG3L_wJ9tT8PKRCh-PXSxlyY9Ufn8OAzDY_Y/s320/NamiTube%20Original%20Favicon.png" type="image/png" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <style>
-        /* ----- RESET & BASE ----- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #050505;
-            color: #fff;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        img {
-            display: block;
-            max-width: 100%;
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #8b5cf6;
-            border-radius: 12px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a855f7;
-        }
-        .container {
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NamiTube - Anime & Animation Streaming</title>
+  <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHE6pMgjbJ6YDLaMAtDUZCs6Zhkvxl0_fQnb0c0ZCmJOYRB_4N8dQ0ZWosBq_sZPK2wFel2E43Z2meo25JL3i7IZYkJ35FZ7lZ_BZfwlWofAKGhF1gWpFsxofeGUr87Peu6s7xtgvJMnrbtNnd4vJPtB7uG3L_wJ9tT8PKRCh-PXSxlyY9Ufn8OAzDY_Y/s320/NamiTube%20Original%20Favicon.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #050505;
+      --bg-card: rgba(18, 0, 24, 0.65);
+      --bg-card-hover: rgba(139, 92, 246, 0.15);
+      --primary: #8b5cf6;
+      --primary-glow: rgba(168, 85, 247, 0.6);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-family: 'Inter', -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      overflow-x: hidden;
+      max-width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: inherit; text-decoration: none; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #050505; }
+    ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
 
-        /* ----- GLOW UTILITY ----- */
-        .glow-text {
-            text-shadow: 0 0 40px rgba(139, 92, 246, .3);
-        }
-        .glow-border {
-            box-shadow: 0 0 30px rgba(139, 92, 246, .15);
-        }
+    /* Premium Sticky Header */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(5, 5, 5, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 2rem;
+      height: 70px;
+    }
+    .nav-left, .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-banner {
+      height: 48px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px var(--primary-glow));
+      transition: var(--transition);
+    }
+    .nav-banner:hover { transform: scale(1.03); filter: drop-shadow(0 0 15px #a855f7); }
+    .menu-btn, .search-btn, .close-search, .close-sidebar {
+      background: none; border: none; color: var(--text-main); font-size: 1.4rem;
+      cursor: pointer; transition: var(--transition); display: flex; align-items: center;
+      justify-content: center; width: 40px; height: 40px; border-radius: 50%;
+    }
+    .menu-btn:hover, .search-btn:hover, .close-search:hover, .close-sidebar:hover {
+      color: var(--primary); background: rgba(139, 92, 246, 0.1); box-shadow: 0 0 15px var(--primary-glow);
+    }
+    .desktop-menu { display: flex; gap: 2rem; font-weight: 500; font-size: 0.95rem; }
+    .desktop-menu a { position: relative; padding: 0.25rem 0; transition: var(--transition); }
+    .desktop-menu a::after {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+      background: var(--primary); transition: var(--transition); box-shadow: 0 0 8px var(--primary-glow);
+    }
+    .desktop-menu a:hover { color: var(--primary); }
+    .desktop-menu a:hover::after { width: 100%; }
 
-        /* ----- HEADER ----- */
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 999;
-            background: rgba(5, 5, 5, .85);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border-bottom: 1px solid rgba(139, 92, 246, .2);
-            padding: 10px 0;
-            transition: background .3s;
-        }
-        .header-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 0 24px;
-            gap: 16px;
-        }
-        .hamburger {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 26px;
-            cursor: pointer;
-            padding: 6px 10px;
-            border-radius: 8px;
-            transition: .2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .hamburger:hover {
-            background: rgba(139, 92, 246, .2);
-            color: #a855f7;
-        }
-        .header-logo {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-width: 0;
-        }
-        .header-logo img {
-            max-height: 52px;
-            width: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 0 30px rgba(139, 92, 246, .35));
-            transition: filter .3s;
-            border-radius: 4px;
-        }
-        .header-logo img:hover {
-            filter: drop-shadow(0 0 50px rgba(139, 92, 246, .6));
-        }
-        .header-search {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 22px;
-            cursor: pointer;
-            padding: 6px 10px;
-            border-radius: 8px;
-            transition: .2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .header-search:hover {
-            background: rgba(139, 92, 246, .2);
-            color: #a855f7;
-        }
+    /* Navigation Drawer */
+    .sidebar {
+      position: fixed; top: 0; left: -280px; width: 280px; height: 100vh;
+      background: rgba(18, 0, 24, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      z-index: 1100; border-right: 1px solid rgba(139, 92, 246, 0.2); padding: 2rem;
+      display: flex; flex-direction: column; gap: 2rem; transition: var(--transition);
+    }
+    .sidebar.active { left: 0; box-shadow: 10px 0 30px rgba(139, 92, 246, 0.15); }
+    .sidebar-header { display: flex; justify-content: space-between; align-items: center; }
+    .sidebar-header h3 {
+      font-size: 1.5rem; font-weight: 700;
+      background: linear-gradient(to right, #ffffff, var(--primary));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .sidebar-links { display: flex; flex-direction: column; gap: 1.5rem; }
+    .sidebar-links a {
+      font-size: 1.1rem; display: flex; align-items: center; gap: 1rem;
+      padding: 0.75rem 1rem; border-radius: 8px; transition: var(--transition);
+    }
+    .sidebar-links a:hover { background: rgba(139, 92, 246, 0.15); color: var(--primary); transform: translateX(5px); }
+    .sidebar-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px); z-index: 1050; opacity: 0; pointer-events: none; transition: var(--transition);
+    }
+    .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
 
-        /* ----- DRAWER ----- */
-        .drawer-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .7);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: .35s;
-        }
-        .drawer-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .drawer {
-            position: fixed;
-            top: 0;
-            left: -320px;
-            width: 300px;
-            height: 100vh;
-            background: #0a0a0f;
-            border-right: 1px solid rgba(139, 92, 246, .25);
-            z-index: 1001;
-            padding: 30px 20px;
-            transition: left .35s cubic-bezier(.22, 1, .36, 1);
-            overflow-y: auto;
-            box-shadow: 4px 0 40px rgba(0, 0, 0, .6);
-        }
-        .drawer.open {
-            left: 0;
-        }
-        .drawer-close {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 28px;
-            cursor: pointer;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            width: 100%;
-            padding: 4px 0;
-            transition: .2s;
-        }
-        .drawer-close:hover {
-            color: #a855f7;
-        }
-        .drawer-logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .drawer-logo img {
-            max-height: 44px;
-            width: auto;
-            margin: 0 auto;
-            filter: drop-shadow(0 0 20px rgba(139, 92, 246, .3));
-        }
-        .drawer-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .drawer-nav a {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 14px 18px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 500;
-            color: #ccc;
-            transition: .25s;
-            background: transparent;
-        }
-        .drawer-nav a i {
-            width: 24px;
-            text-align: center;
-            font-size: 18px;
-            color: #8b5cf6;
-            transition: .25s;
-        }
-        .drawer-nav a:hover {
-            background: rgba(139, 92, 246, .12);
-            color: #fff;
-            padding-left: 24px;
-        }
-        .drawer-nav a:hover i {
-            color: #a855f7;
-            transform: scale(1.1);
-        }
+    /* Global Search Overlay */
+    .search-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 5, 5, 0.98);
+      backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); z-index: 2000;
+      opacity: 0; pointer-events: none; transition: var(--transition); padding: 4rem 2rem;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .search-overlay.active { opacity: 1; pointer-events: auto; }
+    .close-search { position: absolute; top: 1.5rem; right: 2rem; }
+    .search-container { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 2rem; }
+    .search-container input {
+      width: 100%; background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(139, 92, 246, 0.3);
+      padding: 1rem 1.5rem; font-size: 1.25rem; border-radius: 50px; color: #fff; outline: none;
+      transition: var(--transition); box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    }
+    .search-container input:focus { border-color: var(--primary); box-shadow: 0 0 20px var(--primary-glow); }
+    .search-results-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem;
+      overflow-y: auto; max-height: 60vh; padding-right: 0.5rem;
+    }
+    .search-item {
+      background: var(--bg-card); border: 1px solid rgba(139, 92, 246, 0.1);
+      border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: var(--transition);
+    }
+    .search-item img { width: 100%; aspect-ratio: 2/3; object-fit: cover; transition: var(--transition); }
+    .search-item:hover img { transform: scale(1.05); }
+    .search-item:hover { border-color: var(--primary); box-shadow: 0 5px 15px rgba(139, 92, 246, 0.2); }
+    .search-item-info { padding: 0.75rem; }
+    .search-item-info h4 { font-size: 0.95rem; margin-bottom: 0.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .search-item-info p { font-size: 0.8rem; color: var(--text-muted); }
 
-        /* ----- SEARCH OVERLAY ----- */
-        .search-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(5, 5, 5, .92);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 24px;
-            opacity: 0;
-            visibility: hidden;
-            transition: .4s;
-        }
-        .search-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .search-close {
-            align-self: flex-end;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 32px;
-            cursor: pointer;
-            transition: .2s;
-            padding: 8px;
-        }
-        .search-close:hover {
-            color: #a855f7;
-            transform: rotate(90deg);
-        }
-        .search-input-wrap {
-            width: 100%;
-            max-width: 680px;
-            margin-top: 20px;
-            position: relative;
-        }
-        .search-input-wrap input {
-            width: 100%;
-            padding: 18px 22px;
-            font-size: 20px;
-            border: 2px solid rgba(139, 92, 246, .3);
-            border-radius: 60px;
-            background: rgba(255, 255, 255, .05);
-            color: #fff;
-            outline: none;
-            transition: .3s;
-            font-weight: 400;
-        }
-        .search-input-wrap input:focus {
-            border-color: #8b5cf6;
-            box-shadow: 0 0 40px rgba(139, 92, 246, .15);
-        }
-        .search-input-wrap input::placeholder {
-            color: rgba(255, 255, 255, .4);
-        }
-        .search-results {
-            width: 100%;
-            max-width: 680px;
-            margin-top: 28px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 18px;
-            max-height: 60vh;
-            overflow-y: auto;
-            padding: 4px;
-        }
-        .search-results .result-card {
-            background: rgba(255, 255, 255, .04);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: .3s;
-            cursor: pointer;
-            border: 1px solid rgba(139, 92, 246, .08);
-        }
-        .search-results .result-card:hover {
-            transform: scale(1.04);
-            border-color: #8b5cf6;
-            box-shadow: 0 0 30px rgba(139, 92, 246, .15);
-        }
-        .search-results .result-card img {
-            width: 100%;
-            aspect-ratio: 2/3;
-            object-fit: cover;
-        }
-        .search-results .result-card .info {
-            padding: 10px 12px 14px;
-        }
-        .search-results .result-card .info h4 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .search-results .result-card .info span {
-            font-size: 12px;
-            color: #aaa;
-        }
-        .search-no-results {
-            color: #888;
-            font-size: 18px;
-            text-align: center;
-            padding: 40px 0;
-            grid-column: 1 / -1;
-        }
+    /* Cinematic Hero Slider */
+    .hero {
+      position: relative; height: 70vh; width: 100%; overflow: hidden;
+      display: flex; align-items: center; border-bottom: 2px solid rgba(139, 92, 246, 0.15);
+    }
+    .hero-slide {
+      position: absolute; inset: 0; opacity: 0; transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex; align-items: center; background-size: cover; background-position: center;
+    }
+    .hero-slide.active { opacity: 1; }
+    .hero-slide::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(0deg, var(--bg-dark) 0%, rgba(5,5,5,0.7) 50%, rgba(5,5,5,0.3) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 10; max-width: 800px; padding: 0 4rem;
+      display: flex; flex-direction: column; gap: 1.25rem;
+    }
+    .hero-tag {
+      align-self: flex-start; background: var(--primary); color: #fff;
+      font-size: 0.8rem; font-weight: 700; padding: 0.35rem 1rem; border-radius: 50px;
+      box-shadow: 0 0 10px var(--primary-glow); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .hero-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.1; text-shadow: 2px 2px 10px rgba(0,0,0,0.8); }
+    .hero-meta { display: flex; align-items: center; gap: 1.5rem; font-size: 0.95rem; color: var(--text-muted); }
+    .hero-meta span { display: flex; align-items: center; gap: 0.35rem; }
+    .rating-star { color: #f59e0b; }
+    .hero-overview { font-size: clamp(0.95rem, 2vw, 1.1rem); line-height: 1.6; color: #d1d5db; text-shadow: 1px 1px 4px rgba(0,0,0,0.8); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .hero-buttons { display: flex; gap: 1rem; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1.75rem;
+      font-size: 1rem; font-weight: 600; border-radius: 8px; transition: var(--transition); cursor: pointer; border: none;
+    }
+    .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 4px 15px var(--primary-glow); }
+    .btn-primary:hover { background: #a855f7; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(168,85,247,0.8); }
+    .btn-secondary { background: rgba(255,255,255,0.1); color: #fff; backdrop-filter: blur(8px); }
+    .btn-secondary:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
 
-        /* ----- FOOTER ----- */
-        footer {
-            background: #08080c;
-            border-top: 1px solid rgba(139, 92, 246, .15);
-            padding: 40px 24px 30px;
-            margin-top: 60px;
-        }
-        .footer-inner {
-            max-width: 1440px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .footer-banner {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 24px;
-        }
-        .footer-banner img {
-            max-height: 48px;
-            width: auto;
-            filter: drop-shadow(0 0 30px rgba(139, 92, 246, .25));
-            border-radius: 4px;
-        }
-        .footer-socials {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .footer-socials a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, .04);
-            color: #bbb;
-            font-size: 20px;
-            transition: .3s;
-            border: 1px solid rgba(139, 92, 246, .06);
-        }
-        .footer-socials a:hover {
-            background: rgba(139, 92, 246, .15);
-            color: #a855f7;
-            transform: scale(1.12);
-            box-shadow: 0 0 30px rgba(139, 92, 246, .2);
-            border-color: #8b5cf6;
-        }
-        .footer-disclaimer {
-            max-width: 720px;
-            margin: 16px auto 12px;
-            font-size: 13px;
-            color: #666;
-            line-height: 1.7;
-            padding: 0 12px;
-        }
-        .footer-copy {
-            font-size: 14px;
-            color: #555;
-        }
-        .footer-copy span {
-            color: #8b5cf6;
-        }
+    /* Homepage Carousels Setup */
+    .carousel-section { margin: 3rem 0; padding: 0 4rem; position: relative; }
+    .carousel-section h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem; color: #fff; }
+    .carousel-section h3 i { color: var(--primary); text-shadow: 0 0 8px var(--primary-glow); }
+    .carousel-container-wrapper { position: relative; display: flex; align-items: center; }
+    .carousel-container { display: flex; gap: 1.25rem; overflow-x: auto; scroll-behavior: smooth; padding: 0.5rem 0; width: 100%; scroll-snap-type: x mandatory; }
+    .carousel-container::-webkit-scrollbar { display: none; }
+    
+    /* Carousel Cards UI styling */
+    .media-card {
+      min-width: 180px; max-width: 180px; aspect-ratio: 2/3; background: var(--bg-card);
+      border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.08); position: relative;
+      overflow: hidden; cursor: pointer; transition: var(--transition); scroll-snap-align: start;
+    }
+    .media-card img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+    .media-card:hover { border-color: var(--primary); transform: translateY(-5px) scale(1.02); box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3); }
+    .media-card:hover img { transform: scale(1.05); }
+    .card-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(5,5,5,1) 30%, rgba(5,5,5,0.8) 70%, rgba(5,5,5,0));
+      padding: 1.5rem 0.75rem 0.75rem 0.75rem; display: flex; flex-direction: column; gap: 0.25rem;
+    }
+    .card-title { font-size: 0.9rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-meta { font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; justify-content: space-between; }
+    .badge { background: var(--primary); color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+    .card-rating { color: #f59e0b; font-weight: 600; display: flex; align-items: center; gap: 2px; }
 
-        /* ----- RESPONSIVE ----- */
-        @media (max-width: 768px) {
-            .header-inner {
-                padding: 0 14px;
-                gap: 8px;
-            }
-            .header-logo img {
-                max-height: 38px;
-            }
-            .hamburger {
-                font-size: 22px;
-                padding: 4px 8px;
-            }
-            .header-search {
-                font-size: 18px;
-                padding: 4px 8px;
-            }
-            .drawer {
-                width: 280px;
-                left: -290px;
-                padding: 24px 16px;
-            }
-            .drawer-nav a {
-                font-size: 15px;
-                padding: 12px 14px;
-            }
-            .search-input-wrap input {
-                font-size: 17px;
-                padding: 14px 18px;
-            }
-            .search-results {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-                gap: 12px;
-            }
-            .footer-socials {
-                gap: 16px;
-            }
-            .footer-socials a {
-                width: 40px;
-                height: 40px;
-                font-size: 17px;
-            }
-            .footer-banner img {
-                max-height: 36px;
-            }
-            .container {
-                padding: 0 14px;
-            }
-        }
-        @media (max-width: 480px) {
-            .header-logo img {
-                max-height: 30px;
-            }
-            .search-results {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-                gap: 10px;
-            }
-            .search-results .result-card .info h4 {
-                font-size: 12px;
-            }
-            .search-results .result-card .info span {
-                font-size: 10px;
-            }
-            .drawer {
-                width: 260px;
-                left: -270px;
-            }
-        }
-        @media (min-width: 1600px) {
-            .container {
-                padding: 0 40px;
-            }
-            .header-inner {
-                padding: 0 40px;
-            }
-        }
+    .carousel-btn {
+      position: absolute; top: 50%; transform: translateY(-50%); background: rgba(18, 0, 24, 0.85);
+      backdrop-filter: blur(8px); border: 1px solid rgba(139, 92, 246, 0.3); color: #fff;
+      width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 10;
+      display: flex; align-items: center; justify-content: center; transition: var(--transition);
+    }
+    .carousel-btn:hover { background: var(--primary); box-shadow: 0 0 15px var(--primary-glow); border-color: #fff; }
+    .carousel-btn.left-btn { left: -22px; }
+    .carousel-btn.right-btn { right: -22px; }
 
-        /* ----- LOADING SKELETON ----- */
-        .skeleton {
-            background: linear-gradient(90deg, #1a1a2e 25%, #2a2a44 50%, #1a1a2e 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.8s infinite;
-            border-radius: 8px;
-        }
-        @keyframes shimmer {
-            0% {
-                background-position: 200% 0;
-            }
-            100% {
-                background-position: -200% 0;
-            }
-        }
+    /* Animated Genres Quick Links Grid */
+    .genres-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .genre-tag-card {
+      background: linear-gradient(135deg, rgba(18,0,24,0.7) 0%, rgba(139,92,246,0.1) 100%);
+      border: 1px solid rgba(139,92,246,0.15); border-radius: 12px; padding: 1.5rem 1rem;
+      text-align: center; font-weight: 600; font-size: 1rem; cursor: pointer; transition: var(--transition);
+    }
+    .genre-tag-card:hover {
+      border-color: var(--primary); box-shadow: 0 5px 20px rgba(139, 92, 246, 0.25);
+      transform: translateY(-3px); background: rgba(139,92,246,0.15);
+    }
 
-        /* ----- UTILITY ----- */
-        .hidden {
-            display: none !important;
-        }
-        .text-purple {
-            color: #8b5cf6;
-        }
-        .text-glow {
-            text-shadow: 0 0 30px rgba(139, 92, 246, .25);
-        }
-    </style>
+    /* Footer styling */
+    .footer {
+      background: #040206; border-top: 1px solid rgba(139, 92, 246, 0.15);
+      padding: 3rem 2rem; display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+      margin-top: auto; text-align: center;
+    }
+    .footer-banner-container { margin-bottom: 0.5rem; }
+    .footer-banner { height: 50px; object-fit: contain; filter: drop-shadow(0 0 8px var(--primary-glow)); }
+    .social-links { display: flex; gap: 1.5rem; }
+    .social-links a {
+      font-size: 1.5rem; color: var(--text-muted); transition: var(--transition);
+      display: flex; align-items: center; justify-content: center; width: 45px; height: 45px;
+      border-radius: 50%; background: rgba(255,255,255,0.02); border: 1px solid rgba(139, 92, 246, 0.05);
+    }
+    .social-links a:hover {
+      color: var(--primary); transform: scale(1.15) translateY(-3px);
+      box-shadow: 0 0 15px var(--primary-glow); border-color: var(--primary); background: rgba(139, 92, 246, 0.1);
+    }
+    .disclaimer { font-size: 0.8rem; color: #6b7280; max-width: 800px; line-height: 1.6; }
+    .copyright { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* Skeleton Loading UI */
+    .skeleton { background: linear-gradient(90deg, #120018 25%, #230b30 50%, #120018 75%); background-size: 200% 100%; animation: loadingSkeleton 1.5s infinite; }
+    @keyframes loadingSkeleton { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* Responsive queries */
+    @media (max-width: 1024px) {
+      .hero-content { padding: 0 2rem; }
+      .carousel-section { padding: 0 2rem; }
+    }
+    @media (max-width: 768px) {
+      .desktop-menu { display: none; }
+      .navbar { padding: 0.75rem 1rem; }
+      .nav-banner { height: 36px; }
+      .hero { height: 60vh; }
+      .hero-content { padding: 0 1rem; }
+      .carousel-section { padding: 0 1rem; }
+      .carousel-btn { display: none; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
-    <header>
-        <div class="header-inner">
-            <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="header-logo">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
-            </div>
-            <button class="header-search" id="searchBtn" aria-label="Search">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-    </header>
-
-    <!-- ===== DRAWER ===== -->
-    <div class="drawer-overlay" id="drawerOverlay"></div>
-    <div class="drawer" id="drawer">
-        <button class="drawer-close" id="drawerClose"><i class="fas fa-times"></i></button>
-        <div class="drawer-logo">
-            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
-        </div>
-        <nav class="drawer-nav">
-            <a href="index.html"><i class="fas fa-house"></i> Home</a>
-            <a href="discover.html"><i class="fas fa-compass"></i> Discover</a>
-            <a href="donate.html"><i class="fas fa-hand-holding-heart"></i> Donate</a>
-            <a href="creator.html"><i class="fas fa-star"></i> Creator</a>
-        </nav>
+  <!-- Premium sticky navigation header bar -->
+  <header class="navbar">
+    <div class="nav-left">
+      <button class="menu-btn" aria-label="Open Navigation Menu"><i class="fa-solid fa-bars"></i></button>
     </div>
-
-    <!-- ===== SEARCH OVERLAY ===== -->
-    <div class="search-overlay" id="searchOverlay">
-        <button class="search-close" id="searchClose"><i class="fas fa-times"></i></button>
-        <div class="search-input-wrap">
-            <input type="text" id="searchInput" placeholder="Search animation &amp; anime..." autofocus />
-        </div>
-        <div class="search-results" id="searchResults"></div>
+    <div class="nav-center">
+      <a href="index.html">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube Original logo banner" class="nav-banner">
+      </a>
     </div>
+    <div class="nav-right">
+      <nav class="desktop-menu">
+        <a href="index.html">Home</a>
+        <a href="discover.html">Discover</a>
+        <a href="donate.html">Donate</a>
+        <a href="creator.html">Creator</a>
+      </nav>
+      <button class="search-btn" aria-label="Open Fullscreen Search Menu"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+  </header>
 
-    <!-- ===== MAIN CONTENT ===== -->
-    <main>
-        <!-- Hero -->
-        <section class="hero-section" id="heroSection" style="position:relative;overflow:hidden;background:#050505;margin-bottom:30px;">
-            <div id="heroSlider" style="position:relative;width:100%;aspect-ratio:16/7;min-height:320px;background:#0a0a0f;overflow:hidden;border-radius:0 0 24px 24px;box-shadow:0 8px 60px rgba(0,0,0,.7);">
-                <div id="heroTrack" style="display:flex;width:100%;height:100%;transition:transform .9s cubic-bezier(.25,.46,.45,.94);will-change:transform;"></div>
-                <!-- hero controls -->
-                <button id="heroPrev" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.6);backdrop-filter:blur(6px);border:1px solid rgba(139,92,246,.25);color:#fff;width:48px;height:48px;border-radius:50%;font-size:20px;cursor:pointer;transition:.3s;z-index:10;display:flex;align-items:center;justify-content:center;"><i class="fas fa-chevron-left"></i></button>
-                <button id="heroNext" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.6);backdrop-filter:blur(6px);border:1px solid rgba(139,92,246,.25);color:#fff;width:48px;height:48px;border-radius:50%;font-size:20px;cursor:pointer;transition:.3s;z-index:10;display:flex;align-items:center;justify-content:center;"><i class="fas fa-chevron-right"></i></button>
-                <div id="heroDots" style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10;flex-wrap:wrap;justify-content:center;"></div>
+  <!-- Sidebar Navigation Drawer -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3>Menu</h3>
+      <button class="close-sidebar"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <nav class="sidebar-links">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="discover.html"><i class="fa-solid fa-compass"></i> Discover</a>
+      <a href="donate.html"><i class="fa-solid fa-heart"></i> Donate</a>
+      <a href="creator.html"><i class="fa-solid fa-user"></i> Creator</a>
+    </nav>
+  </div>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- Global Fullscreen Search Overlay -->
+  <div class="search-overlay" id="search-overlay">
+    <button class="close-search" aria-label="Close Fullscreen Search Overlay"><i class="fa-solid fa-xmark"></i></button>
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Search animation, anime, cartoons..." autocomplete="off">
+      <div id="search-results" class="search-results-grid"></div>
+    </div>
+  </div>
+
+  <!-- Main Hero slider wrapper -->
+  <section class="hero" id="hero-slider"></section>
+
+  <!-- Homepage Carousel widgets sections -->
+  <section class="carousel-section" id="continue-section" style="display: none;">
+    <h3><i class="fa-solid fa-clock-rotate-left"></i> Continue Watching</h3>
+    <div class="carousel-container-wrapper">
+      <div class="carousel-container" id="continue-carousel"></div>
+    </div>
+  </section>
+
+  <section class="carousel-section">
+    <h3><i class="fa-solid fa-film"></i> Popular Anime Movies</h3>
+    <div class="carousel-container-wrapper">
+      <button class="carousel-btn left-btn" aria-label="Scroll left"><i class="fa-solid fa-chevron-left"></i></button>
+      <div class="carousel-container" id="popular-movies"></div>
+      <button class="carousel-btn right-btn" aria-label="Scroll right"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </section>
+
+  <section class="carousel-section">
+    <h3><i class="fa-solid fa-tv"></i> Popular Anime Series</h3>
+    <div class="carousel-container-wrapper">
+      <button class="carousel-btn left-btn" aria-label="Scroll left"><i class="fa-solid fa-chevron-left"></i></button>
+      <div class="carousel-container" id="popular-series"></div>
+      <button class="carousel-btn right-btn" aria-label="Scroll right"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </section>
+
+  <section class="carousel-section">
+    <h3><i class="fa-solid fa-bolt"></i> Airing Today</h3>
+    <div class="carousel-container-wrapper">
+      <button class="carousel-btn left-btn" aria-label="Scroll left"><i class="fa-solid fa-chevron-left"></i></button>
+      <div class="carousel-container" id="airing-today"></div>
+      <button class="carousel-btn right-btn" aria-label="Scroll right"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </section>
+
+  <section class="carousel-section">
+    <h3><i class="fa-solid fa-star"></i> Top Rated</h3>
+    <div class="carousel-container-wrapper">
+      <button class="carousel-btn left-btn" aria-label="Scroll left"><i class="fa-solid fa-chevron-left"></i></button>
+      <div class="carousel-container" id="top-rated"></div>
+      <button class="carousel-btn right-btn" aria-label="Scroll right"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </section>
+
+  <section class="carousel-section">
+    <h3><i class="fa-solid fa-calendar-plus"></i> Recently Added</h3>
+    <div class="carousel-container-wrapper">
+      <button class="carousel-btn left-btn" aria-label="Scroll left"><i class="fa-solid fa-chevron-left"></i></button>
+      <div class="carousel-container" id="recently-added"></div>
+      <button class="carousel-btn right-btn" aria-label="Scroll right"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </section>
+
+  <section class="carousel-section" id="recently-watched-section" style="display: none;">
+    <h3><i class="fa-solid fa-history"></i> Recently Watched</h3>
+    <div class="carousel-container-wrapper">
+      <div class="carousel-container" id="recently-watched"></div>
+    </div>
+  </section>
+
+  <section class="carousel-section">
+    <h3><i class="fa-solid fa-circle-nodes"></i> Featured Genres</h3>
+    <div class="genres-grid">
+      <div class="genre-tag-card" onclick="window.location.href='discover.html?genre=28'"><i class="fa-solid fa-gun"></i> Action</div>
+      <div class="genre-tag-card" onclick="window.location.href='discover.html?genre=12'"><i class="fa-solid fa-compass"></i> Adventure</div>
+      <div class="genre-tag-card" onclick="window.location.href='discover.html?genre=35'"><i class="fa-solid fa-face-laugh-squint"></i> Comedy</div>
+      <div class="genre-tag-card" onclick="window.location.href='discover.html?genre=14'"><i class="fa-solid fa-wand-magic-sparkles"></i> Fantasy</div>
+      <div class="genre-tag-card" onclick="window.location.href='discover.html?genre=878'"><i class="fa-solid fa-user-astronaut"></i> Sci-Fi</div>
+    </div>
+  </section>
+
+  <!-- Complete professional streaming footer block -->
+  <footer class="footer">
+    <div class="footer-banner-container">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube Footer Logo" class="footer-banner">
+    </div>
+    <div class="social-links">
+      <a href="#" aria-label="Facebook Link"><i class="fa-brands fa-facebook"></i></a>
+      <a href="#" aria-label="X Twitter Link"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="#" aria-label="Instagram Link"><i class="fa-brands fa-instagram"></i></a>
+      <a href="#" aria-label="Discord Link"><i class="fa-brands fa-discord"></i></a>
+      <a href="#" aria-label="Telegram Link"><i class="fa-brands fa-telegram"></i></a>
+      <a href="#" aria-label="GitHub Link"><i class="fa-brands fa-github"></i></a>
+    </div>
+    <p class="disclaimer">
+      This website does not host any video content on its servers. All media content is embedded from third-party providers. We do not store or upload any videos. All trademarks, logos, and content belong to their respective owners.
+    </p>
+    <p class="copyright">
+      &copy; 2026 NamiTube. All Rights Reserved. Powered by TMDB API.
+    </p>
+  </footer>
+
+  <script>
+    const TMDB_API_KEY = "e10da2e2cbb23ea7ebfb64c3a188b64a";
+    const TMDB_BASE_URL = "https://api.themoviedb.org/3";
+
+    // Application cache engine implementation
+    async function fetchWithCache(url, cacheTime = 300000) {
+      const cached = localStorage.getItem(url);
+      const cachedTime = localStorage.getItem(url + '_time');
+      if (cached && cachedTime && (Date.now() - cachedTime < cacheTime)) {
+        return JSON.parse(cached);
+      }
+      const res = await fetch(url);
+      const data = await res.json();
+      try {
+        localStorage.setItem(url, JSON.stringify(data));
+        localStorage.setItem(url + '_time', Date.now().toString());
+      } catch (e) { /* LocalStorage Full Safety */ }
+      return data;
+    }
+
+    // Universal navigation drawer & modal triggers
+    const menuBtn = document.querySelector('.menu-btn');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const closeSidebarBtn = document.querySelector('.close-sidebar');
+
+    function toggleSidebar(open) {
+      sidebar.classList.toggle('active', open);
+      sidebarOverlay.classList.toggle('active', open);
+    }
+    menuBtn.addEventListener('click', () => toggleSidebar(true));
+    closeSidebarBtn.addEventListener('click', () => toggleSidebar(false));
+    sidebarOverlay.addEventListener('click', () => toggleSidebar(false));
+
+    // Fullscreen Netflix-style Global search overlay implementation
+    const searchBtn = document.querySelector('.search-btn');
+    const searchOverlay = document.getElementById('search-overlay');
+    const closeSearchBtn = document.querySelector('.close-search');
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+
+    searchBtn.addEventListener('click', () => {
+      searchOverlay.classList.add('active');
+      searchInput.focus();
+      document.body.style.overflow = 'hidden';
+    });
+    closeSearchBtn.addEventListener('click', () => {
+      searchOverlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        searchOverlay.classList.remove('active');
+        toggleSidebar(false);
+        document.body.style.overflow = 'auto';
+      }
+    });
+
+    let searchTimeout = null;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      const query = e.target.value.trim();
+      if (query.length < 2) { searchResults.innerHTML = ''; return; }
+      searchTimeout = setTimeout(() => executeSearch(query), 300);
+    });
+
+    async function executeSearch(query) {
+      searchResults.innerHTML = '<div class="spinner"></div>';
+      try {
+        const data = await fetchWithCache(`${TMDB_BASE_URL}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`);
+        if (data.results) {
+          const filtered = data.results.filter(item => 
+            (item.media_type === 'movie' || item.media_type === 'tv') && 
+            item.genre_ids && item.genre_ids.includes(16)
+          );
+          renderResults(filtered);
+        } else {
+          searchResults.innerHTML = '<p class="no-results">No animated matches found.</p>';
+        }
+      } catch (err) {
+        searchResults.innerHTML = '<p class="no-results">Error executing search.</p>';
+      }
+    }
+
+    function renderResults(items) {
+      if (items.length === 0) {
+        searchResults.innerHTML = '<p class="no-results">No animated matches found.</p>';
+        return;
+      }
+      searchResults.innerHTML = items.map(item => {
+        const title = item.title || item.name || 'Untitled';
+        const date = item.release_date || item.first_air_date || '';
+        const year = date ? new Date(date).getFullYear() : 'N/A';
+        const poster = item.poster_path ? `https://image.tmdb.org/t/p/w200${item.poster_path}` : 'https://via.placeholder.com/200x300?text=No+Poster';
+        return `
+          <a href="info.html?id=${item.id}&type=${item.media_type}" class="search-item">
+            <img src="${poster}" alt="${title}" loading="lazy">
+            <div class="search-item-info">
+              <h4>${title}</h4>
+              <p>${item.media_type.toUpperCase()} &bull; ${year}</p>
             </div>
-        </section>
+          </a>
+        `;
+      }).join('');
+    }
 
-        <!-- Widgets -->
-        <div class="container" id="widgetsContainer">
-            <!-- Each widget will be injected by JS -->
-        </div>
-    </main>
-
-    <!-- ===== FOOTER ===== -->
-    <footer>
-        <div class="footer-inner">
-            <div class="footer-banner">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwxClcajSZy1q1gj_1kf_9y1J7mutn4jWfqdhlBVbFjLkViz_Z3-nuIZ11W0qOd1jlFgMFYi-g_XrpIiRbQjZd-wPwg4RWWyhbR0QLw0-ZgX5DFncVPNOxrDBouMlbdz2sLvQS65JbQaLJpQReWhjceG8Rn5cxrNusoQAXieXFcX_q_LZthCYS1AsCR30/s320/NamiTube%20Original%20banner.png" alt="NamiTube" />
+    // Dynamic Cinematic Hero slider script
+    let currentSlide = 0;
+    async function loadHeroSlider() {
+      const sliderContainer = document.getElementById('hero-slider');
+      try {
+        const data = await fetchWithCache(`${TMDB_BASE_URL}/discover/tv?api_key=${TMDB_API_KEY}&with_genres=16&sort_by=popularity.desc`);
+        const items = data.results.slice(0, 5);
+        
+        sliderContainer.innerHTML = items.map((item, index) => {
+          const backdrop = `https://image.tmdb.org/t/p/original${item.backdrop_path}`;
+          const title = item.name || item.original_name;
+          const year = item.first_air_date ? new Date(item.first_air_date).getFullYear() : 'N/A';
+          const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
+          
+          return `
+            <div class="hero-slide ${index === 0 ? 'active' : ''}" style="background-image: url('${backdrop}')">
+              <div class="hero-content">
+                <span class="hero-tag">FEATURED SERIES</span>
+                <h1 class="hero-title">${title}</h1>
+                <div class="hero-meta">
+                  <span class="card-rating"><i class="fa-solid fa-star rating-star"></i> ${rating}</span>
+                  <span><i class="fa-solid fa-calendar"></i> ${year}</span>
+                  <span class="badge">TV Series</span>
+                </div>
+                <p class="hero-overview">${item.overview || 'Experience this masterclass dynamic animation project directly on NamiTube.'}</p>
+                <div class="hero-buttons">
+                  <a href="watch.html?id=${item.id}&type=tv&season=1&episode=1" class="btn btn-primary"><i class="fa-solid fa-play"></i> Watch Now</a>
+                  <a href="info.html?id=${item.id}&type=tv" class="btn btn-secondary"><i class="fa-solid fa-circle-info"></i> More Info</a>
+                </div>
+              </div>
             </div>
-            <div class="footer-socials">
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
-                <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
-                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          `;
+        }).join('');
+
+        setInterval(() => {
+          const slides = document.querySelectorAll('.hero-slide');
+          if (slides.length === 0) return;
+          slides[currentSlide].classList.remove('active');
+          currentSlide = (currentSlide + 1) % slides.length;
+          slides[currentSlide].classList.add('active');
+        }, 7000);
+
+      } catch (err) {
+        sliderContainer.innerHTML = '<div style="padding: 4rem; text-align: center;">Error rendering showcase slides.</div>';
+      }
+    }
+
+    // Carousel Renderer Engine with strict Animation ID validation
+    async function populateCarousel(endpoint, elementId, defaultType) {
+      const container = document.getElementById(elementId);
+      container.innerHTML = Array(6).fill().map(() => `<div class="media-card skeleton"></div>`).join('');
+      try {
+        const data = await fetchWithCache(`${TMDB_BASE_URL}/${endpoint}`);
+        let items = data.results || [];
+        // Secondary filtering to assert genre ID 16
+        items = items.filter(item => item.genre_ids && item.genre_ids.includes(16));
+        
+        if (items.length === 0) {
+          container.closest('.carousel-section').style.display = 'none';
+          return;
+        }
+
+        container.innerHTML = items.map(item => {
+          const title = item.title || item.name || 'Untitled';
+          const date = item.release_date || item.first_air_date || '';
+          const year = date ? new Date(date).getFullYear() : 'N/A';
+          const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
+          const poster = item.poster_path ? `https://image.tmdb.org/t/p/w342${item.poster_path}` : 'https://via.placeholder.com/342x513?text=No+Poster';
+          const type = defaultType || (item.release_date ? 'movie' : 'tv');
+          
+          return `
+            <div class="media-card" onclick="window.location.href='info.html?id=${item.id}&type=${type}'">
+              <img src="${poster}" alt="${title}" loading="lazy">
+              <div class="card-info">
+                <span class="card-title">${title}</span>
+                <div class="card-meta">
+                  <span class="card-rating"><i class="fa-solid fa-star"></i> ${rating}</span>
+                  <span class="badge">${type}</span>
+                </div>
+              </div>
             </div>
-            <div class="footer-disclaimer">
-                This website does not host any video content on its servers. All media content is embedded from third-party providers. We do not store or upload any videos. All trademarks, logos, and content belong to their respective owners.
+          `;
+        }).join('');
+
+      } catch (err) {
+        container.closest('.carousel-section').style.display = 'none';
+      }
+    }
+
+    // Interactive Drag / Buttons logic setup
+    function initCarousels() {
+      document.querySelectorAll('.carousel-section').forEach(section => {
+        const container = section.querySelector('.carousel-container');
+        const leftBtn = section.querySelector('.left-btn');
+        const rightBtn = section.querySelector('.right-btn');
+        if (!container || !leftBtn || !rightBtn) return;
+
+        leftBtn.addEventListener('click', () => { container.scrollLeft -= 500; });
+        rightBtn.addEventListener('click', () => { container.scrollLeft += 500; });
+      });
+    }
+
+    // Build Watched widget blocks from Storage Engine
+    function loadWatchedCarousels() {
+      const continueContainer = document.getElementById('continue-carousel');
+      const watchedContainer = document.getElementById('recently-watched');
+      
+      const history = JSON.parse(localStorage.getItem('namitube_watched') || '[]');
+      const continueProgress = JSON.parse(localStorage.getItem('namitube_continue') || '[]');
+
+      if (history.length > 0) {
+        document.getElementById('recently-watched-section').style.display = 'block';
+        watchedContainer.innerHTML = history.map(item => `
+          <div class="media-card" onclick="window.location.href='info.html?id=${item.id}&type=${item.type}'">
+            <img src="${item.poster}" alt="${item.title}" loading="lazy">
+            <div class="card-info">
+              <span class="card-title">${item.title}</span>
+              <div class="card-meta">
+                <span class="badge">${item.type}</span>
+              </div>
             </div>
-            <div class="footer-copy">
-                &copy; 2026 <span>NamiTube</span>. All Rights Reserved.<br />
-                Powered by TMDB API
+          </div>
+        `).join('');
+      }
+
+      if (continueProgress.length > 0) {
+        document.getElementById('continue-section').style.display = 'block';
+        continueContainer.innerHTML = continueProgress.map(item => {
+          const detailStr = item.type === 'tv' ? `S${item.season} E${item.episode}` : 'Movie';
+          return `
+            <div class="media-card" onclick="window.location.href='watch.html?id=${item.id}&type=${item.type}&season=${item.season || 1}&episode=${item.episode || 1}'">
+              <img src="${item.poster}" alt="${item.title}" loading="lazy">
+              <div class="card-info">
+                <span class="card-title">${item.title}</span>
+                <div class="card-meta">
+                  <span class="badge" style="background:#a855f7;">${detailStr}</span>
+                </div>
+              </div>
             </div>
-        </div>
-    </footer>
+          `;
+        }).join('');
+      }
+    }
 
-    <script>
-        // ============================================================
-        //  CONFIG
-        // ============================================================
-        const TMDB_API_KEY = "e10da2e2cbb23ea7ebfb64c3a188b64a";
-        const TMDB_BASE = "https://api.themoviedb.org/3";
-        const TMDB_IMG = "https://image.tmdb.org/t/p";
-        const GENRE_ID = 16; // animation
+    // Promise execution initialization
+    window.addEventListener('DOMContentLoaded', () => {
+      loadHeroSlider();
+      
+      Promise.allSettled([
+        populateCarousel('discover/movie?api_key=' + TMDB_API_KEY + '&with_genres=16&sort_by=popularity.desc', 'popular-movies', 'movie'),
+        populateCarousel('discover/tv?api_key=' + TMDB_API_KEY + '&with_genres=16&sort_by=popularity.desc', 'popular-series', 'tv'),
+        populateCarousel('tv/airing_today?api_key=' + TMDB_API_KEY, 'airing-today', 'tv'),
+        populateCarousel('discover/movie?api_key=' + TMDB_API_KEY + '&with_genres=16&sort_by=vote_average.desc&vote_count.gte=150', 'top-rated'),
+        populateCarousel('discover/tv?api_key=' + TMDB_API_KEY + '&with_genres=16&sort_by=first_air_date.desc', 'recently-added', 'tv')
+      ]).then(() => {
+        initCarousels();
+      });
 
-        // ============================================================
-        //  HELPERS
-        // ============================================================
-        function fetchTMDB(endpoint, params = '') {
-            const url = `${TMDB_BASE}${endpoint}?api_key=${TMDB_API_KEY}&with_genres=${GENRE_ID}${params}`;
-            return fetch(url).then(r => r.json());
-        }
-
-        function fetchTMDBRaw(endpoint) {
-            return fetch(`${TMDB_BASE}${endpoint}?api_key=${TMDB_API_KEY}`).then(r => r.json());
-        }
-
-        function posterUrl(path, size = 'w500') {
-            return path ? `${TMDB_IMG}/${size}${path}` : 'https://via.placeholder.com/500x750/1a1a2e/8b5cf6?text=No+Poster';
-        }
-
-        function backdropUrl(path, size = 'w1280') {
-            return path ? `${TMDB_IMG}/${size}${path}` : 'https://via.placeholder.com/1280x720/1a1a2e/8b5cf6?text=No+Backdrop';
-        }
-
-        function yearFromDate(date) {
-            return date ? date.slice(0, 4) : 'N/A';
-        }
-
-        function ratingStars(vote) {
-            const r = Math.round(vote / 2);
-            let s = '';
-            for (let i = 0; i < 5; i++) {
-                s += i < r ? '<i class="fas fa-star" style="color:#fbbf24;"></i>' :
-                    '<i class="far fa-star" style="color:#555;"></i>';
-            }
-            return s;
-        }
-
-        function truncate(text, max = 160) {
-            if (!text) return '';
-            return text.length > max ? text.slice(0, max) + '…' : text;
-        }
-
-        function mediaTypeLabel(type) {
-            return type === 'movie' ? 'Movie' : 'TV Series';
-        }
-
-        // ============================================================
-        //  DRAWER
-        // ============================================================
-        const hamburger = document.getElementById('hamburgerBtn');
-        const drawer = document.getElementById('drawer');
-        const overlay = document.getElementById('drawerOverlay');
-        const closeBtn = document.getElementById('drawerClose');
-
-        function openDrawer() { drawer.classList.add('open');
-            overlay.classList.add('active'); }
-
-        function closeDrawer() { drawer.classList.remove('open');
-            overlay.classList.remove('active'); }
-
-        hamburger.addEventListener('click', openDrawer);
-        closeBtn.addEventListener('click', closeDrawer);
-        overlay.addEventListener('click', closeDrawer);
-
-        // ============================================================
-        //  SEARCH
-        // ============================================================
-        const searchBtn = document.getElementById('searchBtn');
-        const searchOverlay = document.getElementById('searchOverlay');
-        const searchClose = document.getElementById('searchClose');
-        const searchInput = document.getElementById('searchInput');
-        const searchResults = document.getElementById('searchResults');
-        let searchTimeout = null;
-
-        function openSearch() {
-            searchOverlay.classList.add('active');
-            setTimeout(() => searchInput.focus(), 200);
-        }
-
-        function closeSearch() {
-            searchOverlay.classList.remove('active');
-            searchResults.innerHTML = '';
-            searchInput.value = '';
-        }
-
-        searchBtn.addEventListener('click', openSearch);
-        searchClose.addEventListener('click', closeSearch);
-
-        searchInput.addEventListener('input', function() {
-            clearTimeout(searchTimeout);
-            const q = this.value.trim();
-            if (q.length < 2) { searchResults.innerHTML = ''; return; }
-            searchTimeout = setTimeout(() => performSearch(q), 400);
-        });
-
-        async function performSearch(query) {
-            try {
-                const url =
-                    `${TMDB_BASE}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&with_genres=${GENRE_ID}`;
-                const res = await fetch(url);
-                const data = await res.json();
-                let results = data.results || [];
-                // filter to animation + movie/tv only
-                results = results.filter(item =>
-                    (item.media_type === 'movie' || item.media_type === 'tv') &&
-                    item.genre_ids && item.genre_ids.includes(GENRE_ID)
-                );
-                if (!results.length) {
-                    searchResults.innerHTML = '<div class="search-no-results">No animation results found.</div>';
-                    return;
-                }
-                let html = '';
-                results.slice(0, 20).forEach(item => {
-                    const id = item.id;
-                    const type = item.media_type;
-                    const title = item.title || item.name || 'Untitled';
-                    const poster = posterUrl(item.poster_path, 'w200');
-                    const year = yearFromDate(item.release_date || item.first_air_date);
-                    const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
-                    html += `
-                        <div class="result-card" onclick="location.href='info.html?id=${id}&type=${type}'">
-                            <img src="${poster}" alt="${title}" loading="lazy" />
-                            <div class="info">
-                                <h4>${title}</h4>
-                                <span>${year} · ${rating} ⭐</span>
-                            </div>
-                        </div>
-                    `;
-                });
-                searchResults.innerHTML = html;
-            } catch (e) {
-                searchResults.innerHTML = '<div class="search-no-results">Error loading results.</div>';
-                console.error(e);
-            }
-        }
-
-        // ============================================================
-        //  HERO SLIDER
-        // ============================================================
-        let heroItems = [];
-        let heroIndex = 0;
-        let heroInterval = null;
-        const heroTrack = document.getElementById('heroTrack');
-        const heroDots = document.getElementById('heroDots');
-
-        async function loadHero() {
-            try {
-                const [movies, tv] = await Promise.all([
-                    fetchTMDB('/discover/movie', '&sort_by=popularity.desc&page=1'),
-                    fetchTMDB('/discover/tv', '&sort_by=popularity.desc&page=1')
-                ]);
-                const all = [];
-                (movies.results || []).forEach(m => all.push({ ...m, media_type: 'movie' }));
-                (tv.results || []).forEach(t => all.push({ ...t, media_type: 'tv' }));
-                // shuffle & take top 8
-                all.sort(() => Math.random() - 0.5);
-                heroItems = all.slice(0, 8);
-                if (!heroItems.length) {
-                    heroTrack.innerHTML =
-                        '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#555;font-size:20px;">No hero content</div>';
-                    return;
-                }
-                renderHero();
-                startHeroAuto();
-            } catch (e) {
-                console.error('Hero load error:', e);
-                heroTrack.innerHTML =
-                    '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#555;font-size:20px;">Failed to load hero</div>';
-            }
-        }
-
-        function renderHero() {
-            let html = '';
-            heroItems.forEach((item, i) => {
-                const title = item.title || item.name || 'Untitled';
-                const overview = truncate(item.overview || 'No description available.', 180);
-                const backdrop = backdropUrl(item.backdrop_path);
-                const year = yearFromDate(item.release_date || item.first_air_date);
-                const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
-                const type = item.media_type;
-                const id = item.id;
-                const genres = item.genre_ids ? item.genre_ids.slice(0, 3) : [];
-                const genreNames = { 16: 'Animation', 12: 'Adventure', 14: 'Fantasy', 28: 'Action', 35: 'Comedy', 18: 'Drama',
-                    27: 'Horror', 10749: 'Romance', 878: 'Sci-Fi', 53: 'Thriller', 10752: 'War', 37: 'Western' };
-                const genreLabels = genres.map(g => genreNames[g] || '').filter(Boolean).join(' · ');
-
-                html += `
-                    <div class="hero-slide" style="flex:0 0 100%;height:100%;position:relative;overflow:hidden;">
-                        <img src="${backdrop}" alt="${title}" style="width:100%;height:100%;object-fit:cover;filter:brightness(.45);" loading="${i===0?'eager':'lazy'}" />
-                        <div style="position:absolute;bottom:0;left:0;right:0;padding:40px 40px 50px;background:linear-gradient(transparent,rgba(5,5,5,.95));">
-                            <div style="max-width:700px;">
-                                <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px;">
-                                    <span style="background:rgba(139,92,246,.25);padding:4px 16px;border-radius:30px;font-size:13px;border:1px solid rgba(139,92,246,.2);">${mediaTypeLabel(type)}</span>
-                                    <span style="color:#aaa;font-size:14px;">${year}</span>
-                                    <span style="color:#fbbf24;font-size:14px;"><i class="fas fa-star" style="color:#fbbf24;"></i> ${rating}</span>
-                                    ${genreLabels ? `<span style="color:#888;font-size:13px;">${genreLabels}</span>` : ''}
-                                </div>
-                                <h2 style="font-size:clamp(28px,5vw,56px);font-weight:700;margin-bottom:8px;text-shadow:0 4px 30px rgba(0,0,0,.6);">${title}</h2>
-                                <p style="color:#ccc;font-size:clamp(14px,1.2vw,18px);line-height:1.6;max-width:600px;margin-bottom:20px;">${overview}</p>
-                                <div style="display:flex;gap:14px;flex-wrap:wrap;">
-                                    <a href="watch.html?id=${id}&type=${type}" style="background:#8b5cf6;color:#fff;padding:12px 32px;border-radius:60px;font-weight:600;font-size:16px;transition:.3s;display:inline-flex;align-items:center;gap:10px;border:none;cursor:pointer;box-shadow:0 0 40px rgba(139,92,246,.25);"><i class="fas fa-play"></i> Watch Now</a>
-                                    <a href="info.html?id=${id}&type=${type}" style="background:rgba(255,255,255,.08);color:#fff;padding:12px 32px;border-radius:60px;font-weight:500;font-size:16px;transition:.3s;display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.1);"><i class="fas fa-info-circle"></i> Info</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            heroTrack.innerHTML = html;
-            // dots
-            let dotsHtml = '';
-            heroItems.forEach((_, i) => {
-                dotsHtml +=
-                    `<button style="width:10px;height:10px;border-radius:50%;border:none;background:${i===0?'#8b5cf6':'#555'};cursor:pointer;transition:.3s;box-shadow:${i===0?'0 0 20px rgba(139,92,246,.4)':'none'};" data-index="${i}"></button>`;
-            });
-            heroDots.innerHTML = dotsHtml;
-            document.querySelectorAll('#heroDots button').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const idx = parseInt(this.dataset.index);
-                    goToHero(idx);
-                });
-            });
-            document.getElementById('heroPrev').addEventListener('click', () => goToHero(heroIndex - 1));
-            document.getElementById('heroNext').addEventListener('click', () => goToHero(heroIndex + 1));
-        }
-
-        function goToHero(index) {
-            if (!heroItems.length) return;
-            heroIndex = ((index % heroItems.length) + heroItems.length) % heroItems.length;
-            heroTrack.style.transform = `translateX(-${heroIndex * 100}%)`;
-            // update dots
-            document.querySelectorAll('#heroDots button').forEach((btn, i) => {
-                const active = i === heroIndex;
-                btn.style.background = active ? '#8b5cf6' : '#555';
-                btn.style.boxShadow = active ? '0 0 20px rgba(139,92,246,.4)' : 'none';
-            });
-            resetHeroAuto();
-        }
-
-        function startHeroAuto() {
-            if (heroInterval) clearInterval(heroInterval);
-            heroInterval = setInterval(() => goToHero(heroIndex + 1), 6000);
-        }
-
-        function resetHeroAuto() {
-            if (heroInterval) {
-                clearInterval(heroInterval);
-                heroInterval = setInterval(() => goToHero(heroIndex + 1), 6000);
-            }
-        }
-
-        // ============================================================
-        //  WIDGETS
-        // ============================================================
-        const widgetConfigs = [{
-            id: 'popular-movies',
-            title: 'Popular Anime Movies',
-            icon: 'fa-film',
-            endpoint: '/discover/movie',
-            params: '&sort_by=popularity.desc&page=1'
-        }, {
-            id: 'popular-series',
-            title: 'Popular Anime Series',
-            icon: 'fa-tv',
-            endpoint: '/discover/tv',
-            params: '&sort_by=popularity.desc&page=1'
-        }, {
-            id: 'top-rated',
-            title: 'Top Rated',
-            icon: 'fa-star',
-            endpoint: '/discover/movie',
-            params: '&sort_by=vote_average.desc&vote_count.gte=100&page=1'
-        }, {
-            id: 'airing-today',
-            title: 'Airing Today',
-            icon: 'fa-clock',
-            endpoint: '/tv/airing_today',
-            params: ''
-        }, {
-            id: 'recently-added',
-            title: 'Recently Added',
-            icon: 'fa-fire',
-            endpoint: '/discover/movie',
-            params: '&sort_by=release_date.desc&page=1'
-        }, {
-            id: 'recommended',
-            title: 'Recommended For You',
-            icon: 'fa-compass',
-            endpoint: '/discover/movie',
-            params: '&sort_by=popularity.desc&page=2'
-        }, {
-            id: 'featured-genres',
-            title: 'Featured Genres',
-            icon: 'fa-th-large',
-            endpoint: '/discover/movie',
-            params: '&sort_by=popularity.desc&page=1'
-        }, {
-            id: 'continue-watching',
-            title: 'Continue Watching',
-            icon: 'fa-play-circle',
-            endpoint: '/discover/movie',
-            params: '&sort_by=popularity.desc&page=1'
-        }, {
-            id: 'random',
-            title: 'Random Recommendation',
-            icon: 'fa-shuffle',
-            endpoint: '/discover/movie',
-            params: '&sort_by=popularity.desc&page=1'
-        }];
-
-        const container = document.getElementById('widgetsContainer');
-
-        async function loadWidgets() {
-            // For continue-watching, use localStorage
-            let continueData = JSON.parse(localStorage.getItem('nami_continue') || '[]');
-
-            for (const cfg of widgetConfigs) {
-                const widgetDiv = document.createElement('div');
-                widgetDiv.className = 'widget-wrapper';
-                widgetDiv.style.marginBottom = '40px';
-                widgetDiv.style.position = 'relative';
-
-                let items = [];
-                try {
-                    if (cfg.id === 'continue-watching') {
-                        if (continueData.length) {
-                            const promises = continueData.slice(0, 12).map(async entry => {
-                                try {
-                                    const data = await fetchTMDBRaw(`/${entry.type}/${entry.id}`);
-                                    return { ...data, media_type: entry.type };
-                                } catch { return null; }
-                            });
-                            const results = await Promise.all(promises);
-                            items = results.filter(Boolean);
-                        } else {
-                            const data = await fetchTMDB(cfg.endpoint, cfg.params);
-                            items = (data.results || []).map(m => ({ ...m, media_type: 'movie' }));
-                        }
-                    } else if (cfg.id === 'airing-today') {
-                        // Fetch airing today and filter to animation only
-                        const airingData = await fetchTMDBRaw('/tv/airing_today');
-                        items = (airingData.results || [])
-                            .filter(item => item.genre_ids && item.genre_ids.includes(GENRE_ID))
-                            .map(item => ({ ...item, media_type: 'tv' }));
-                        // If not enough, fallback to popular animation series
-                        if (items.length < 8) {
-                            const fallback = await fetchTMDB('/discover/tv', '&sort_by=popularity.desc&page=1');
-                            items = (fallback.results || []).map(m => ({ ...m, media_type: 'tv' }));
-                        }
-                    } else if (cfg.id === 'random') {
-                        const data = await fetchTMDB(cfg.endpoint, cfg.params);
-                        const all = data.results || [];
-                        const shuffled = all.sort(() => Math.random() - 0.5);
-                        items = shuffled.slice(0, 12).map(m => ({ ...m, media_type: 'movie' }));
-                    } else if (cfg.id === 'featured-genres') {
-                        const [mData, tData] = await Promise.all([
-                            fetchTMDB('/discover/movie', '&sort_by=popularity.desc&page=1'),
-                            fetchTMDB('/discover/tv', '&sort_by=popularity.desc&page=1')
-                        ]);
-                        const mixed = [];
-                        (mData.results || []).forEach(m => mixed.push({ ...m, media_type: 'movie' }));
-                        (tData.results || []).forEach(t => mixed.push({ ...t, media_type: 'tv' }));
-                        mixed.sort(() => Math.random() - 0.5);
-                        items = mixed.slice(0, 12);
-                    } else {
-                        const data = await fetchTMDB(cfg.endpoint, cfg.params);
-                        items = (data.results || []).map(m => ({ ...m, media_type: cfg.endpoint.includes('/tv') ? 'tv' :
-                                'movie' }));
-                    }
-                } catch (e) {
-                    console.error(`Widget ${cfg.id} error:`, e);
-                    items = [];
-                }
-
-                if (!items.length) {
-                    widgetDiv.style.display = 'none';
-                    container.appendChild(widgetDiv);
-                    continue;
-                }
-
-                // Build widget HTML
-                let cardsHtml = '';
-                items.slice(0, 12).forEach(item => {
-                    const id = item.id;
-                    const type = item.media_type;
-                    const title = item.title || item.name || 'Untitled';
-                    const poster = posterUrl(item.poster_path);
-                    const year = yearFromDate(item.release_date || item.first_air_date);
-                    const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
-                    const isMovie = type === 'movie';
-                    cardsHtml += `
-                        <div class="widget-card" onclick="location.href='info.html?id=${id}&type=${type}'" style="flex:0 0 auto;width:180px;border-radius:16px;overflow:hidden;background:rgba(255,255,255,.04);border:1px solid rgba(139,92,246,.08);transition:.3s;cursor:pointer;position:relative;scroll-snap-align:start;box-shadow:0 4px 20px rgba(0,0,0,.3);">
-                            <div style="position:relative;aspect-ratio:2/3;overflow:hidden;background:#0a0a0f;">
-                                <img src="${poster}" alt="${title}" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:.4s;" />
-                                <div style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);padding:2px 10px;border-radius:30px;font-size:11px;border:1px solid rgba(139,92,246,.15);">${isMovie?'Movie':'TV'}</div>
-                                <div style="position:absolute;bottom:6px;left:8px;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);padding:2px 10px;border-radius:30px;font-size:12px;display:flex;align-items:center;gap:4px;border:1px solid rgba(139,92,246,.1);"><i class="fas fa-star" style="color:#fbbf24;font-size:11px;"></i> ${rating}</div>
-                            </div>
-                            <div style="padding:12px 12px 16px;">
-                                <h4 style="font-size:14px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${title}</h4>
-                                <span style="font-size:12px;color:#888;">${year}</span>
-                            </div>
-                        </div>
-                    `;
-                });
-
-                // Build slider with arrows
-                widgetDiv.innerHTML = `
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
-                        <h3 style="font-size:clamp(18px,2vw,24px);font-weight:700;display:flex;align-items:center;gap:12px;color:#fff;text-shadow:0 0 30px rgba(139,92,246,.1);">
-                            <i class="fas ${cfg.icon}" style="color:#8b5cf6;font-size:clamp(16px,1.6vw,22px);"></i>
-                            ${cfg.title}
-                        </h3>
-                        <div style="display:flex;gap:8px;">
-                            <button class="widget-prev" data-target="${cfg.id}" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.2);color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center;"><i class="fas fa-chevron-left"></i></button>
-                            <button class="widget-next" data-target="${cfg.id}" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.2);color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center;"><i class="fas fa-chevron-right"></i></button>
-                        </div>
-                    </div>
-                    <div class="widget-track-wrap" style="position:relative;overflow:hidden;border-radius:16px;padding:4px 0;">
-                        <div class="widget-track" id="track-${cfg.id}" style="display:flex;gap:16px;overflow-x:auto;padding:8px 4px 16px;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab;">
-                            ${cardsHtml}
-                        </div>
-                    </div>
-                `;
-
-                container.appendChild(widgetDiv);
-
-                // Attach scroll & drag for each track
-                const track = document.getElementById(`track-${cfg.id}`);
-                if (track) {
-                    const prevBtn = widgetDiv.querySelector('.widget-prev');
-                    const nextBtn = widgetDiv.querySelector('.widget-next');
-                    prevBtn.addEventListener('click', () => { track.scrollBy({ left: -220, behavior: 'smooth' }); });
-                    nextBtn.addEventListener('click', () => { track.scrollBy({ left: 220, behavior: 'smooth' }); });
-
-                    track.addEventListener('wheel', (e) => {
-                        e.preventDefault();
-                        track.scrollBy({ left: e.deltaY > 0 ? 120 : -120, behavior: 'smooth' });
-                    }, { passive: false });
-
-                    let startX, scrollLeft, isDown = false;
-                    track.addEventListener('mousedown', (e) => {
-                        isDown = true;
-                        startX = e.pageX - track.offsetLeft;
-                        scrollLeft = track.scrollLeft;
-                        track.style.cursor = 'grabbing';
-                    });
-                    document.addEventListener('mouseup', () => {
-                        if (isDown) { isDown = false;
-                            track.style.cursor = 'grab'; }
-                    });
-                    document.addEventListener('mousemove', (e) => {
-                        if (!isDown) return;
-                        e.preventDefault();
-                        const x = e.pageX - track.offsetLeft;
-                        const walk = (x - startX) * 1.2;
-                        track.scrollLeft = scrollLeft - walk;
-                    });
-                }
-            }
-        }
-
-        // ============================================================
-        //  INIT
-        // ============================================================
-        document.addEventListener('DOMContentLoaded', async function() {
-            await loadHero();
-            await loadWidgets();
-            // Store a dummy continue watching entry for demo
-            if (!localStorage.getItem('nami_continue')) {
-                localStorage.setItem('nami_continue', JSON.stringify([
-                    { id: 10681, type: 'movie' }, // How to Train Your Dragon
-                    { id: 12345, type: 'tv' }
-                ]));
-            }
-        });
-
-        // keyboard escape for search & drawer
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (searchOverlay.classList.contains('active')) closeSearch();
-                if (drawer.classList.contains('open')) closeDrawer();
-            }
-        });
-    </script>
+      loadWatchedCarousels();
+    });
+  </script>
 </body>
 </html>
